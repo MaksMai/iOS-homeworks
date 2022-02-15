@@ -10,6 +10,7 @@
 		6D2474F227B3B0ED001AB2C1 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D2474F127B3B0ED001AB2C1 /* Post.swift */; };
 		6D34C0AB27B56EA100DB4D77 /* TabBarControllerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D34C0AA27B56EA100DB4D77 /* TabBarControllerViewController.swift */; };
 		6D4660A527B2DFF8008C37A3 /* InfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4660A427B2DFF8008C37A3 /* InfoViewController.swift */; };
+		6D75943127B6963300FCA6DE /* ProfileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D75943027B6963300FCA6DE /* ProfileHeaderView.swift */; };
 		6D836F4927B252FF00D8A609 /* FeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D836F4827B252FF00D8A609 /* FeedViewController.swift */; };
 		6D836F4B27B2537F00D8A609 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D836F4A27B2537F00D8A609 /* ProfileViewController.swift */; };
 		6D836F4D27B268E500D8A609 /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D836F4C27B268E500D8A609 /* PostViewController.swift */; };
@@ -23,6 +24,7 @@
 		6D2474F127B3B0ED001AB2C1 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		6D34C0AA27B56EA100DB4D77 /* TabBarControllerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarControllerViewController.swift; sourceTree = "<group>"; };
 		6D4660A427B2DFF8008C37A3 /* InfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoViewController.swift; sourceTree = "<group>"; };
+		6D75943027B6963300FCA6DE /* ProfileHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderView.swift; sourceTree = "<group>"; usesTabs = 0; };
 		6D836F4827B252FF00D8A609 /* FeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedViewController.swift; sourceTree = "<group>"; };
 		6D836F4A27B2537F00D8A609 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		6D836F4C27B268E500D8A609 /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
@@ -53,16 +55,12 @@
 			path = Data;
 			sourceTree = "<group>";
 		};
-		6D2474EF27B3B081001AB2C1 /* ViewController */ = {
+		6D2474EF27B3B081001AB2C1 /* TabBar */ = {
 			isa = PBXGroup;
 			children = (
 				6D34C0AA27B56EA100DB4D77 /* TabBarControllerViewController.swift */,
-				6D836F4827B252FF00D8A609 /* FeedViewController.swift */,
-				6D836F4A27B2537F00D8A609 /* ProfileViewController.swift */,
-				6D836F4C27B268E500D8A609 /* PostViewController.swift */,
-				6D4660A427B2DFF8008C37A3 /* InfoViewController.swift */,
 			);
-			path = ViewController;
+			path = TabBar;
 			sourceTree = "<group>";
 		};
 		6D2474F027B3B0B4001AB2C1 /* Delegate */ = {
@@ -72,6 +70,25 @@
 				6DBE95A827AD049F00DE3737 /* SceneDelegate.swift */,
 			);
 			path = Delegate;
+			sourceTree = "<group>";
+		};
+		6D75942E27B6958F00FCA6DE /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				6D836F4A27B2537F00D8A609 /* ProfileViewController.swift */,
+				6D75943027B6963300FCA6DE /* ProfileHeaderView.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		6D75942F27B695DE00FCA6DE /* Feed */ = {
+			isa = PBXGroup;
+			children = (
+				6D836F4827B252FF00D8A609 /* FeedViewController.swift */,
+				6D836F4C27B268E500D8A609 /* PostViewController.swift */,
+				6D4660A427B2DFF8008C37A3 /* InfoViewController.swift */,
+			);
+			path = Feed;
 			sourceTree = "<group>";
 		};
 		6DBE959A27AD049F00DE3737 = {
@@ -94,8 +111,10 @@
 			isa = PBXGroup;
 			children = (
 				6D2474F027B3B0B4001AB2C1 /* Delegate */,
-				6D2474EF27B3B081001AB2C1 /* ViewController */,
+				6D2474EF27B3B081001AB2C1 /* TabBar */,
+				6D75942F27B695DE00FCA6DE /* Feed */,
 				6D2474EE27B3B073001AB2C1 /* Data */,
+				6D75942E27B6958F00FCA6DE /* Profile */,
 				6DBE95AF27AD04A000DE3737 /* Assets.xcassets */,
 				6DBE95B127AD04A000DE3737 /* LaunchScreen.storyboard */,
 				6DBE95B427AD04A000DE3737 /* Info.plist */,
@@ -177,6 +196,7 @@
 				6D836F4927B252FF00D8A609 /* FeedViewController.swift in Sources */,
 				6D836F4B27B2537F00D8A609 /* ProfileViewController.swift in Sources */,
 				6DBE95A927AD049F00DE3737 /* SceneDelegate.swift in Sources */,
+				6D75943127B6963300FCA6DE /* ProfileHeaderView.swift in Sources */,
 				6D4660A527B2DFF8008C37A3 /* InfoViewController.swift in Sources */,
 				6D2474F227B3B0ED001AB2C1 /* Post.swift in Sources */,
 				6D34C0AB27B56EA100DB4D77 /* TabBarControllerViewController.swift in Sources */,

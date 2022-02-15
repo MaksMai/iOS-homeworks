@@ -8,13 +8,14 @@
 import UIKit
 
 class PostViewController: UIViewController {
-    // Сщздаем переменную для смены заголовка
+    // Сjздаем переменную для смены заголовка
     var titlePost: String = "Anonymous"
     // Создаем кнопку
     private lazy var button: UIBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "info.circle"), style: .plain, target: self, action: #selector(clickButton))
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         // Задаем базовый цвет
         self.view.backgroundColor = .lightGray
         // Выставляем title полученного поста в качестве заголовка контроллера.

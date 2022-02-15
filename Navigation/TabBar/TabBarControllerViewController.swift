@@ -49,10 +49,15 @@ final class TabBarController: UITabBarController {
             case .feed:
                 // Инициализируем панель вкладок
                 let feedViewController = FeedViewController()
+                // Добавляем заголовок
+                feedViewController.title = TabBarItem.feed.title
                 // возвращаем пользовательский интерфейса
                 return self.wrappedInNavigationController(with: feedViewController, title: $0.title)
             case .profile:
                 let profileViewController = ProfileViewController()
+                // Добавляем заголовок
+                profileViewController.title = TabBarItem.profile.title
+                
                 return self.wrappedInNavigationController(with: profileViewController, title: $0.title)
             }
         }
