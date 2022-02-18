@@ -52,7 +52,7 @@ final class TabBarController: UITabBarController {
                 // Добавляем заголовок
                 feedViewController.title = TabBarItem.feed.title
                 // возвращаем пользовательский интерфейса
-                return self.wrappedInNavigationController(with: feedViewController, title: $0.title)
+                return self.wrappedInNavigationController(with: FeedViewController(), title: $0.title)
             case .profile:
                 let profileViewController = ProfileViewController()
                 // Добавляем заголовок
@@ -70,7 +70,6 @@ final class TabBarController: UITabBarController {
     }
     // Метод обертка UIViewController в NavigationController
     private func wrappedInNavigationController(with: UIViewController, title: Any?) -> UINavigationController {
-        self.navigationController?.pushViewController(with, animated: true)
         return UINavigationController(rootViewController: with)
         
     }

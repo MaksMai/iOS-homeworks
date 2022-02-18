@@ -8,55 +8,43 @@
 import UIKit
 
 class FeedViewController: UIViewController {
-    // Создаем объект типа Post в FeedViewController
-    var post = Post(title: "Мой пост")
+   
+    var post = Post(title: "Мой пост")  // Создаем объект типа Post в FeedViewController
     
-    // Создаем кнопку перехода
-    private lazy var button: UIButton = {
-        // Кнопка
-        let button = UIButton(frame: CGRect(x: 110, y: 110, width: 200, height: 50))
-        // Цвет кнопки
-        button.backgroundColor = .blue
-        // Скруглим
-        button.layer.cornerRadius = 12
-        // Текст кнопки
-        button.setTitle("Перейти на пост", for: .normal)
-        // Цвет текста
-        button.setTitleColor(.lightGray, for: .normal)
-        // Делаем жирным
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 24)
-        // Добавляем Action
-        button.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
-        // Отключаем AutoresizingMask
-        button.translatesAutoresizingMaskIntoConstraints = false
-        // Возвращаем кнопку
-        return button
+    private lazy var button: UIButton = {  // Создаем кнопку перехода
+        let button = UIButton()   // Кнопка
+        button.backgroundColor = .blue  // Цвет кнопки
+        button.layer.cornerRadius = 12  // Скруглим
+        button.setTitle("Перейти на пост", for: .normal)  // Текст кнопки
+        button.setTitleColor(.lightGray, for: .normal)  // Цвет текста
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 24)   // Делаем жирным
+        button.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)   // Добавляем Action
+        button.translatesAutoresizingMaskIntoConstraints = false // Отключаем AutoresizingMask
+     
+        return button   // Возвращаем кнопку
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Задаем базовый цвет
-        view.backgroundColor = .lightGray
+        view.backgroundColor = .lightGray  // Задаем базовый цвет
         // Делаем жирный заголовок
-        self.navigationController?.navigationBar.prefersLargeTitles = true
-        // Переименовываем обратный переход из PostViewController
-        self.navigationItem.backButtonTitle = "Назад"
-        // Добавляем кнопку
-        self.view.addSubview(self.button)
-        // Создаем констрейты к кнопке
-        self.button.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -100).isActive = true // низ
-        self.button.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20).isActive = true // левый край
-        self.button.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20).isActive = true // левый край
-        self.button.heightAnchor.constraint(equalToConstant: 50).isActive = true // высота
+        // self.navigationController?.navigationBar.prefersLargeTitles = true
+        self.navigationItem.backButtonTitle = "Назад"   // Переименовываем обратный переход
+        self.view.addSubview(self.button)  // Добавляем кнопку
+        setConstrains() // Активируем констрейны
     }
     
-    // Делаем переход на PostViewController
-    @objc private func buttonAction() {
-        // Создаем PostViewController
-        let postViewController = PostViewController()
-        // Передаем объект post в PostViewController
-        postViewController.titlePost = post.title
-        // Вызываем PostViewController
-        self.navigationController?.pushViewController(postViewController, animated: true)
+    func setConstrains() {  // Создаем констрейты к кнопке
+        let buttonBottomAnchor = self.button.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -16) // низ
+        let buttonLeadingAnchor = self.button.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20) // левый край
+        let buttonTrailingAnchor = self.button.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20) // левый край
+        let buttonHeightAnchor = self.button.heightAnchor.constraint(equalToConstant: 50) // высота
+        NSLayoutConstraint.activate([buttonBottomAnchor, buttonLeadingAnchor, buttonTrailingAnchor, buttonHeightAnchor].compactMap( {$0} )) // Активация констрейнов
+    }
+    
+    @objc private func buttonAction() { // Делаем переход на PostViewController
+        let postViewController = PostViewController()  // Создаем PostViewController
+        postViewController.titlePost = post.title  // Передаем объект post в PostViewController
+        self.navigationController?.pushViewController(postViewController, animated: true)    // Вызываем PostViewController
     }
 }

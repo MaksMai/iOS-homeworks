@@ -14,60 +14,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         
-        // 3.В (AppDelegate.swift)  SceneDelegate добавьте UITabBarController. Добавьте в него два UINavigationController. Первый будет показывать ленту пользователя, а второй — профиль.
-        
-        // Создаем окно взаимодействия пользователя с приложением
-        // I-й способ !!! с использованием TabBarController
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         self.window = UIWindow(windowScene: windowScene)
                 self.window?.makeKeyAndVisible()
                 self.window?.rootViewController = TabBarController()
-        
-        // II-й способ с использованием SceneDelegate
-        // Устанавливаем панель вкладок пользовательского интерфейса
-//        window = UIWindow(frame: windowScene.coordinateSpace.bounds)
-//        window?.windowScene = windowScene
-//        window?.rootViewController = createTabBarController()
-//        window?.makeKeyAndVisible()
     }
-    
-    // Создаем панель вкладок
-//    func createTabBarController() -> UITabBarController {
-//        // Инициализируем панель вкладок
-//        let tabBarController = UITabBarController()
-//        // Настроим внешний вид
-//        UITabBar.appearance().backgroundColor = .clear
-//        UITabBar.appearance().tintColor = .blue
-//        // Добавляем навигационные контроллеры в массив панели вкладок
-//        tabBarController.viewControllers = [createFeedViewController(), createProfileViewController()]
-//        // Возвращаем панель вкладок
-//        return tabBarController
-//    }
-    
-    // Создаем навигационный контроллер для ленты пользователя
-//    func createFeedViewController() -> UINavigationController {
-//        // Инициализирую новую ленту для контроллера
-//        let feedViewController = FeedViewController()
-//        // Добавляем заголовок
-//        feedViewController.title = "Лента"
-//        // Настраиваем кнопку
-//        feedViewController.tabBarItem = UITabBarItem(title: "Лента", image: UIImage(systemName: "doc.richtext"), tag: 0)
-//        // возвращаем пользовательский интерфейса
-//        return UINavigationController(rootViewController: feedViewController)
-//    }
-    
-    // Создаем навигационный контроллер для профиля пользователя
-//    func createProfileViewController() -> UINavigationController {
-//        // Инициализирую новую ленту для контроллера
-//        let profileViewController = ProfileViewController()
-//        // Добавляем заголовок
-//        profileViewController.title = "Профиль"
-//        // Настраиваем кнопку
-//        profileViewController.tabBarItem = UITabBarItem(title: "Профиль", image: UIImage(systemName: "person.circle"), tag: 1)
-//        // возвращаем пользовательский интерфейс
-//        return UINavigationController(rootViewController: profileViewController)
-//    }
     
     func sceneDidDisconnect(_ scene: UIScene) {
         // Called as the scene is being released by the system.

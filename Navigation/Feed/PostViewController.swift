@@ -8,29 +8,20 @@
 import UIKit
 
 class PostViewController: UIViewController {
-    // Сjздаем переменную для смены заголовка
-    var titlePost: String = "Anonymous"
-    // Создаем кнопку
-    private lazy var button: UIBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "info.circle"), style: .plain, target: self, action: #selector(clickButton))
+   
+    var titlePost: String = "Anonymous" // Сjздаем переменную для смены заголовка
+    private lazy var button: UIBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "info.circle"), style: .plain, target: self, action: #selector(clickButton)) // Создаем кнопку
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Задаем базовый цвет
-        self.view.backgroundColor = .lightGray
-        // Выставляем title полученного поста в качестве заголовка контроллера.
-        self.navigationItem.title = titlePost
-        // Добавляем кнопку
-        self.navigationItem.rightBarButtonItem = button
-      
+        self.view.backgroundColor = .lightGray // Задаем базовый цвет
+        self.navigationItem.title = titlePost // Выставляем title полученного поста в качестве заголовка контроллера.
+        self.navigationItem.rightBarButtonItem = button  // Добавляем кнопку
     }
     // Действие кнопки
     @objc private func clickButton() {
-        // Создаем InfoViewController
-        let infoViewController = InfoViewController()
-        // InfoViewController должен показаться модально
-        infoViewController.modalPresentationStyle = .automatic
-        // Вызываем InfoViewController
-        present(infoViewController, animated: true, completion: nil)
+        let infoViewController = InfoViewController()   // Создаем InfoViewController
+        infoViewController.modalPresentationStyle = .automatic  //  должен показаться модально
+        present(infoViewController, animated: true, completion: nil) // Вызываем InfoViewController
     }
 }

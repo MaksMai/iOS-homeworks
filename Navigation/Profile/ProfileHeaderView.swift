@@ -7,50 +7,64 @@
 
 import UIKit
 
-class ProfileHeaderView: UIView {
+protocol ProfileHeaderViewProtocol: AnyObject { // расширение вью по нажатии кнопки - делегат
+    func buttonAction(inputTextIsVisible: Bool, completion: @escaping () -> Void)
+}
+
+class ProfileHeaderView: UIView, UITextFieldDelegate {
     
     var statusText: String? = nil // переменная для хранения текста статуса
-    // Создаем аватар
-    private lazy var avatar: UIImageView = {
+  
+    private lazy var avatar: UIImageView = {  // Создаем аватар
         let imageView = UIImageView(image: UIImage(named: "myfoto.jpg")) // подгружаем картинку
         imageView.translatesAutoresizingMaskIntoConstraints = false // отключаем AutoresizingMask
         imageView.layer.borderWidth = 3.0 // делаем рамку-обводку
         imageView.layer.borderColor = UIColor.white.cgColor // устанавливаем цвет рамке
-        imageView.layer.cornerRadius = 61.0 // делаем скругление - превращием квадрат в круг
+        imageView.layer.cornerRadius = 70.0 // делаем скругление - превращием квадрат в круг
         imageView.clipsToBounds = true // устанавливаем вид в границах рамки
-        
+
         return imageView
     }()
-    // Создаем стек для меток
-    private lazy var stackView: UIStackView = {
+
+    private lazy var labelStackView: UIStackView = {  // Создаем стек для меток
         let stackView = UIStackView() // создаем стек
         stackView.translatesAutoresizingMaskIntoConstraints = false // отключаем констрейны
-        stackView.axis = NSLayoutConstraint.Axis.vertical // вертикальный стек
-        stackView.distribution = UIStackView.Distribution.equalSpacing // содержимое на всю высоту стека
-        
+        stackView.axis = .vertical // вертикальный стек
+        stackView.distribution = .fillEqually // содержимое на всю высоту стека
+        stackView.spacing = 8
+
         return stackView
     }()
-    // Устанавливаем метку имени
-    private lazy var nameLabel: UILabel = {
+
+    private lazy var avatarStackView: UIStackView = {  // Создаем стек для меток
+        let stackView = UIStackView() // создаем стек
+        stackView.translatesAutoresizingMaskIntoConstraints = false // отключаем констрейны
+        stackView.axis = .horizontal // горизонтальный стек
+        stackView.spacing = 16
+
+        return stackView
+    }()
+
+    private lazy var nameLabel: UILabel = {   // Устанавливаем метку имени
         let nameLabel = UILabel() // Создаем метку
         nameLabel.text  = "MaksMai" // Именуем метку
         nameLabel.textColor = .black // цвет текста
         nameLabel.font = UIFont.boldSystemFont(ofSize: 18.0) // тольщина и размер текста
-        
+
         return nameLabel
     }()
-    // Устанавливаем метку статуса
-    private lazy var statusLabel: UILabel = {
+
+    private lazy var statusLabel: UILabel = {   // Устанавливаем метку статуса
         let statusLabel = UILabel()
-        statusLabel.text = nil
         statusLabel.textColor = .gray
         statusLabel.font = UIFont.systemFont(ofSize: 14.0)
-        
+
         return statusLabel
     }()
-    // Устанавливаем текстовое поле
-    private lazy var inputText: UITextField = {
+   
+    private lazy var textField: UITextField = { // Устанавливаем текстовое поле
         let textField = UITextField()
+        textField.isHidden = true // текстовое поле спрятано
         textField.translatesAutoresizingMaskIntoConstraints = false // Отключаем автоконстрейны
         textField.backgroundColor = .white // цвет поля
         textField.textColor = .black // Цвет надписи
@@ -58,17 +72,17 @@ class ProfileHeaderView: UIView {
         textField.layer.borderWidth = 1.0  // делаем рамку-обводку
         textField.layer.borderColor = UIColor.black.cgColor// устанавливаем цвет рамке
         textField.layer.cornerRadius = 12.0  // делаем скругление
-        let leftView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 20.0, height: 2.0)) // Отступ слева
-        textField.leftView = leftView // добавим отступ
+//        let leftView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 20.0, height: 2.0)) // Отступ слева
+//        textField.leftView = leftView // добавим отступ
         textField.leftViewMode = .always
         textField.clipsToBounds = true  // устанавливаем вид в границах рамки
         textField.placeholder = "Введите статус"  // плейсхолдер для красоты
         textField.addTarget(self, action: #selector(ProfileHeaderView.statusTextChanged(_:)), for: .editingChanged) // Добавьте обработку изменения введенного текста
-        
+
         return textField
     }()
-    // Создаем кнопку
-    private lazy var statusButton: UIButton = {
+  
+    private lazy var statusButton: UIButton = {  // Создаем кнопку
         let statusButton = UIButton() // создаем кнопку
         statusButton.setTitle("Show status", for: .normal)  // Устанавливаем надпись
         statusButton.setTitleColor(.white, for: .normal) // Цвет надписи
@@ -87,58 +101,99 @@ class ProfileHeaderView: UIView {
         return statusButton
     }()
     
+    private var buttonTopConstrain: NSLayoutConstraint? // делегируем изменение верхнего констрейна кнопки
+    
+    weak var delegate: ProfileHeaderViewProtocol? // создаем делегата
+    
     override init(frame: CGRect) { // Выводим обьекты во view
         super.init(frame: frame)
         createSubviews()
-        setupConstraints()
     }
-    // восстанавливаем интерфейс
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        createSubviews()
-        setupConstraints()
+    
+    required init?(coder aDecoder: NSCoder) { // восстанавливаем интерфейс
+        fatalError("init(coder:) yas not been")
     }
-    // добавляем обьекты ао вьюшку
-    func createSubviews() {
-        addSubview(avatar) // добавляем аватарку
-        addSubview(inputText) // Добавляем текстовое поле
-        addSubview(statusButton) // добавляем кнопку
-        addSubview(stackView) // добавляем стак и метки в стак
-        stackView.addArrangedSubview(nameLabel)
-        stackView.addArrangedSubview(statusLabel)
+  
+    func createSubviews() {  // добавляем обьекты ао вьюшку
+        self.addSubview(avatarStackView) // добавляем стак и метки в горизонтальный стак
+        self.addSubview(textField) // Добавляем текстовое поле
+        self.addSubview(statusButton) // добавляем кнопку
+        self.avatarStackView.addArrangedSubview(avatar)
+        self.avatarStackView.addArrangedSubview(labelStackView)
+        self.labelStackView.addArrangedSubview(nameLabel)
+        self.labelStackView.addArrangedSubview(statusLabel)
+
+        let gesture = UITapGestureRecognizer(target: self, action: #selector(UIView.endEditing(_:)))
+        self.addGestureRecognizer(gesture) // закрытие клавиатуры при нажатие на экран
+        
+        setupConstraints()
     }
     // Устанавливаем констрейны
     func setupConstraints() {
+        // Горизонтальный стак
+        let avatarStackViewTopConstraint = self.avatarStackView.topAnchor.constraint(equalTo: self.topAnchor, constant: 16) // верх
+        let avatarStackViewLeadingConstraint = self.avatarStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16) // слева
+        let avatarStackViewTrailingConstraint = self.avatarStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16) // справа
         // Констрейны аватар
-        self.avatar.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor, constant: 16).isActive = true // от верха
-        self.avatar.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16).isActive = true // слева
-        self.avatar.heightAnchor.constraint(equalToConstant: 122).isActive = true // высота
-        self.avatar.widthAnchor.constraint(equalToConstant: 122).isActive = true // ширина
-        // Констрейны стека
-        self.stackView.topAnchor.constraint(equalTo: layoutMarginsGuide.topAnchor, constant: 27).isActive = true // от аватарки
-        self.stackView.leadingAnchor.constraint(equalTo: self.avatar.trailingAnchor, constant: 16).isActive = true // слева
-        self.stackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16).isActive = true // справа
-        self.stackView.heightAnchor.constraint(equalToConstant: 80).isActive = true // высота
-        // Текстового поля
-        self.inputText.topAnchor.constraint(equalTo: self.stackView.bottomAnchor, constant: 8).isActive = true // от аватарки
-        self.inputText.leadingAnchor.constraint(equalTo: self.avatar.trailingAnchor, constant: 16).isActive = true // слева
-        self.inputText.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16).isActive = true // справа
-        self.inputText.heightAnchor.constraint(equalToConstant: 40).isActive = true // высота
-        // Констрейны кнопки
-        self.statusButton.topAnchor.constraint(equalTo: self.inputText.bottomAnchor, constant: 16).isActive = true // от текстового поля
-        self.statusButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16).isActive = true // слева
-        self.statusButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16).isActive = true // справа
-        self.statusButton.heightAnchor.constraint(equalToConstant: 50).isActive = true // высота
+        let imageRatioConstraint = self.avatar.heightAnchor.constraint(equalTo: self.avatar.widthAnchor, multiplier: 1.0)
+
+        //  Констрейны вертикальный стека
+//        let labelStackViewTopAnchor = self.labelStackView.topAnchor.constraint(equalTo: self.avatarStackView.topAnchor, constant: 11) // от верха вертикального стака
+//        let labelStackViewBottomAnchor = self.labelStackView.bottomAnchor.constraint(equalTo: self.avatarStackView.bottomAnchor, constant: -18)
+
+        //  Констрейны кнопки
+        self.buttonTopConstrain = self.statusButton.topAnchor.constraint(equalTo: self.avatarStackView.bottomAnchor, constant: 16) // верх
+        self.buttonTopConstrain?.priority = UILayoutPriority(rawValue: 999)
+        let buttonLeadingConstraint = self.statusButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16) // слева
+        let buttonTrailingConstraint = self.statusButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16) // справа
+        let buttonHeightConstraint = self.statusButton.heightAnchor.constraint(equalToConstant: 50) // высота
+        let buttonBottomConstraint = self.statusButton.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+        
+        NSLayoutConstraint.activate([
+            avatarStackViewTopConstraint, avatarStackViewLeadingConstraint,
+            avatarStackViewTrailingConstraint, imageRatioConstraint, self.buttonTopConstrain,
+            buttonLeadingConstraint, buttonTrailingConstraint, buttonHeightConstraint, buttonBottomConstraint
+        ].compactMap( {$0} ))
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool { // закрытие клавиатуры при нажатии на ВВОД
+        return textField.endEditing(false)
     }
     
     // Вставляем текст
     @objc private func buttonAction() {
-        statusText = inputText.text! // Меняем текст
-        statusLabel.text = "\(statusText ?? "")"
+        
+        if self.textField.isHidden { // показываем текстовое поле
+            self.addSubview(self.textField)
+            textField.text = nil
+            statusButton.setTitle("Set status", for: .normal)  // Устанавливаем надпись
+
+            self.buttonTopConstrain?.isActive = false
+
+            let topConstrain = self.textField.topAnchor.constraint(equalTo: self.avatarStackView.bottomAnchor, constant: -8) // верх layoutMarginsGuide
+            let leadingConstrain = self.textField.leadingAnchor.constraint(equalTo: self.labelStackView.leadingAnchor) // слева
+            let trailingConstrain = self.textField.trailingAnchor.constraint(equalTo: self.avatarStackView.trailingAnchor) // справа
+            let textHeight = self.textField.heightAnchor.constraint(equalToConstant: 40) // высота
+
+            self.buttonTopConstrain = self.statusButton.topAnchor.constraint(equalTo: self.textField.bottomAnchor, constant: 16) // верх
+
+            NSLayoutConstraint.activate([topConstrain, leadingConstrain, trailingConstrain, textHeight, buttonTopConstrain].compactMap( {$0} ))
+
+
+        } else {
+            statusText = textField.text! // Меняем текст
+            statusLabel.text = "\(statusText ?? "")"
+            statusButton.setTitle("Show status", for: .normal)
+        }
+        
+        self.delegate?.buttonAction(inputTextIsVisible: self.textField.isHidden) { [weak self] in
+            self?.textField.isHidden.toggle() // меняем высоту
+        }
     }
-    // Выводим в консоль результат отслеживаемого изменеия
-    @objc func statusTextChanged(_ textField: UITextField) {
+   
+    @objc func statusTextChanged(_ textField: UITextField) {  // Выводим в консоль результат отслеживаемого изменеия
         let status: String = textField.text ?? ""
         print("Новый статус = \(status)")
     }
 }
+
