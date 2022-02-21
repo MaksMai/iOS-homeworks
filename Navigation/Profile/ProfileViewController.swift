@@ -22,12 +22,13 @@ final class ProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .lightGray // Задаем базовый цвет
         self.view.addSubview(self.profileHeaderView) // Добавляем ProfileHeaderView в качестве subview
-        viewWillLayoutSubviews()
+        setupView() // отображаем вьюху
+        tapGesturt() // скрываем клавиатуру
     }
     
-    override func viewWillLayoutSubviews() {  // Создаем констрейты к profileHeaderView
+    private func setupView() {  // Создаем констрейты к profileHeaderView
+        self.view.backgroundColor = .lightGray // Задаем базовый цвет
         let viewTopConstraint = self.profileHeaderView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor) // верх
         let viewLeadingConstraint = self.profileHeaderView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor) // левый край
         let viewTrailingConstraint = self.profileHeaderView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor) // левый край
@@ -36,14 +37,19 @@ final class ProfileViewController: UIViewController {
             viewTopConstraint, viewLeadingConstraint, viewTrailingConstraint, self.heightConstraint
         ].compactMap( {$0} )) // Активация констрейнов
     }
+    
+    func tapGesturt() { // метод скрытия клавиатуры при нажатии на экран
+        let tapGesture = UITapGestureRecognizer(target: view, action: #selector(view.endEditing))
+        view.addGestureRecognizer(tapGesture)
+    }
 }
 
 extension ProfileViewController: ProfileHeaderViewProtocol { // разширение разширения вью
 
     func buttonAction(inputTextIsVisible: Bool, completion: @escaping () -> Void) {
-        self.heightConstraint?.constant = inputTextIsVisible ? 220 : 250
+        self.heightConstraint?.constant = inputTextIsVisible ? 250 : 220
 
-        UIView.animate(withDuration: 0.5, delay: 0.0) { // замедляем открытие/закрытие текстового поля
+        UIView.animate(withDuration: 0.2, delay: 0.0) { // замедляем открытие/закрытие текстового поля
             self.view.layoutIfNeeded()
         } completion: { _ in
             completion()

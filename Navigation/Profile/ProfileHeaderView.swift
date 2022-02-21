@@ -31,7 +31,7 @@ class ProfileHeaderView: UIView, UITextFieldDelegate {
         stackView.translatesAutoresizingMaskIntoConstraints = false // отключаем констрейны
         stackView.axis = .vertical // вертикальный стек
         stackView.distribution = .fillEqually // содержимое на всю высоту стека
-        stackView.spacing = 8
+        stackView.spacing = 67
 
         return stackView
     }()
@@ -72,12 +72,13 @@ class ProfileHeaderView: UIView, UITextFieldDelegate {
         textField.layer.borderWidth = 1.0  // делаем рамку-обводку
         textField.layer.borderColor = UIColor.black.cgColor// устанавливаем цвет рамке
         textField.layer.cornerRadius = 12.0  // делаем скругление
-//        let leftView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 20.0, height: 2.0)) // Отступ слева
-//        textField.leftView = leftView // добавим отступ
+        let leftView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 20.0, height: 2.0)) // Отступ слева
+        textField.leftView = leftView // добавим отступ
         textField.leftViewMode = .always
         textField.clipsToBounds = true  // устанавливаем вид в границах рамки
         textField.placeholder = "Введите статус"  // плейсхолдер для красоты
-        textField.addTarget(self, action: #selector(ProfileHeaderView.statusTextChanged(_:)), for: .editingChanged) // Добавьте обработку изменения введенного текста
+        textField.addTarget(self, action: #selector(ProfileHeaderView.statusTextChanged(_:)),
+                            for: .editingChanged) // Добавьте обработку изменения введенного текста
 
         return textField
     }()
@@ -90,7 +91,8 @@ class ProfileHeaderView: UIView, UITextFieldDelegate {
         statusButton.translatesAutoresizingMaskIntoConstraints = false // отключаем AutoresizingMask
         statusButton.backgroundColor = .blue  // задаем цвет кнопке
         statusButton.layer.cornerRadius = 4  // скругляем углы
-        statusButton.addTarget(self, action: #selector(buttonAction), for: .touchUpInside) // Добавляем Action
+        statusButton.addTarget(self, action: #selector(buttonAction),
+                               for: .touchUpInside) // Добавляем Action
         // устанавливаем тень кнопки
         statusButton.layer.shadowOffset = CGSize(width: 4.0, height: 4.0)
         statusButton.layer.shadowRadius = 4.0
@@ -118,18 +120,15 @@ class ProfileHeaderView: UIView, UITextFieldDelegate {
         self.addSubview(avatarStackView) // добавляем стак и метки в горизонтальный стак
         self.addSubview(textField) // Добавляем текстовое поле
         self.addSubview(statusButton) // добавляем кнопку
-        self.avatarStackView.addArrangedSubview(avatar)
-        self.avatarStackView.addArrangedSubview(labelStackView)
-        self.labelStackView.addArrangedSubview(nameLabel)
-        self.labelStackView.addArrangedSubview(statusLabel)
+        self.avatarStackView.addArrangedSubview(avatar) // добавляем в стак аватар
+        self.avatarStackView.addArrangedSubview(labelStackView) // добавляем в стак стак
+        self.labelStackView.addArrangedSubview(nameLabel) // добавляем в стак метку
+        self.labelStackView.addArrangedSubview(statusLabel) // добавляем в стак метку
 
-        let gesture = UITapGestureRecognizer(target: self, action: #selector(UIView.endEditing(_:)))
-        self.addGestureRecognizer(gesture) // закрытие клавиатуры при нажатие на экран
-        
         setupConstraints()
     }
-    // Устанавливаем констрейны
-    func setupConstraints() {
+  
+    func setupConstraints() {  // Устанавливаем констрейны
         // Горизонтальный стак
         let avatarStackViewTopConstraint = self.avatarStackView.topAnchor.constraint(equalTo: self.topAnchor, constant: 16) // верх
         let avatarStackViewLeadingConstraint = self.avatarStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16) // слева
@@ -137,9 +136,9 @@ class ProfileHeaderView: UIView, UITextFieldDelegate {
         // Констрейны аватар
         let imageRatioConstraint = self.avatar.heightAnchor.constraint(equalTo: self.avatar.widthAnchor, multiplier: 1.0)
 
-        //  Констрейны вертикальный стека
-//        let labelStackViewTopAnchor = self.labelStackView.topAnchor.constraint(equalTo: self.avatarStackView.topAnchor, constant: 11) // от верха вертикального стака
-//        let labelStackViewBottomAnchor = self.labelStackView.bottomAnchor.constraint(equalTo: self.avatarStackView.bottomAnchor, constant: -18)
+//          Констрейны вертикальный стека
+        let labelStackViewTopAnchor = self.labelStackView.topAnchor.constraint(equalTo: self.avatarStackView.topAnchor, constant: 11) // от верха вертикального стака
+        let labelStackViewBottomAnchor = self.labelStackView.bottomAnchor.constraint(equalTo: self.avatarStackView.bottomAnchor, constant: -18)
 
         //  Констрейны кнопки
         self.buttonTopConstrain = self.statusButton.topAnchor.constraint(equalTo: self.avatarStackView.bottomAnchor, constant: 16) // верх
@@ -152,7 +151,7 @@ class ProfileHeaderView: UIView, UITextFieldDelegate {
         NSLayoutConstraint.activate([
             avatarStackViewTopConstraint, avatarStackViewLeadingConstraint,
             avatarStackViewTrailingConstraint, imageRatioConstraint, self.buttonTopConstrain,
-            buttonLeadingConstraint, buttonTrailingConstraint, buttonHeightConstraint, buttonBottomConstraint
+            buttonLeadingConstraint, buttonTrailingConstraint, buttonHeightConstraint, buttonBottomConstraint, labelStackViewTopAnchor, labelStackViewBottomAnchor
         ].compactMap( {$0} ))
     }
     
@@ -160,30 +159,31 @@ class ProfileHeaderView: UIView, UITextFieldDelegate {
         return textField.endEditing(false)
     }
     
-    // Вставляем текст
-    @objc private func buttonAction() {
+    
+    @objc private func buttonAction() { // Вставляем текстовое поле
+        
+        let topConstrain = self.textField.topAnchor.constraint(equalTo: self.avatarStackView.bottomAnchor, constant: -10) // верх layoutMarginsGuide
+        let leadingConstrain = self.textField.leadingAnchor.constraint(equalTo: self.labelStackView.leadingAnchor) // слева
+        let trailingConstrain = self.textField.trailingAnchor.constraint(equalTo: self.avatarStackView.trailingAnchor) // справа
+        let textHeight = self.textField.heightAnchor.constraint(equalToConstant: 40) // высота
+
+        self.buttonTopConstrain = self.statusButton.topAnchor.constraint(equalTo: self.textField.bottomAnchor, constant: 16) // верх
         
         if self.textField.isHidden { // показываем текстовое поле
             self.addSubview(self.textField)
             textField.text = nil
+            
             statusButton.setTitle("Set status", for: .normal)  // Устанавливаем надпись
-
             self.buttonTopConstrain?.isActive = false
-
-            let topConstrain = self.textField.topAnchor.constraint(equalTo: self.avatarStackView.bottomAnchor, constant: -8) // верх layoutMarginsGuide
-            let leadingConstrain = self.textField.leadingAnchor.constraint(equalTo: self.labelStackView.leadingAnchor) // слева
-            let trailingConstrain = self.textField.trailingAnchor.constraint(equalTo: self.avatarStackView.trailingAnchor) // справа
-            let textHeight = self.textField.heightAnchor.constraint(equalToConstant: 40) // высота
-
-            self.buttonTopConstrain = self.statusButton.topAnchor.constraint(equalTo: self.textField.bottomAnchor, constant: 16) // верх
-
             NSLayoutConstraint.activate([topConstrain, leadingConstrain, trailingConstrain, textHeight, buttonTopConstrain].compactMap( {$0} ))
-
-
+            
         } else {
             statusText = textField.text! // Меняем текст
             statusLabel.text = "\(statusText ?? "")"
             statusButton.setTitle("Show status", for: .normal)
+            
+            self.textField.removeFromSuperview()
+            NSLayoutConstraint.deactivate([topConstrain, leadingConstrain, trailingConstrain, textHeight, buttonTopConstrain].compactMap( {$0} ))
         }
         
         self.delegate?.buttonAction(inputTextIsVisible: self.textField.isHidden) { [weak self] in
