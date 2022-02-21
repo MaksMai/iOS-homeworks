@@ -31,7 +31,7 @@ class ProfileHeaderView: UIView, UITextFieldDelegate {
         stackView.translatesAutoresizingMaskIntoConstraints = false // отключаем констрейны
         stackView.axis = .vertical // вертикальный стек
         stackView.distribution = .fillEqually // содержимое на всю высоту стека
-        stackView.spacing = 67
+        stackView.spacing = 40
 
         return stackView
     }()
@@ -77,8 +77,6 @@ class ProfileHeaderView: UIView, UITextFieldDelegate {
         textField.leftViewMode = .always
         textField.clipsToBounds = true  // устанавливаем вид в границах рамки
         textField.placeholder = "Введите статус"  // плейсхолдер для красоты
-        textField.addTarget(self, action: #selector(ProfileHeaderView.statusTextChanged(_:)),
-                            for: .editingChanged) // Добавьте обработку изменения введенного текста
 
         return textField
     }()
@@ -126,6 +124,7 @@ class ProfileHeaderView: UIView, UITextFieldDelegate {
         self.labelStackView.addArrangedSubview(statusLabel) // добавляем в стак метку
 
         setupConstraints()
+        self.textField.delegate = self
     }
   
     func setupConstraints() {  // Устанавливаем констрейны
@@ -135,10 +134,6 @@ class ProfileHeaderView: UIView, UITextFieldDelegate {
         let avatarStackViewTrailingConstraint = self.avatarStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16) // справа
         // Констрейны аватар
         let imageRatioConstraint = self.avatar.heightAnchor.constraint(equalTo: self.avatar.widthAnchor, multiplier: 1.0)
-
-//          Констрейны вертикальный стека
-        let labelStackViewTopAnchor = self.labelStackView.topAnchor.constraint(equalTo: self.avatarStackView.topAnchor, constant: 11) // от верха вертикального стака
-        let labelStackViewBottomAnchor = self.labelStackView.bottomAnchor.constraint(equalTo: self.avatarStackView.bottomAnchor, constant: -18)
 
         //  Констрейны кнопки
         self.buttonTopConstrain = self.statusButton.topAnchor.constraint(equalTo: self.avatarStackView.bottomAnchor, constant: 16) // верх
@@ -151,12 +146,13 @@ class ProfileHeaderView: UIView, UITextFieldDelegate {
         NSLayoutConstraint.activate([
             avatarStackViewTopConstraint, avatarStackViewLeadingConstraint,
             avatarStackViewTrailingConstraint, imageRatioConstraint, self.buttonTopConstrain,
-            buttonLeadingConstraint, buttonTrailingConstraint, buttonHeightConstraint, buttonBottomConstraint, labelStackViewTopAnchor, labelStackViewBottomAnchor
+            buttonLeadingConstraint, buttonTrailingConstraint, buttonHeightConstraint, buttonBottomConstraint
         ].compactMap( {$0} ))
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool { // закрытие клавиатуры при нажатии на ВВОД
-        return textField.endEditing(false)
+        self.endEditing(true)
+        return false
     }
     
     
@@ -183,7 +179,7 @@ class ProfileHeaderView: UIView, UITextFieldDelegate {
             statusButton.setTitle("Show status", for: .normal)
             
             self.textField.removeFromSuperview()
-            NSLayoutConstraint.deactivate([topConstrain, leadingConstrain, trailingConstrain, textHeight, buttonTopConstrain].compactMap( {$0} ))
+            NSLayoutConstraint.deactivate([topConstrain, leadingConstrain, trailingConstrain, textHeight].compactMap( {$0} ))
         }
         
         self.delegate?.buttonAction(inputTextIsVisible: self.textField.isHidden) { [weak self] in

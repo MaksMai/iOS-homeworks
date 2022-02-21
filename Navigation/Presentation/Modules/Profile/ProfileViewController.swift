@@ -39,8 +39,8 @@ final class ProfileViewController: UIViewController {
     }
     
     func tapGesturt() { // метод скрытия клавиатуры при нажатии на экран
-        let tapGesture = UITapGestureRecognizer(target: view, action: #selector(view.endEditing))
-        view.addGestureRecognizer(tapGesture)
+        let tapGesture = UITapGestureRecognizer(target: self.view, action: #selector(view.endEditing))
+        self.view.addGestureRecognizer(tapGesture)
     }
 }
 
