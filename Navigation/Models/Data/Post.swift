@@ -7,8 +7,6 @@
 
 import UIKit
 
-
-// Создаем структуру Post со свойством title: String.
-struct Post {
+struct Post { // Создаем структуру Post со свойством title: String.
     var title: String
 }

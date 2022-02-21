@@ -18,8 +18,8 @@ class PostViewController: UIViewController {
         self.navigationItem.title = titlePost // Выставляем title полученного поста в качестве заголовка контроллера.
         self.navigationItem.rightBarButtonItem = button  // Добавляем кнопку
     }
-    // Действие кнопки
-    @objc private func clickButton() {
+  
+    @objc private func clickButton() {  // Действие кнопки
         let infoViewController = InfoViewController()   // Создаем InfoViewController
         infoViewController.modalPresentationStyle = .automatic  //  должен показаться модально
         present(infoViewController, animated: true, completion: nil) // Вызываем InfoViewController
