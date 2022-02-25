@@ -188,6 +188,3 @@ class LogInViewController: UIViewController {
     }
 }
 
-extension LogInViewController {
-    
-}

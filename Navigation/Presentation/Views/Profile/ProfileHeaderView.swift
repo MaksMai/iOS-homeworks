@@ -97,6 +97,7 @@ class ProfileHeaderView: UIView, UITextFieldDelegate {
         button.layer.shadowColor = UIColor.black.cgColor
         button.layer.shadowOpacity = 0.7
         button.layer.shouldRasterize = true
+        button.layer.shadowPath =  UIBezierPath(rect: button.bounds).cgPath
         
         return button
     }()
@@ -156,7 +157,7 @@ class ProfileHeaderView: UIView, UITextFieldDelegate {
         return false
     }
     
-    @objc private func buttonAction() { // Вставляем текстовое поле
+    @objc func buttonAction() { // Вставляем текстовое поле
         
         let topConstrain = self.statusTextField.topAnchor.constraint(equalTo: self.firstStackView.bottomAnchor, constant: -10) // верх layoutMarginsGuide
         let leadingConstrain = self.statusTextField.leadingAnchor.constraint(equalTo: self.labelStackView.leadingAnchor) // слева

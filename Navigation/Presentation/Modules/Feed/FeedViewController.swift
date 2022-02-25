@@ -41,7 +41,7 @@ class FeedViewController: UIViewController {
         button.setTitle("Перейти на пост", for: .normal)  // Текст кнопки
         button.setTitleColor(.lightGray, for: .normal)  // Цвет текста
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 24)   // Делаем жирным
-        button.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)   // Добавляем Action
+        button.addTarget(self, action: #selector(secondButtonAction), for: .touchUpInside)   // Добавляем Action
         button.translatesAutoresizingMaskIntoConstraints = false // Отключаем AutoresizingMask
      
         return button   // Возвращаем кнопку
@@ -78,8 +78,13 @@ class FeedViewController: UIViewController {
     }
     
     @objc private func buttonAction() { // Делаем переход на PostViewController
-        let postViewController = PostViewController()  // Создаем PostViewController
-        postViewController.titlePost = post.title  // Передаем объект post в PostViewController
-        self.navigationController?.pushViewController(postViewController, animated: true)    // Вызываем PostViewController
+        let viewController = PostViewController()  // Создаем PostViewController
+        viewController.titlePost = post.title  // Передаем объект post в PostViewController
+        self.navigationController?.pushViewController(viewController, animated: true)    // Вызываем PostViewController
+    }
+    
+    @objc private func secondButtonAction() { // Делаем переход на PostViewController
+        let viewController = DelFAstViewController()  // Создаем PostViewController
+        self.navigationController?.pushViewController(viewController, animated: true)    // Вызываем PostViewController
     }
 }
