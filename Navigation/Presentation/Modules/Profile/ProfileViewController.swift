@@ -48,7 +48,7 @@ extension ProfileViewController: ProfileHeaderViewProtocol { // разширен
 
     func buttonAction(inputTextIsVisible: Bool, completion: @escaping () -> Void) {
         self.heightConstraint?.constant = inputTextIsVisible ? 250 : 220
-
+    
         UIView.animate(withDuration: 0.2, delay: 0.0) { // замедляем открытие/закрытие текстового поля
             self.view.layoutIfNeeded()
         } completion: { _ in

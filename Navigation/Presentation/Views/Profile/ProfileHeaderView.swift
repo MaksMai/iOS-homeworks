@@ -165,6 +165,8 @@ class ProfileHeaderView: UIView, UITextFieldDelegate {
 
         self.buttonTopConstrain = self.statusButton.topAnchor.constraint(equalTo: self.textField.bottomAnchor, constant: 16) // верх
         
+        textField.becomeFirstResponder() // автовыброс клавиатуры
+        
         if self.textField.isHidden { // показываем текстовое поле
             self.addSubview(self.textField)
             textField.text = nil
