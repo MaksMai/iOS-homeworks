@@ -165,6 +165,7 @@ class ProfileHeaderView: UIView, UITextFieldDelegate {
 
         self.buttonTopConstrain = self.setStatusButton.topAnchor.constraint(equalTo: self.statusTextField.bottomAnchor, constant: 16) // верх
         
+        
         if self.statusTextField.isHidden { // показываем текстовое поле
             self.addSubview(self.statusTextField)
             statusTextField.text = nil
@@ -172,6 +173,8 @@ class ProfileHeaderView: UIView, UITextFieldDelegate {
             setStatusButton.setTitle("Set status", for: .normal)  // Устанавливаем надпись
             self.buttonTopConstrain?.isActive = false
             NSLayoutConstraint.activate([topConstrain, leadingConstrain, trailingConstrain, textHeight, buttonTopConstrain].compactMap( {$0} ))
+            
+            statusTextField.becomeFirstResponder() // Выброс клавиатуры при нажатии на кнопку
             
         } else {
             statusText = statusTextField.text! // Меняем текст
