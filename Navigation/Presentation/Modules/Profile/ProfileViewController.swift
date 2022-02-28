@@ -9,6 +9,14 @@ import UIKit
 
 final class ProfileViewController: UIViewController {
     
+    let sections = ["Profile", "Post"]
+    
+    private var dataSource: [News.Article] = []
+    
+    private lazy var jsonDecoder: JSONDecoder = {
+        return JSONDecoder()
+    }()
+    
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.backgroundColor = .systemGray6
@@ -23,12 +31,6 @@ final class ProfileViewController: UIViewController {
         
         return tableView
     }()
-    
-    private lazy var jsonDecoder: JSONDecoder = {
-        return JSONDecoder()
-    }()
-    
-    private var dataSource: [News.Article] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -76,23 +78,29 @@ final class ProfileViewController: UIViewController {
 
 extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5  // self.dataSource.count
+    func numberOfSections(in tableView: UITableView) -> Int { // кол-во секций
+       return 2
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { // ячеек в секц
+        if section == 0 {
+            return 1
+        } else {
+        return self.dataSource.count
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        if indexPath.row == 0 {
+        if indexPath.section == 0 {
             let cell = tableView.dequeueReusableCell(withIdentifier: "ProfileHeadCell", for: indexPath) as! ProfileHeadViewCell
-            
+           
             return cell
         } else {
-
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "PostCell", for: indexPath) as? PostTableViewCell else {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath)
+                
                 return cell
             }
-            
             let article = self.dataSource[indexPath.row]
             let viewModel = PostTableViewCell.ViewModel(author: article.author, description: article.description, image: article.image, likes: article.likes, views: article.views)
             cell.setup(with: viewModel)

@@ -174,6 +174,8 @@ class ProfileHeaderView: UIView, UITextFieldDelegate {
             self.buttonTopConstrain?.isActive = false
             NSLayoutConstraint.activate([topConstrain, leadingConstrain, trailingConstrain, textHeight, buttonTopConstrain].compactMap( {$0} ))
             
+            statusTextField.becomeFirstResponder()
+            
         } else {
             statusText = statusTextField.text! // Меняем текст
             statusLabel.text = "\(statusText ?? "")"
