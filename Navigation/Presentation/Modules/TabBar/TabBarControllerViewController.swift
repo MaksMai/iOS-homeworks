@@ -51,6 +51,7 @@ final class TabBarController: UITabBarController {
             case .profile:
                 let profileViewController = ProfileViewController()
                 return UINavigationController(rootViewController: profileViewController)
+
             }
         }
       

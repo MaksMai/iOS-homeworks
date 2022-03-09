@@ -73,10 +73,11 @@ final class ProfileViewController: UIViewController {
     private func setupNavigationBar() { // Устанавлинаваем название заголовка
            self.navigationItem.title = "Профиль"
        }
+    }
     
     private func setupView() {  // Создаем констрейты к profileHeaderView
         self.view.backgroundColor = .lightGray // Задаем базовый цвет
-        
+      
         let viewTopConstraint = self.profileHeaderView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor) // верх
         let viewLeadingConstraint = self.profileHeaderView.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor) // левый край
         let viewTrailingConstraint = self.profileHeaderView.trailingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.trailingAnchor) // левый край
@@ -113,7 +114,6 @@ final class ProfileViewController: UIViewController {
         self.navigationItem.title = titleTextField.text!
         titleTextField.text = nil
     }
-    
 }
 
 extension ProfileViewController: ProfileHeaderViewProtocol { // разширение разширения вью
@@ -128,4 +128,3 @@ extension ProfileViewController: ProfileHeaderViewProtocol { // разширен
         }
     }
 }
-    
