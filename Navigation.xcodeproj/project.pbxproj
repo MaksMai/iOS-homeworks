@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6D05DB5A27D20CDE00D221D9 /* AvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D05DB5927D20CDE00D221D9 /* AvatarView.swift */; };
+		6D01F6B227D3559F008CABE8 /* AnimatedAvatarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D01F6B127D3559F008CABE8 /* AnimatedAvatarViewController.swift */; };
 		6D2474F227B3B0ED001AB2C1 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D2474F127B3B0ED001AB2C1 /* Post.swift */; };
 		6D34C0AB27B56EA100DB4D77 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D34C0AA27B56EA100DB4D77 /* TabBarController.swift */; };
 		6D4660A527B2DFF8008C37A3 /* InfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4660A427B2DFF8008C37A3 /* InfoViewController.swift */; };
@@ -33,7 +33,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		6D05DB5927D20CDE00D221D9 /* AvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarView.swift; sourceTree = "<group>"; };
+		6D01F6B127D3559F008CABE8 /* AnimatedAvatarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimatedAvatarViewController.swift; sourceTree = "<group>"; };
 		6D2474F127B3B0ED001AB2C1 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		6D34C0AA27B56EA100DB4D77 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		6D4660A427B2DFF8008C37A3 /* InfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoViewController.swift; sourceTree = "<group>"; };
@@ -142,7 +142,6 @@
 			isa = PBXGroup;
 			children = (
 				6D75943027B6963300FCA6DE /* ProfileHeaderView.swift */,
-				6D05DB5927D20CDE00D221D9 /* AvatarView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -153,6 +152,7 @@
 				6D836F4A27B2537F00D8A609 /* ProfileViewController.swift */,
 				6DE9982D27C5125300DD4031 /* LogInViewController.swift */,
 				6DD5160527CF82660057EDD8 /* PhotosViewController.swift */,
+				6D01F6B127D3559F008CABE8 /* AnimatedAvatarViewController.swift */,
 				6DE961D627C79EC4001A7E99 /* Cells */,
 			);
 			path = Profile;
@@ -287,6 +287,7 @@
 			files = (
 				6DBE95A727AD049F00DE3737 /* AppDelegate.swift in Sources */,
 				6DD5160627CF82660057EDD8 /* PhotosViewController.swift in Sources */,
+				6D01F6B227D3559F008CABE8 /* AnimatedAvatarViewController.swift in Sources */,
 				6D836F4927B252FF00D8A609 /* FeedViewController.swift in Sources */,
 				6D490F4E27C8CE3A00D3EDE1 /* PostTableViewCell.swift in Sources */,
 				6D836F4B27B2537F00D8A609 /* ProfileViewController.swift in Sources */,
@@ -298,7 +299,6 @@
 				6D7B48A327CCF28F00749EEB /* Photo.swift in Sources */,
 				6D2474F227B3B0ED001AB2C1 /* Post.swift in Sources */,
 				6D34C0AB27B56EA100DB4D77 /* TabBarController.swift in Sources */,
-				6D05DB5A27D20CDE00D221D9 /* AvatarView.swift in Sources */,
 				6DE9982E27C5125300DD4031 /* LogInViewController.swift in Sources */,
 				6D836F4D27B268E500D8A609 /* PostViewController.swift in Sources */,
 				6D7B48A527CCF36500749EEB /* CarPhoto.swift in Sources */,

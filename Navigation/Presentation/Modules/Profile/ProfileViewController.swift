@@ -9,14 +9,14 @@ import UIKit
 
 final class ProfileViewController: UIViewController {
     
-    // MARK: Data
+    // MARK: - Data
     private var dataSource: [News.Article] = [] // получаем новости
     
     private lazy var jsonDecoder: JSONDecoder = {
         return JSONDecoder()
     }()
-    // MARK: TableView
     
+    // MARK: - SubView
     private lazy var tableView: UITableView = { // создаем таблвью
         let tableView = UITableView()
         tableView.backgroundColor = .systemGray6
@@ -32,8 +32,6 @@ final class ProfileViewController: UIViewController {
         return tableView
     }()
     
-    // MARK: HaderTableView
-    
     private lazy var tableHeaderView: ProfileHeaderView = { // сщздаем хедер
         let view = ProfileHeaderView(frame: .zero) // создаем вью ProfileHeaderView
         view.delegate = self
@@ -43,32 +41,7 @@ final class ProfileViewController: UIViewController {
     }()
     
     private var heightConstraint: NSLayoutConstraint? // делегируем управление высотой вью
-    
-    private lazy var avatarView: UIView = { // View расширяющегося аватара
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .black
-        view.alpha = 0.5
-        view.isHidden = true
-        
-        return view
-    }()
-    
-    lazy var avatarImage: UIImageView = {  // расширяющийся аватар
-       let imageView = UIImageView(image: UIImage(named: "myfoto.jpg")) // подгружаем картинку
-       imageView.translatesAutoresizingMaskIntoConstraints = false // отключаем AutoresizingMask
-       imageView.layer.borderWidth = 3.0 // делаем рамку-обводку
-       imageView.layer.borderColor = UIColor.white.cgColor // устанавливаем цвет рамке
-       imageView.layer.cornerRadius = 70.0 // делаем скругление - превращием квадрат в круг
-       imageView.clipsToBounds = true // устанавливаем вид в границах рамки
-
-       return imageView
-   }()
-    
-    private var widthAvatarImage: NSLayoutConstraint? // размеры аватара
-    private var positionXAvatarImage: NSLayoutConstraint? // позиция аватвра
-    private var positionYAvatarImage: NSLayoutConstraint?
-    
+  
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -82,7 +55,6 @@ final class ProfileViewController: UIViewController {
       
         self.tableView.tableHeaderView = tableHeaderView // хедер
         setupProfileHeadView()
-        setupAvatarView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -96,8 +68,7 @@ final class ProfileViewController: UIViewController {
         updateHeaderViewHeight(for: tableView.tableHeaderView)
     }
     
-    // MARK: Setup TableView
-    
+    // MARK: - Setup SubView
     private func setupTableView() { // констрейны к таблвью
         self.view.addSubview(self.tableView)
         
@@ -127,29 +98,17 @@ final class ProfileViewController: UIViewController {
         ].compactMap( {$0} ))
     }
     
-    private func setupAvatarView() {  // Создаем констрейты к хедеру
-        self.view.addSubview(self.avatarView)
-        self.avatarView.addSubview(avatarImage)
-        self.view.bringSubviewToFront(avatarView)
-        
-        let avatarViewTopConstraint = self.avatarView.topAnchor.constraint(equalTo: self.view.topAnchor) // верх
-        let avatarViewLeadingConstraint = self.avatarView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor) // левый край
-        let avatarViewTrailingConstraint = self.avatarView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor) // левый край
-        let avatarViewBottomConstraint = self.avatarView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
-        
-        self.widthAvatarImage = self.avatarImage.widthAnchor.constraint(equalToConstant: 140)
-        let heightAnchorAvatarImage = self.avatarImage.heightAnchor.constraint(equalTo: self.avatarImage.widthAnchor)
-        self.positionXAvatarImage = self.avatarImage.topAnchor.constraint(equalTo: self.avatarView.safeAreaLayoutGuide.topAnchor, constant: 16)
-        self.positionYAvatarImage = self.avatarImage.leadingAnchor.constraint(equalTo: self.avatarView.leadingAnchor, constant: 16)
-        
-        
-        NSLayoutConstraint.activate([
-            avatarViewTopConstraint, avatarViewLeadingConstraint, avatarViewTrailingConstraint, avatarViewBottomConstraint,
-            self.widthAvatarImage, heightAnchorAvatarImage, self.positionXAvatarImage, self.positionYAvatarImage
-        ].compactMap( {$0} ))
+    func tapGesturt() { // метод скрытия клавиатуры при нажатии на экран
+        let tapGesture = UITapGestureRecognizer(target: self.view, action: #selector(view.endEditing))
+        self.view.addGestureRecognizer(tapGesture)
     }
     
-    // MARK: Data coder
+    func updateHeaderViewHeight(for header: UIView?) { // изменяем высоту хедера
+        guard let header = header else { return }
+        header.frame.size.height = header.systemLayoutSizeFitting(CGSize(width: view.bounds.width, height: CGFloat(heightConstraint!.constant))).height
+    }
+  
+    // MARK: - Data coder
     private func fetchArticles(completion: @escaping ([News.Article]) -> Void) { // получаем новости
         if let path = Bundle.main.path(forResource: "news", ofType: "json") {
             do {
@@ -163,16 +122,6 @@ final class ProfileViewController: UIViewController {
         } else {
             fatalError("Invalid filename/path.")
         }
-    }
-    
-    func tapGesturt() { // метод скрытия клавиатуры при нажатии на экран
-        let tapGesture = UITapGestureRecognizer(target: self.view, action: #selector(view.endEditing))
-        self.view.addGestureRecognizer(tapGesture)
-    }
-    
-    func updateHeaderViewHeight(for header: UIView?) { // изменяем высоту хедера
-        guard let header = header else { return }
-        header.frame.size.height = header.systemLayoutSizeFitting(CGSize(width: view.bounds.width, height: CGFloat(heightConstraint!.constant))).height
     }
 }
 
@@ -218,6 +167,7 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
     }
 }
 
+// MARK: Extension Button Action
 extension ProfileViewController: ProfileHeaderViewProtocol {
 
     func buttonAction(inputTextIsVisible: Bool, completion: @escaping () -> Void) { // разширение разширения вью
@@ -235,31 +185,21 @@ extension ProfileViewController: ProfileHeaderViewProtocol {
     }
     
     func delegateAction(cell: ProfileHeaderView) {
-        self.avatarView.isHidden = false
-        print("OK")
-        
-        NSLayoutConstraint.deactivate([
-            self.widthAvatarImage, self.positionXAvatarImage, self.positionYAvatarImage
-        ].compactMap( {$0} ))
-        
-        self.widthAvatarImage = self.avatarImage.widthAnchor.constraint(equalTo: self.avatarView.widthAnchor)
-        self.positionXAvatarImage = self.avatarImage.centerXAnchor.constraint(equalTo: self.avatarView.centerXAnchor)
-        self.positionYAvatarImage = self.avatarImage.centerYAnchor.constraint(equalTo: self.avatarView.centerYAnchor)
+     
+        let animatedAvatarViewController = AnimatedAvatarViewController()
+        self.view.addSubview(animatedAvatarViewController.view)
+        self.addChild(animatedAvatarViewController)
+        animatedAvatarViewController.view.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            self.widthAvatarImage, self.positionXAvatarImage, self.positionYAvatarImage
-        ].compactMap( {$0} ))
-        
-        avatarImage.layer.cornerRadius = 0.0
-        avatarImage.alpha = 1
-        
-        UIView.animate(withDuration: 5, delay: 0.0) { // замедляем открытие/закрытие текстового поля
-            self.view.layoutIfNeeded()
-        } completion: { _ in
-            
-        }
-    }
+            animatedAvatarViewController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            animatedAvatarViewController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            animatedAvatarViewController.view.topAnchor.constraint(equalTo: view.topAnchor),
+            animatedAvatarViewController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            ])
 
+        animatedAvatarViewController.didMove(toParent: self)
+    }
 }
 
 extension ProfileViewController: PhotosTableViewCellProtocol { // переход в PhotosViewController
