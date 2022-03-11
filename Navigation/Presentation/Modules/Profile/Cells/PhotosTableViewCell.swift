@@ -50,10 +50,9 @@ class PhotosTableViewCell: UITableViewCell {
     
     private lazy var transitionButton: UIButton = {  // Создаем кнопку перехода
         let button = UIButton()
-        button.setTitle("▶︎", for: .normal)
-        button.setTitleColor(.black, for: .normal)
+        let image = UIImage(named: "arrow")
+        button.setBackgroundImage(image, for: .normal)
         button.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 24)
         button.translatesAutoresizingMaskIntoConstraints = false // Отключаем AutoresizingMask
         button.setContentCompressionResistancePriority(UILayoutPriority(250), for: .horizontal)
         

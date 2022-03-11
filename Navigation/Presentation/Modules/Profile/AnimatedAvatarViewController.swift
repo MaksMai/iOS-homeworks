@@ -27,16 +27,11 @@ class AnimatedAvatarViewController: UIViewController {
     
     private lazy var transitionButton: UIButton = {  // Создаем кнопку перехода
         let button = UIButton()
-        button.backgroundColor = .blue
-        button.setTitle("×", for: .normal)
-        button.setTitleColor(.white, for: .normal)
+        let image = UIImage(named: "cancel")
+        button.setBackgroundImage(image, for: .normal)
         button.addTarget(self, action: #selector(clickButton), for: .touchUpInside)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 40)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.layer.borderWidth = 2.0
-        button.layer.borderColor = UIColor.white.cgColor
-        button.layer.cornerRadius = 10.0
-        button.clipsToBounds = true
+
         button.alpha = 0.0
         
         return button
