@@ -75,6 +75,7 @@
 				6D2474F127B3B0ED001AB2C1 /* Post.swift */,
 				6D490F4927C8B9DC00D3EDE1 /* News.swift */,
 				6D7B48A227CCF28F00749EEB /* Photo.swift */,
+				6D7B48A427CCF36500749EEB /* CarPhoto.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -122,7 +123,6 @@
 				6DBE95AF27AD04A000DE3737 /* Assets.xcassets */,
 				6DBE95B427AD04A000DE3737 /* Info.plist */,
 				6DA221F627C778B100940501 /* news.json */,
-				6D7B48A427CCF36500749EEB /* CarPhoto.swift */,
 			);
 			path = Resurses;
 			sourceTree = "<group>";
