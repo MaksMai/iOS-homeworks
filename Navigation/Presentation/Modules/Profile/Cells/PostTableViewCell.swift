@@ -9,7 +9,7 @@ import UIKit
 
 class PostTableViewCell: UITableViewCell {
     
-    struct ViewModel: ViewModelProtocol {
+    struct ViewModel: ViewModelProtocol { // создаем модель данных
         var author: String // никнейм автора публикации
         var description: String // текст публикации
         var image: String // имя картинки из каталога Assets.xcassets
@@ -17,7 +17,7 @@ class PostTableViewCell: UITableViewCell {
         var views: String // количество просмотров
     }
     
-    private lazy var backView: UIView = {
+    private lazy var backView: UIView = { // контейне для интерфесов
         let view = UIView()
         view.clipsToBounds = true
         view.backgroundColor = .white
@@ -26,7 +26,7 @@ class PostTableViewCell: UITableViewCell {
         return view
     }()
     
-    private lazy var authorLabel: UILabel = {
+    private lazy var authorLabel: UILabel = { // заголовок
         let label = UILabel()
         label.backgroundColor = .clear
         label.numberOfLines = 2
@@ -39,17 +39,17 @@ class PostTableViewCell: UITableViewCell {
         return label
     }()
     
-    private lazy var postImageView: UIImageView = {
+    private lazy var postImageView: UIImageView = { // фото поста
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.backgroundColor = .black
-        imageView.contentMode = .scaleAspectFit
+//        imageView.contentMode = .scaleAspectFit
         
         return imageView
     }()
     
-    private lazy var descriptionLabel: UILabel = {
+    private lazy var descriptionLabel: UILabel = { // текст новостей
         let label = UILabel()
         label.backgroundColor = .clear
         label.preferredMaxLayoutWidth = self.frame.size.width
@@ -63,7 +63,7 @@ class PostTableViewCell: UITableViewCell {
         return label
     }()
     
-    private lazy var likeStackView: UIStackView = {
+    private lazy var likeStackView: UIStackView = { // стак для просмотров и лайков
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.distribution = .fill
@@ -73,7 +73,7 @@ class PostTableViewCell: UITableViewCell {
         return stackView
     }()
     
-    private lazy var likeTitle: UILabel = {
+    private lazy var likeTitle: UILabel = { // количество лайков
         let label = UILabel()
         label.text  = "Likes: "
         label.backgroundColor = .clear
@@ -87,7 +87,7 @@ class PostTableViewCell: UITableViewCell {
         return label
     }()
     
-    private lazy var viewTitle: UILabel = {
+    private lazy var viewTitle: UILabel = { // количество просмотров
         let label = UILabel()
         label.text  = "Views: "
         label.backgroundColor = .clear
@@ -119,7 +119,7 @@ class PostTableViewCell: UITableViewCell {
         self.viewTitle.text = nil
     }
     
-    private func setupView() {
+    private func setupView() { // устанавливаем интерфейс
         self.contentView.addSubview(self.backView)
         self.backView.addSubview(self.authorLabel)
         self.backView.addSubview(self.postImageView)
@@ -130,7 +130,7 @@ class PostTableViewCell: UITableViewCell {
         setupConstraints()
     }
     
-    private func setupConstraints() {
+    private func setupConstraints() { // констрейны
         let topConstraint = self.backView.topAnchor.constraint(equalTo: self.contentView.topAnchor)
         let leadingConstraint = self.backView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor)
         let trailingConstraint = self.backView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor)
@@ -162,15 +162,16 @@ class PostTableViewCell: UITableViewCell {
             trailingConstraintDescriptionLabel, topConstraintLikeStackView,
             leadingConstraintLikeStackView, trailingConstraintLikeStackView,
             bottomConstraintLikeStackView, leadingConstraintPostImageView,
-            trailingConstraintPostImageView])
+            trailingConstraintPostImageView
+        ])
     }
 }
 
-extension PostTableViewCell: Setupable {
+extension PostTableViewCell: Setupable { // загружаем модель
     
     func setup(with viewModel: ViewModelProtocol) { // наполнение ячейки
         guard let viewModel = viewModel as? ViewModel else { return }
-        
+
         self.authorLabel.text = viewModel.author
         self.postImageView.image = UIImage(named: viewModel.image)
         self.descriptionLabel.text = viewModel.description

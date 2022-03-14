@@ -155,18 +155,14 @@ class LogInViewController: UIViewController {
         let passwordTextFieldHeightAnchor = self.passwordTextField.heightAnchor.constraint(equalToConstant: 50)
         let initButtonHeightAnchor = self.initButton.heightAnchor.constraint(equalToConstant: 50)
         
-        NSLayoutConstraint.activate([scrollViewTopConstraint, scrollViewRightConstraint,
-                                     scrollViewBottomConstraint, scrollViewLeftConstraint,
-                                     contentViewTopConstraint,
-                                     contentViewBottomAnchor, contentViewWidth,
-                                     contentViewCenterXConstraint,
-                                     logoViewCenterX, logoViewTopConstraint,
-                                     logoViewWidthAnchor, logoViewHeightAnchor,
-                                     initStackViewTopConstraint, initStackViewLeadingConstraint,
-                                     initStackViewTrailingConstraint, loginTextFieldHeightAnchor,
-                                     passwordTextFieldHeightAnchor, initButtonHeightAnchor,
-                                     initStackViewBottomAnchor
-                                    ])
+        NSLayoutConstraint.activate([
+            scrollViewTopConstraint, scrollViewRightConstraint, scrollViewBottomConstraint,
+            scrollViewLeftConstraint, contentViewTopConstraint, contentViewBottomAnchor,
+            contentViewWidth, contentViewCenterXConstraint, logoViewCenterX, logoViewTopConstraint,
+            logoViewWidthAnchor, logoViewHeightAnchor, initStackViewTopConstraint,
+            initStackViewLeadingConstraint, initStackViewTrailingConstraint, loginTextFieldHeightAnchor,
+            passwordTextFieldHeightAnchor, initButtonHeightAnchor, initStackViewBottomAnchor
+        ])
     }
     
     func tapGesturt() { // метод скрытия клавиатуры при нажатии на экран

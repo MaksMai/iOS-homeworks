@@ -49,7 +49,7 @@ final class TabBarController: UITabBarController {
                 let feedViewController = FeedViewController()   // Инициализируем панель вкладок
                 return UINavigationController(rootViewController: feedViewController) // возвращаем пользовательский интерфейса
             case .profile:
-                let changeViewController = ProfileViewController() // LogInViewController()
+                let changeViewController = ProfileViewController() // LogInViewController() 
                 return UINavigationController(rootViewController: changeViewController)
             }
         }

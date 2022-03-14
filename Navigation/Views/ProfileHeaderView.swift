@@ -11,11 +11,11 @@ protocol ProfileHeaderViewProtocol: AnyObject { // расширение вью �
     func buttonAction(inputTextIsVisible: Bool, completion: @escaping () -> Void)
 }
 
-class ProfileHeaderView: UIView, UITextFieldDelegate {
+class ProfileHeaderView: UIView, UITextFieldDelegate, UIGestureRecognizerDelegate {
     
     var statusText: String? = nil // переменная для хранения текста статуса
   
-    private lazy var avatarImageView: UIImageView = {  // Создаем аватар
+     lazy var avatarImageView: UIImageView = {  // Создаем аватар
         let imageView = UIImageView(image: UIImage(named: "myfoto.jpg")) // подгружаем картинку
         imageView.translatesAutoresizingMaskIntoConstraints = false // отключаем AutoresizingMask
         imageView.layer.borderWidth = 3.0 // делаем рамку-обводку
@@ -106,6 +106,8 @@ class ProfileHeaderView: UIView, UITextFieldDelegate {
     
     weak var delegate: ProfileHeaderViewProtocol? // создаем делегата
     
+    private var tapGestureRecognizer = UITapGestureRecognizer() // нажатие на avatarImageView
+    
     override init(frame: CGRect) { // Выводим обьекты во view
         super.init(frame: frame)
         createSubviews()
@@ -123,9 +125,8 @@ class ProfileHeaderView: UIView, UITextFieldDelegate {
         self.firstStackView.addArrangedSubview(labelStackView) // добавляем в стак стак
         self.labelStackView.addArrangedSubview(fullNameLabel) // добавляем в стак метку
         self.labelStackView.addArrangedSubview(statusLabel) // добавляем в стак метку
-
-        setupConstraints()
         self.statusTextField.delegate = self
+        setupConstraints()
     }
   
     func setupConstraints() {  // Устанавливаем констрейны
@@ -182,14 +183,16 @@ class ProfileHeaderView: UIView, UITextFieldDelegate {
             setStatusButton.setTitle("Show status", for: .normal)
             
             self.statusTextField.removeFromSuperview()
-            NSLayoutConstraint.deactivate([topConstrain, leadingConstrain, trailingConstrain, textHeight].compactMap( {$0} ))
+            NSLayoutConstraint.deactivate([
+                topConstrain, leadingConstrain, trailingConstrain, textHeight
+            ].compactMap( {$0} ))
         }
         
         self.delegate?.buttonAction(inputTextIsVisible: self.statusTextField.isHidden) { [weak self] in
             self?.statusTextField.isHidden.toggle() // меняем высоту
         }
     }
-   
+ 
     @objc func statusTextChanged(_ textField: UITextField) {  // Выводим в консоль результат отслеживаемого изменеия
         let status: String = textField.text ?? ""
         print("Новый статус = \(status)")

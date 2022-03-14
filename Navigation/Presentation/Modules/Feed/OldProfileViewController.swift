@@ -7,10 +7,8 @@
 
 import UIKit
 
-class DelFAstViewController: UIViewController {
-    
-   
-    
+class OldProfileViewController: UIViewController {
+      
     // Создаем экземпляр класса ProfileHeaderView в классе ProfileViewController
     private lazy var profileHeaderView: ProfileHeaderView = {
         let view = ProfileHeaderView(frame: .zero) // создаем вью ProfileHeaderView
@@ -35,7 +33,6 @@ class DelFAstViewController: UIViewController {
            self.navigationItem.title = "Профиль"
        }
     
-        
     private func setupProfileHeadView() {  // Создаем констрейты к profileHeaderView
         self.view.backgroundColor = .lightGray // Задаем базовый цвет
         
@@ -56,9 +53,12 @@ class DelFAstViewController: UIViewController {
     
 }
 
-extension DelFAstViewController: ProfileHeaderViewProtocol { // разширение разширения вью
+extension OldProfileViewController: ProfileHeaderViewProtocol {
+    func delegateAction(cell: ProfileHeaderView) {
+        //
+    }
 
-    func buttonAction(inputTextIsVisible: Bool, completion: @escaping () -> Void) {
+    func buttonAction(inputTextIsVisible: Bool, completion: @escaping () -> Void) { // разширение разширения вью
         self.heightConstraint?.constant = inputTextIsVisible ? 250 : 220
 
         UIView.animate(withDuration: 0.2, delay: 0.0) { // замедляем открытие/закрытие текстового поля

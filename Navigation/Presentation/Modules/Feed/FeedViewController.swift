@@ -84,7 +84,7 @@ class FeedViewController: UIViewController {
     }
     
     @objc private func secondButtonAction() { // Делаем переход на PostViewController
-        let viewController = DelFAstViewController()  // Создаем PostViewController
+        let viewController = OldProfileViewController()  // Создаем PostViewController
         self.navigationController?.pushViewController(viewController, animated: true)    // Вызываем PostViewController
     }
 }
