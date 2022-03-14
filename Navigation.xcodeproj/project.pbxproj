@@ -111,7 +111,6 @@
 			children = (
 				6DE961D927C7A5E6001A7E99 /* Protocols */,
 				6D2474EF27B3B081001AB2C1 /* TabBar */,
-				6D2948A727C3748800D561C7 /* Views */,
 				6D2948A627C373B300D561C7 /* Modules */,
 			);
 			path = Presentation;
@@ -188,6 +187,7 @@
 		6DBE95A527AD049F00DE3737 /* Navigation */ = {
 			isa = PBXGroup;
 			children = (
+				6D2948A727C3748800D561C7 /* Views */,
 				6D2474F027B3B0B4001AB2C1 /* AppDelegate */,
 				6D2948A227C36CAF00D561C7 /* Models */,
 				6D2948A327C36CEE00D561C7 /* Presentation */,

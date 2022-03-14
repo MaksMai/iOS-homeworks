@@ -75,7 +75,7 @@ class AnimatedAvatarViewController: UIViewController {
         self.positionXAvatarImage = self.avatarImage.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
         self.positionYAvatarImage = self.avatarImage.centerYAnchor.constraint(equalTo: self.view.centerYAnchor)
         
-        UIView.animate(withDuration: 3, animations: { // замедляем открытие/закрытие текстового поля
+        UIView.animate(withDuration: 1, animations: { // замедляем открытие/закрытие текстового поля
             NSLayoutConstraint.activate([
                self.positionXAvatarImage, self.positionYAvatarImage, self.widthAvatarImage, self.heightAvatarImage
             ].compactMap( {$0} ))
@@ -99,7 +99,7 @@ class AnimatedAvatarViewController: UIViewController {
         self.positionXAvatarImage = self.avatarImage.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 16)
         self.positionYAvatarImage = self.avatarImage.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 16)
         
-        UIView.animate(withDuration: 3, animations: {
+        UIView.animate(withDuration: 1, animations: {
             NSLayoutConstraint.activate([
                 self.positionXAvatarImage, self.positionYAvatarImage, self.widthAvatarImage, self.heightAvatarImage
             ].compactMap( {$0} ))

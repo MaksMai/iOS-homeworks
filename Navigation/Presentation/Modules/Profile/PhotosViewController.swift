@@ -70,7 +70,7 @@ class PhotosViewController: UIViewController {
     }
 }
 
-// MARK: - Extension UICollectionView Data Source
+// MARK: - Extension  UICollectionView Data Source
 
 extension PhotosViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
