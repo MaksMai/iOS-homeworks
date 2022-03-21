@@ -9,6 +9,7 @@ import UIKit
 
 class LogInViewController: UIViewController {
     
+    // MARK: - PROPERTIES
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -22,14 +23,14 @@ class LogInViewController: UIViewController {
         return contentView
     }()
     
-    private lazy var logoView: UIImageView = { // логотип
+    private lazy var logoView: UIImageView = { // ЛОГОТИП
         let logoView = UIImageView(image: UIImage(named: "logo.jpg"))
         logoView.translatesAutoresizingMaskIntoConstraints = false
         
         return logoView
     }()
     
-    private lazy var initStackView: UIStackView = {  // Создаем стек инициализации
+    private lazy var initStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.axis = .vertical
@@ -39,7 +40,7 @@ class LogInViewController: UIViewController {
         return stackView
     }()
     
-    private lazy var textStackView: UIStackView = {  // Создаем стек для текста
+    private lazy var textStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.distribution = .fillEqually
@@ -53,7 +54,7 @@ class LogInViewController: UIViewController {
         return stackView
     }()
     
-    private lazy var loginTextField: UITextField = { // Логин
+    private lazy var loginTextField: UITextField = { // ЛОГИН
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.autocapitalizationType = .none
@@ -71,7 +72,7 @@ class LogInViewController: UIViewController {
         return textField
     }()
     
-    private lazy var passwordTextField: UITextField = { // Пароль
+    private lazy var passwordTextField: UITextField = { // ПАРОЛЬ
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.isSecureTextEntry = true
@@ -90,7 +91,7 @@ class LogInViewController: UIViewController {
         return textField
     }()
     
-    private lazy var initButton: UIButton = {  // Создаем кнопку перехода
+    private lazy var initButton: UIButton = {  // КНОПКА
         let button = UIButton()
         button.layer.cornerRadius = 10
         button.setTitle("Log in", for: .normal)
@@ -106,23 +107,26 @@ class LogInViewController: UIViewController {
         button.setTitleColor(.white, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.clipsToBounds = true
+        button.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
         
-        return button   // Возвращаем кнопку
+        return button
     }()
     
+    // MARK: LIFECYCLE METHODS
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        tabBarController?.tabBar.isHidden = true
+        navigationController?.navigationBar.isHidden = true
         setupView()
         setupConstraints()
         tapGesturt()
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(LogInViewController.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(LogInViewController.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        notifications()
     }
     
-    func setupView() {  // Создаем ко нстрейты к стаку
+    // MARK: - SETUP SUBVIEW
+    func setupView() {
+        view.backgroundColor = .white
+        navigationController?.navigationBar.isHidden = true
         self.view.addSubview(self.scrollView)
         self.scrollView.addSubview(self.contentView)
         self.contentView.addSubview(self.logoView)
@@ -165,12 +169,20 @@ class LogInViewController: UIViewController {
         ])
     }
     
-    func tapGesturt() { // метод скрытия клавиатуры при нажатии на экран
+    @objc private func buttonAction() {
+        let controller = TabBarController()
+        self.navigationController?.pushViewController(controller, animated: true)
+    }
+}
+    
+    // MARK: EXTENSIONS
+extension LogInViewController { // KEYBOARD
+    func tapGesturt() {
         let tapGesture = UITapGestureRecognizer(target: self.view, action: #selector(view.endEditing))
         self.view.addGestureRecognizer(tapGesture)
     }
     
-    @objc func keyboardWillShow(notification: NSNotification) { // сдвиг окна
+    @objc func keyboardWillShow(notification: NSNotification) {
         guard let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else { return }
         let contentInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: keyboardSize.height , right: 0.0)
         scrollView.contentInset = contentInsets
@@ -182,5 +194,11 @@ class LogInViewController: UIViewController {
         scrollView.contentInset = contentInsets
         scrollView.scrollIndicatorInsets = contentInsets
     }
+    
+    func notifications() {
+        NotificationCenter.default.addObserver(self, selector: #selector(LogInViewController.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(LogInViewController.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
 }
 

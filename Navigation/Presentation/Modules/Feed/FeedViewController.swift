@@ -41,7 +41,7 @@ class FeedViewController: UIViewController {
         button.setTitle("Перейти на пост", for: .normal)  // Текст кнопки
         button.setTitleColor(.lightGray, for: .normal)  // Цвет текста
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 24)   // Делаем жирным
-        button.addTarget(self, action: #selector(secondButtonAction), for: .touchUpInside)   // Добавляем Action
+        button.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)   // Добавляем Action
         button.translatesAutoresizingMaskIntoConstraints = false // Отключаем AutoresizingMask
      
         return button   // Возвращаем кнопку
@@ -59,8 +59,8 @@ class FeedViewController: UIViewController {
         self.navigationItem.title = "Лента"
        }
     
-    func setButtonStackView() {  // Создаем констрейты к кнопке
-        self.view.addSubview(self.buttonStackView)  // Добавляем стак
+    func setButtonStackView() {
+        self.view.addSubview(self.buttonStackView)
         self.buttonStackView.addArrangedSubview(firstButton)
         self.buttonStackView.addArrangedSubview(secondButton)
         
@@ -77,14 +77,9 @@ class FeedViewController: UIViewController {
                                     ].compactMap( {$0} )) // Активация констрейнов
     }
     
-    @objc private func buttonAction() { // Делаем переход на PostViewController
-        let viewController = PostViewController()  // Создаем PostViewController
-        viewController.titlePost = post.title  // Передаем объект post в PostViewController
-        self.navigationController?.pushViewController(viewController, animated: true)    // Вызываем PostViewController
-    }
-    
-    @objc private func secondButtonAction() { // Делаем переход на PostViewController
-        let viewController = OldProfileViewController()  // Создаем PostViewController
-        self.navigationController?.pushViewController(viewController, animated: true)    // Вызываем PostViewController
+    @objc private func buttonAction() {
+        let viewController = PostViewController()
+        viewController.titlePost = post.title
+        self.navigationController?.pushViewController(viewController, animated: true)
     }
 }
