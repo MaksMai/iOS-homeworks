@@ -9,13 +9,13 @@ import UIKit
 
 class AnimatedPhotoViewController: UIViewController {
     
-    // MARK: Properties
+    // MARK: - PROPERTIES
+    
     struct ViewModel: ViewModelProtocol {
-        var image: String // имя картинки из каталога Assets.xcassets
+        var image: String
     }
    
-//    private var image:
-    lazy var largeImage: UIImageView = {
+    private lazy var largeImage: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
@@ -41,19 +41,19 @@ class AnimatedPhotoViewController: UIViewController {
         return button
     }()
   
-    // MARK: - Lifecycle Methods
+    // MARK: - LIFECYCLE METHODS
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .black.withAlphaComponent(0.0)
         setupSubView()
-        
-        
         self.view.layoutIfNeeded()
         moveIn()
     }
     
-    // MARK: Setup SubView
-    private func setupSubView() {  // Создаем констрейты
+    // MARK: - SETUP SUBVIEWS
+    
+    private func setupSubView() {
         self.view.addSubview(largeImage)
         self.view.addSubview(transitionButton)
         
@@ -116,6 +116,7 @@ class AnimatedPhotoViewController: UIViewController {
             self.view.layoutIfNeeded()
         }) { _ in
             self.view.removeFromSuperview()
+            self.navigationController?.navigationBar.isHidden = false
         }
     }
     
@@ -123,6 +124,8 @@ class AnimatedPhotoViewController: UIViewController {
           moveOut()
       }
 }
+
+// MARK: - EXTENSIONS
 
 extension AnimatedPhotoViewController: Setupable { // устанавливаем модель
 

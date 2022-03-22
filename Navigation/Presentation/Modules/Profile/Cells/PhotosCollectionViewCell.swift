@@ -9,12 +9,13 @@ import UIKit
 
 class PhotosCollectionViewCell: UICollectionViewCell {
     
-    // MARK: Properties
+    // MARK: - PROPERTIES
+    
     struct ViewModel: ViewModelProtocol {
-        var image: String // имя картинки из каталога Assets.xcassets
+        var image: String
     }
     
-    let photoView: UIImageView = {  // делаем фото
+    let photoView: UIImageView = {  // PHOTO
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.layer.cornerRadius = 6
@@ -23,6 +24,8 @@ class PhotosCollectionViewCell: UICollectionViewCell {
         imageView.contentMode = .scaleAspectFill
         return imageView
     }()
+    
+    // MARK: LIFECYCLE METHODS
     
     override init(frame: CGRect) {
         super .init(frame: frame)
@@ -33,12 +36,14 @@ class PhotosCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setupPhotoView() { // устанавливаем интерфейс
+    // MARK: - SETUP SUBVIEWS
+    
+    private func setupPhotoView() {
         self.addSubview(photoView)
         setupConstraints()
     }
     
-    override func prepareForReuse() { // обнуление информации в ячейках
+    override func prepareForReuse() {
         super.prepareForReuse()
         self.photoView.image = nil
     }
@@ -55,9 +60,11 @@ class PhotosCollectionViewCell: UICollectionViewCell {
     }
 }
 
-extension PhotosCollectionViewCell: Setupable { // устанавливаем модель
+// MARK: - EXTENSIONS
 
-    func setup(with viewModel: ViewModelProtocol) { // наполнение ячейки
+extension PhotosCollectionViewCell: Setupable { // MODEL
+
+    func setup(with viewModel: ViewModelProtocol) {
         guard let viewModel = viewModel as? ViewModel else { return }
         self.photoView.image = UIImage(named: viewModel.image)
     }

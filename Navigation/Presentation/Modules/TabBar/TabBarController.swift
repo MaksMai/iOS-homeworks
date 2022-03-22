@@ -11,7 +11,7 @@ import UIKit
 
 final class TabBarController: UITabBarController {
   
-    // MARK: Properties
+    // MARK: - PROPERTIES
     
     private enum TabBarItem: Int {  // Инкапсулируем имена и иконки
         case feed
@@ -36,11 +36,15 @@ final class TabBarController: UITabBarController {
         }
     }
     
+    // MARK: - LIFECIRCLE METHODS
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupTabBar()  // Загружаем TabBarController
     }
    
+    // MARK: - SETUP SUBVIEW
+    
     private func setupTabBar() { // Метод добавления NavigationController в TabBarController
         
         let dataSource: [TabBarItem] = [.feed, .profile]  // Добавляем навигационные контроллеры в массив панели вкладок

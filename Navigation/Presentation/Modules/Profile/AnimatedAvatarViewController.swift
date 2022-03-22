@@ -9,7 +9,8 @@ import UIKit
 
 class AnimatedAvatarViewController: UIViewController {
     
-    // MARK: Properties
+    // MARK: - PROPERTIES
+    
     private lazy var avatarImage: UIImageView = {  // расширяющийся аватар
         let imageView = UIImageView(image: UIImage(named: "myfoto.jpg")) // подгружаем картинку
         imageView.translatesAutoresizingMaskIntoConstraints = false // отключаем AutoresizingMask
@@ -38,7 +39,8 @@ class AnimatedAvatarViewController: UIViewController {
         return button
     }()
   
-    // MARK: - Lifecycle Methods
+    // MARK: LIFECYCLE METHODS
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .black.withAlphaComponent(0.0)
@@ -47,7 +49,8 @@ class AnimatedAvatarViewController: UIViewController {
         moveIn()
     }
     
-    // MARK: Setup SubView
+    // MARK: - SETUP SUBVIEWS
+    
     private func setupSubView() {  // Создаем констрейты
         self.view.addSubview(avatarImage)
         self.view.addSubview(transitionButton)

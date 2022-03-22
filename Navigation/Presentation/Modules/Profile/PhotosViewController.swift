@@ -9,7 +9,8 @@ import UIKit
 
 class PhotosViewController: UIViewController {
     
-    // MARK: Properties
+    // MARK: - PROPERTIES
+    
     private enum Constant { // количество ячеек в коллекшин вью
         static let itemCount: CGFloat = 3
     }
@@ -34,7 +35,8 @@ class PhotosViewController: UIViewController {
         return collectionView
     }()
     
-    // MARK: - Lifecycle Methods
+    // MARK: LIFECYCLE METHODS
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCollectionView()
@@ -47,7 +49,7 @@ class PhotosViewController: UIViewController {
         self.navigationItem.title = "Photo Gallery"
     }
     
-    // MARK: Setup SubView
+    // MARK: - SETUP SUBVIEWS
     private func setupCollectionView() { // констрейны
         self.view.addSubview(self.photoCollectionView)
         
@@ -69,7 +71,7 @@ class PhotosViewController: UIViewController {
     }
 }
 
-// MARK: Extension
+    // MARK: - EXTENSIONS
 
 extension PhotosViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
@@ -122,7 +124,7 @@ extension PhotosViewController: UICollectionViewDelegate, UICollectionViewDataSo
             animatedPhotoViewController.view.topAnchor.constraint(equalTo: view.topAnchor),
             animatedPhotoViewController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
-        
+        self.navigationController?.navigationBar.isHidden = true
         animatedPhotoViewController.didMove(toParent: self)
     }
 }

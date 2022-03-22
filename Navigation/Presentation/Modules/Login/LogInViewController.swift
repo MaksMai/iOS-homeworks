@@ -9,12 +9,14 @@ import UIKit
 
 class LogInViewController: UIViewController {
     
-    // MARK: Properties
-    let user = User(login: "test@test.ru", password: "1Q2w3e4r") // логин и пароль
+    // MARK: - PROPERTIES
+    
+    let user = User(login: "test@test.ru", password: "1Q2w3e4r") // ЛОГИН и ПАРОЛЬ
     
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
+        
         return scrollView
     }()
     
@@ -25,7 +27,7 @@ class LogInViewController: UIViewController {
         return contentView
     }()
     
-    private lazy var logoView: UIImageView = { // логотип
+    private lazy var logoView: UIImageView = { // ЛОГОТИП
         let logoView = UIImageView(image: UIImage(named: "logo.jpg"))
         logoView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -42,7 +44,7 @@ class LogInViewController: UIViewController {
         return stackView
     }()
     
-    private lazy var textStackView: UIStackView = { // стек для текстовые лейблы
+    private lazy var textStackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
         stackView.distribution = .fillEqually
@@ -52,7 +54,7 @@ class LogInViewController: UIViewController {
         return stackView
     }()
     
-    private lazy var loginTextField: UITextField = { // Логин
+    private lazy var loginTextField: UITextField = { // ЛОГИН
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.autocapitalizationType = .none
@@ -73,7 +75,7 @@ class LogInViewController: UIViewController {
         return textField
     }()
     
-    private lazy var passwordTextField: UITextField = { // Пароль
+    private lazy var passwordTextField: UITextField = {  // ПАРОЛЬ
         let textField = UITextField()
         textField.translatesAutoresizingMaskIntoConstraints = false
         textField.isSecureTextEntry = true
@@ -95,7 +97,7 @@ class LogInViewController: UIViewController {
         return textField
     }()
     
-    private lazy var initButton: UIButton = {  // Создаем кнопку перехода
+    private lazy var initButton: UIButton = {  // КНОПКА
         let button = UIButton()
         button.layer.cornerRadius = 10
         button.setTitle("Log in", for: .normal)
@@ -113,10 +115,10 @@ class LogInViewController: UIViewController {
         button.clipsToBounds = true
         button.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
         
-        return button   // Возвращаем кнопку
+        return button
     }()
     
-    private lazy var errorLabel: UILabel = { // собщение о количестве символов
+    private lazy var errorLabel: UILabel = { // ОШИБКА
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.numberOfLines = 0
@@ -124,19 +126,25 @@ class LogInViewController: UIViewController {
         return label
     }()
     
-    // MARK: - Lifecycle Methods
+    // MARK: - LIFECIRCLE METHODS
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
-        navigationController?.navigationBar.isHidden = true
         setupView()
         setupConstraints()
         tapGesturt()
-        notificationObserver()
+        registerNotification()
     }
-
-    // MARK: - Setup SubView
-    func setupView() { // Создаем ко нстрейты к стаку
+    
+    deinit {
+        removeNotifications()
+    }
+    
+    // MARK: - SETUP SUBVIEW
+    
+    func setupView() {
+        view.backgroundColor = .white
+        navigationController?.navigationBar.isHidden = true
         self.view.addSubview(self.scrollView)
         self.scrollView.addSubview(self.contentView)
         self.contentView.addSubview(self.logoView)
@@ -183,7 +191,7 @@ class LogInViewController: UIViewController {
         ])
     }
     
-    @objc private func buttonAction() {  // Действие кнопки
+    @objc private func buttonAction() {  // BUTTON ACTION
         if isEmpty(textField: loginTextField),
            validationEmail(textField: loginTextField),
            isEmpty(textField: passwordTextField),
@@ -194,7 +202,8 @@ class LogInViewController: UIViewController {
     }
     
     private func checkCount(inputString: UITextField, givenString: String) {
-        guard inputString.text!.count < givenString.count - 1 || inputString.text!.count > givenString.count - 1 else {
+        guard inputString.text!.count < givenString.count - 1 ||
+                inputString.text!.count > givenString.count - 1 else {
             errorLabel.text = ""
             
             return
@@ -202,38 +211,13 @@ class LogInViewController: UIViewController {
         errorLabel.textColor = .red
         errorLabel.text = "\(String(describing: inputString.placeholder!)) содержит \(givenString.count) символов"
     }
-    
-    // действия с клавиатурой
-    func tapGesturt() { // метод скрытия клавиатуры при нажатии на экран
-        let tapGesture = UITapGestureRecognizer(target: self.view, action: #selector(view.endEditing))
-        self.view.addGestureRecognizer(tapGesture)
-    }
-    
-    @objc func keyboardWillShow(notification: NSNotification) { // сдвиг окна
-        guard let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else { return }
-        let contentInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: keyboardSize.height , right: 0.0)
-        scrollView.contentInset = contentInsets
-        scrollView.scrollIndicatorInsets = contentInsets
-    }
-    
-    @objc func keyboardWillHide(notification: NSNotification) { // сброс на 0 при скрытии клавы
-        let contentInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0)
-        scrollView.contentInset = contentInsets
-        scrollView.scrollIndicatorInsets = contentInsets
-    }
-    
-    private func notificationObserver() {
-        NotificationCenter.default.addObserver(self, selector: #selector(LogInViewController.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(LogInViewController.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
-    }
-    
 }
 
-// MARK: Extension
+    // MARK: - EXTENSIONS
 
 extension LogInViewController: UITextFieldDelegate {
     
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool { // проверка количества символов
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool { // ПРОВЕРКА КОЛИЧЕСВА ВВЕДЕННЫХ СИМВОЛОВ
         let text = (textField.text ?? "") + string
         let result: String
         
@@ -254,7 +238,7 @@ extension LogInViewController: UITextFieldDelegate {
         return false
     }
     
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool { // переключение по return
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool { // ПЕРЕКЛЮЧЕНИЕ МЕЖДУ TEXTFIELD
         if textField == loginTextField {
             textField.resignFirstResponder()
             passwordTextField.becomeFirstResponder()
@@ -267,9 +251,10 @@ extension LogInViewController: UITextFieldDelegate {
     }
 }
 
-extension LogInViewController { // проверка логина и пароля
+extension LogInViewController {
     
-    private func isEmpty(textField: UITextField) -> Bool { // встряска пустого тектсового поля
+    // LOGIN AND PASSWORD VERIFICATION
+    private func isEmpty(textField: UITextField) -> Bool { // ПОТРЯХИВАНИЕ ПУСТОГО TEXTFIELD
         guard textField.text != "" else {
             textField.shake()
             
@@ -279,7 +264,7 @@ extension LogInViewController { // проверка логина и пароля
         return true
     }
     
-    private func validationEmail(textField: UITextField) -> Bool {
+    private func validationEmail(textField: UITextField) -> Bool { // ПРОВЕРКА ЛОГИНА
         guard textField.text!.isValidEmail, textField.text == user.login else {
             openAlert(title: "ОШИБКА",
                       message: "Некорректный ввод адреса электронной почты",
@@ -295,7 +280,7 @@ extension LogInViewController { // проверка логина и пароля
         return true
     }
     
-    private func validationPassword(textField: UITextField) -> Bool {
+    private func validationPassword(textField: UITextField) -> Bool { // ПРОВЕРКА ПАРОЛЯ
         guard textField.text == user.password else {
             openAlert(title: "ОШИБКА",
                       message: "Некорректный ввод пароля",
@@ -309,5 +294,54 @@ extension LogInViewController { // проверка логина и пароля
         }
         
         return true
+    }
+    
+    // KEYBOARD
+    func tapGesturt() {
+        let tapGesture = UITapGestureRecognizer(target: self.view, action: #selector(view.endEditing))
+        self.view.addGestureRecognizer(tapGesture)
+    }
+    
+    func registerNotification() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillShow(notification:)),
+                                               name: UIResponder.keyboardWillShowNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillHide),
+                                               name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
+    }
+    
+    func removeNotifications() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(LogInViewController.keyboardWillShow),
+                                               name: UIResponder.keyboardWillShowNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(LogInViewController.keyboardWillHide),
+                                               name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
+    }
+    
+    @objc private func keyboardWillShow(notification: Notification) {
+        
+        // I-й способ - подъем на высоту клавиатуры по правилам
+        // if let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+        //    let keyboardRectangle = keyboardFrame.cgRectValue
+        //    let keyboardHeight = keyboardRectangle.height
+        //    let contentOffset: CGPoint = notification.name ==
+        //    UIResponder.keyboardWillHideNotification
+        //    ? .zero
+        //    : CGPoint(x: 0, y: keyboardHeight)
+        //    scrollView.contentOffset = contentOffset
+        //}
+        
+        // II-й способ - подъем "топором"на высоту кнопки
+        scrollView.contentOffset = CGPoint(x: 0, y: 70)
+    }
+    
+    @objc private func keyboardWillHide() {
+        scrollView.contentOffset = CGPoint.zero
     }
 }

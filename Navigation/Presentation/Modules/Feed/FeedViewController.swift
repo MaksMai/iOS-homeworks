@@ -9,7 +9,8 @@ import UIKit
 
 class FeedViewController: UIViewController {
    
-    // MARK: Properties
+    // MARK: - PROPERTIES
+    
     var post = Post(title: "Мой пост")  // Создаем объект типа Post в FeedViewController
     
     private lazy var buttonStackView: UIStackView = {  // Создаем стек для кнопок
@@ -42,20 +43,22 @@ class FeedViewController: UIViewController {
         button.setTitle("Перейти на пост", for: .normal)  // Текст кнопки
         button.setTitleColor(.lightGray, for: .normal)  // Цвет текста
         button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 24)   // Делаем жирным
-        button.addTarget(self, action: #selector(secondButtonAction), for: .touchUpInside)   // Добавляем Action
+        button.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)   // Добавляем Action
         button.translatesAutoresizingMaskIntoConstraints = false // Отключаем AutoresizingMask
      
         return button   // Возвращаем кнопку
     }()
     
-    // MARK: - Lifecycle Methods
+    // MARK: - LIFECYCLE METHODS
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBar()
         setButtonStackView() // отображаем стак с кнопками
     }
     
-    // MARK: Setup SubView
+    // MARK: - SETUP SUBVIEWS
+    
     private func setupNavigationBar() { // Устанавлинаваем название заголовка
         view.backgroundColor = .lightGray  // Задаем базовый цвет
         self.navigationItem.backButtonTitle = "Назад"   // Переименовываем обратный переход
@@ -83,11 +86,6 @@ class FeedViewController: UIViewController {
     @objc private func buttonAction() { // Делаем переход на PostViewController
         let viewController = PostViewController()  // Создаем PostViewController
         viewController.titlePost = post.title  // Передаем объект post в PostViewController
-        self.navigationController?.pushViewController(viewController, animated: true)    // Вызываем PostViewController
-    }
-    
-    @objc private func secondButtonAction() { // Делаем переход на PostViewController
-        let viewController = OldProfileViewController()  // Создаем PostViewController
         self.navigationController?.pushViewController(viewController, animated: true)    // Вызываем PostViewController
     }
 }

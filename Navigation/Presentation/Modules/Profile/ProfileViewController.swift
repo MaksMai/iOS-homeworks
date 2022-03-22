@@ -9,7 +9,8 @@ import UIKit
 
 final class ProfileViewController: UIViewController {
     
-    // MARK: Properties
+    // MARK: - PROPERTIES
+    
     private lazy var tableView: UITableView = { // создаем таблвью
         let tableView = UITableView()
         tableView.backgroundColor = .systemGray6
@@ -19,44 +20,32 @@ final class ProfileViewController: UIViewController {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "DefaultCell")
         tableView.register(PhotosTableViewCell.self, forCellReuseIdentifier: "PhotoCell")
         tableView.register(PostTableViewCell.self, forCellReuseIdentifier: "PostCell")
+        tableView.register(ProfileTableHeaderView.self, forHeaderFooterViewReuseIdentifier: "TableHeder")
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 44
        
         return tableView
     }()
+   
+    private var isExpanded: Bool = true // I-й способ измения высоты Header
+    private var height = 236 // II-й способ измения высоты Header
+      
+      // MARK: - LIFECYCLE METHODS
     
-    private lazy var tableHeaderView: ProfileHeaderView = { // сщздаем хедер
-        let view = ProfileHeaderView(frame: .zero) // создаем вью ProfileHeaderView
-        view.delegate = self
-        view.translatesAutoresizingMaskIntoConstraints = false // отключаем AutoresizingMask
-        
-        return view
-    }()
-    
-    private var heightConstraint: NSLayoutConstraint? // делегируем управление высотой вью
-  
-    // MARK: - Lifecycle Methods
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
-        setupProfileHeadView()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.tabBarController?.tabBar.isHidden = true // скрываем таббар
-        self.navigationController?.navigationBar.isHidden = true // скрываем верх
+        self.tabBarController?.tabBar.isHidden = true
+        self.navigationController?.navigationBar.isHidden = true
     }
     
-    override func viewWillLayoutSubviews() { // обновляем мзменения хедера
-        super.viewWillLayoutSubviews()
-        updateHeaderViewHeight(for: tableView.tableHeaderView)
-    }
-    
-    // MARK: - Setup SubView
-    private func setupTableView() { // констрейны к таблвью
+    // MARK: - SETUP SUBVIEWS
+    private func setupTableView() {
         self.view.addSubview(self.tableView)
-        self.tableView.tableHeaderView = tableHeaderView // хедер
         
         let topConstraint = self.tableView.topAnchor.constraint(equalTo: self.view.topAnchor)
         let leadingConstraint = self.tableView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor)
@@ -67,46 +56,41 @@ final class ProfileViewController: UIViewController {
             topConstraint, leadingConstraint, trailingConstraint, bottomConstraint
         ])
     }
-    
-    private func setupProfileHeadView() {  // Создаем констрейты к хедеру
-        self.view.backgroundColor = .lightGray // Задаем базовый цвет
-        
-        let topConstraint = self.tableHeaderView.topAnchor.constraint(equalTo: tableView.topAnchor) // верх
-        let leadingConstraint = self.tableHeaderView.leadingAnchor.constraint(equalTo: tableView.leadingAnchor) // левый край
-        let trailingConstraint = self.tableHeaderView.trailingAnchor.constraint(equalTo: tableView.trailingAnchor) // левый край
-        let widthConstraint = self.tableHeaderView.widthAnchor.constraint(equalTo: tableView.widthAnchor)
-        self.heightConstraint = self.tableHeaderView.heightAnchor.constraint(equalToConstant: 220) // высота
-        let bottomConstraint = self.tableHeaderView.bottomAnchor.constraint(equalTo: tableView.bottomAnchor)
-        
-        NSLayoutConstraint.activate([
-            topConstraint, leadingConstraint, trailingConstraint, bottomConstraint,
-            heightConstraint, widthConstraint
-        ].compactMap( {$0} ))
-    }
-    
-    func updateHeaderViewHeight(for header: UIView?) { // изменяем высоту хедера
-        guard let header = header else { return }
-        header.frame.size.height = header.systemLayoutSizeFitting(CGSize(width: view.bounds.width, height: CGFloat(heightConstraint!.constant))).height
-    }
 }
 
-    // MARK: Extension
+    // MARK: - EXTENSIONS
 extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
     
-    func numberOfSections(in tableView: UITableView) -> Int { // кол-во секций
-        return 2 // количество секций
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let view = tableView.dequeueReusableHeaderFooterView(withIdentifier: "TableHeder") as! ProfileTableHeaderView
+        view.delegate = self
+        
+        return view
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { // ячеек в секц
-        if section == 0 {
-            return 1 // количество скролл вью
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if (section == 0) {
+            return isExpanded ? 236 : 266 // I-й способ
+            // CGFloat(height) // II-й способ
         } else {
-            return newsArticles.count // количество постов новостей
+            return 0
+        }
+    }
+    
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if section == 0 {
+            return 1
+        } else {
+            return newsArticles.count
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.section == 0 { // коллекшинвью фотографий
+        if indexPath.section == 0 {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "PhotoCell", for: indexPath) as? PhotosTableViewCell else {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath)
                 
@@ -115,17 +99,23 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
             cell.delegate = self
             cell.layer.shouldRasterize = true
             cell.layer.rasterizationScale = UIScreen.main.scale
-        
+            
             return cell
-        } else { // посты новостей
+        } else {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "PostCell", for: indexPath) as? PostTableViewCell else {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath)
                 
                 return cell
             }
-
+            
+            cell.delegate = self
             let article = newsArticles[indexPath.row]
-            let viewModel = PostTableViewCell.ViewModel(author: article.author, description: article.description, image: article.image, likes: String(article.likes), views: String(article.views))
+            let viewModel = PostTableViewCell.ViewModel(
+                author: article.author,
+                description: article.description,
+                image: article.image,
+                likes: article.likes,
+                views: article.views)
             cell.setup(with: viewModel)
             
             return cell
@@ -133,15 +123,17 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
         let presentPostViewController = FullPostView()
+        var article = newsArticles[indexPath.row]
+        let viewModel = FullPostView.ViewModel(
+            author: article.author,
+            description: article.description,
+            image: article.image,
+            likes: article.likes,
+            views: article.views)
         
-        let article = newsArticles[indexPath.row]
-        let viewModel = FullPostView.ViewModel(author: article.author, description: article.description, image: article.image, likes: String(article.likes), views: String(article.views))
         presentPostViewController.setup(with: viewModel)
-         // Создаем InfoViewController
-//        presentPostViewController.modalPresentationStyle = .automatic  //  должен показаться модально
-        self.view.addSubview(presentPostViewController)// Вызываем InfoViewController
+        self.view.addSubview(presentPostViewController)
        
         presentPostViewController.translatesAutoresizingMaskIntoConstraints = false
         
@@ -151,27 +143,27 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
             presentPostViewController.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             presentPostViewController.topAnchor.constraint(equalTo: view.topAnchor)
             ])
+        
+        article.views += 1
+        
+        tableView.reloadData()
     }
-    
 }
 
-extension ProfileViewController: ProfileHeaderViewProtocol {
+extension ProfileViewController: ProfileTableHeaderViewProtocol {
 
-    func buttonAction(inputTextIsVisible: Bool, completion: @escaping () -> Void) { // разширение разширения вью
-        self.heightConstraint?.constant = inputTextIsVisible ? 250 : 220
-
-        self.tableView.beginUpdates()
-        self.tableView.reloadSections(IndexSet(0..<1), with: .automatic)
+    func buttonAction(inputTextIsVisible: Bool, completion: @escaping () -> Void) {  self.tableView.beginUpdates()
+        self.isExpanded = !inputTextIsVisible // I-й способ
+        // self.height = inputTextIsVisible ? 266 : 236 // II-й способ
         self.tableView.endUpdates()
-        
-        UIView.animate(withDuration: 0.2, delay: 0.0) { // замедляем открытие/закрытие текстового поля
+        UIView.animate(withDuration: 0.2, delay: 0.0) {
             self.view.layoutIfNeeded()
         } completion: { _ in
             completion()
         }
     }
     
-    func delegateAction(cell: ProfileHeaderView) {
+    func delegateAction(cell: ProfileTableHeaderView) {
      
         let animatedAvatarViewController = AnimatedAvatarViewController()
         self.view.addSubview(animatedAvatarViewController.view)
@@ -194,4 +186,10 @@ extension ProfileViewController: PhotosTableViewCellProtocol { // переход
         let photosViewController = PhotosViewController()
         self.navigationController?.pushViewController(photosViewController, animated: true)
     }
+}
+
+extension ProfileViewController: PostTableViewCellProtocol {
+    func delegateLabelAction(cell: PostTableViewCell) {
+        
+    } 
 }

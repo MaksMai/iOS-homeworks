@@ -9,7 +9,8 @@ import UIKit
 
 class InfoViewController: UIViewController {
    
-    // MARK: Properties
+    // MARK: - PROPERTIES
+    
     private lazy var button: UIButton = { // Создаем Alert кнопку
         let button = UIButton()  // Кнопка
         button.backgroundColor = .red  // Цвет кнопки
@@ -23,7 +24,8 @@ class InfoViewController: UIViewController {
         return button
     }()
     
-    // MARK: - Lifecycle Methods
+    // MARK: - LIFECYCLE METHODS
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .opaqueSeparator // Задаем базовый цвет
@@ -31,7 +33,8 @@ class InfoViewController: UIViewController {
         setConstrains() // Добавляем констрейты к кнопке
     }
     
-    // MARK: Setup SubView
+    // MARK: - SETUP SUBVIEWS
+    
     func setConstrains() {  // Создаем констрейты к кнопке
         let buttonBottomAnchor = self.button.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -16) // низ
         let buttonLeadingAnchor = self.button.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20) // левый край

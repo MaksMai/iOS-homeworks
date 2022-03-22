@@ -9,12 +9,14 @@ import UIKit
 
 class PostViewController: UIViewController {
    
-    // MARK: Properties
+    // MARK: - PROPERTIES
+    
     var titlePost: String = "Anonymous" // Создаем переменную для смены заголовка
     
     private lazy var button: UIBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "info.circle"), style: .plain, target: self, action: #selector(clickButton)) // Создаем кнопку
 
-    // MARK: - Lifecycle Methods
+    // MARK: - LIFECYCLE METHODS
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .lightGray // Задаем базовый цвет
@@ -22,7 +24,8 @@ class PostViewController: UIViewController {
         self.navigationItem.rightBarButtonItem = button  // Добавляем кнопку
     }
   
-    // MARK: Setup SubView
+    // MARK: - SETUP SUBVIEWS
+    
     @objc private func clickButton() {  // Действие кнопки
         let infoViewController = InfoViewController()   // Создаем InfoViewController
         infoViewController.modalPresentationStyle = .automatic  //  должен показаться модально
