@@ -68,6 +68,7 @@ class LogInViewController: UIViewController {
         textField.leftViewMode = .always
         textField.clipsToBounds = true
         textField.placeholder = "E-mail of phone"
+        textField.delegate = self
         
         return textField
     }()
@@ -87,6 +88,7 @@ class LogInViewController: UIViewController {
         textField.leftViewMode = .always
         textField.clipsToBounds = true
         textField.placeholder = "Password"
+        textField.delegate = self
         
         return textField
     }()
@@ -120,7 +122,11 @@ class LogInViewController: UIViewController {
         setupView()
         setupConstraints()
         tapGesturt()
-        notifications()
+        registerNotification()
+    }
+    
+    deinit {
+        removeNotifications()
     }
     
     // MARK: - SETUP SUBVIEW
@@ -137,7 +143,7 @@ class LogInViewController: UIViewController {
         self.initStackView.addArrangedSubview(initButton)
     }
     
-    func setupConstraints() {  // Создаем констрейты к стаку
+    func setupConstraints() {
         let scrollViewTopConstraint = self.scrollView.topAnchor.constraint(equalTo: self.view.topAnchor)
         let scrollViewRightConstraint = self.scrollView.rightAnchor.constraint(equalTo: self.view.rightAnchor)
         let scrollViewBottomConstraint = self.scrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
@@ -169,36 +175,70 @@ class LogInViewController: UIViewController {
         ])
     }
     
-    @objc private func buttonAction() {
+    @objc private func buttonAction() { // BUTTON ACTION
         let controller = TabBarController()
         self.navigationController?.pushViewController(controller, animated: true)
     }
 }
+
+// MARK: EXTENSIONS
+extension LogInViewController: UITextFieldDelegate {
     
-    // MARK: EXTENSIONS
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        let nextField = (textField === loginTextField) ? passwordTextField : loginTextField
+        nextField.becomeFirstResponder()
+        
+        return true
+    }
+}
+
 extension LogInViewController { // KEYBOARD
     func tapGesturt() {
         let tapGesture = UITapGestureRecognizer(target: self.view, action: #selector(view.endEditing))
         self.view.addGestureRecognizer(tapGesture)
     }
     
-    @objc func keyboardWillShow(notification: NSNotification) {
-        guard let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else { return }
-        let contentInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: keyboardSize.height , right: 0.0)
-        scrollView.contentInset = contentInsets
-        scrollView.scrollIndicatorInsets = contentInsets
+    func registerNotification() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillShow(notification:)),
+                                               name: UIResponder.keyboardWillShowNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(keyboardWillHide),
+                                               name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
     }
     
-    @objc func keyboardWillHide(notification: NSNotification) { // сброс на 0 при скрытии клавы
-        let contentInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0)
-        scrollView.contentInset = contentInsets
-        scrollView.scrollIndicatorInsets = contentInsets
+    func removeNotifications() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(LogInViewController.keyboardWillShow),
+                                               name: UIResponder.keyboardWillShowNotification,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(LogInViewController.keyboardWillHide),
+                                               name: UIResponder.keyboardWillHideNotification,
+                                               object: nil)
     }
     
-    func notifications() {
-        NotificationCenter.default.addObserver(self, selector: #selector(LogInViewController.keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(LogInViewController.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    @objc private func keyboardWillShow(notification: Notification) {
+        
+        // I-й способ - подъем на высоту клавиатуры по правилам
+        // if let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+        //    let keyboardRectangle = keyboardFrame.cgRectValue
+        //    let keyboardHeight = keyboardRectangle.height
+        //    let contentOffset: CGPoint = notification.name ==
+        //    UIResponder.keyboardWillHideNotification
+        //    ? .zero
+        //    : CGPoint(x: 0, y: keyboardHeight)
+        //    scrollView.contentOffset = contentOffset
+        //}
+        
+        // II-й способ - подъем "топором"на высоту кнопки
+        scrollView.contentOffset = CGPoint(x: 0, y: 70)
     }
     
+    @objc private func keyboardWillHide() {
+        scrollView.contentOffset = CGPoint.zero
+    }
 }
 

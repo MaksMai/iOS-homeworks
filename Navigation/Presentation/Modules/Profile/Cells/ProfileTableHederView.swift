@@ -10,7 +10,7 @@ import UIKit
 class ProfileTableHederView: UITableViewHeaderFooterView, UITextFieldDelegate, UIGestureRecognizerDelegate {
     
     // MARK: - PROPERTIES
-    var statusText: String? = nil // переменная для хранения текста статуса
+    var statusText: String? // переменная для хранения текста статуса
     
     lazy var avatarImageView: UIImageView = {  // АВАТАРКА
         let imageView = UIImageView(image: UIImage(named: "myfoto.jpg"))

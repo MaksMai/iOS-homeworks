@@ -36,7 +36,8 @@ final class ProfileViewController: UIViewController {
         return tableView
     }()
     
-    var isExpanded: Bool = true
+    private var isExpanded: Bool = true // I-й способ измения высоты Header
+    private var height = 236 // II-й способ измения высоты Header
     
     // MARK: LIFECYCLE METHODS
     override func viewDidLoad() {
@@ -49,7 +50,7 @@ final class ProfileViewController: UIViewController {
         self.fetchArticles { [weak self] articles in
             self?.dataSource = articles
             DispatchQueue.main.async {
-                self!.tableView.reloadData()
+                self?.tableView.reloadData()
             }
         }
     }
@@ -107,7 +108,9 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        isExpanded ? 236 : 266
+        isExpanded ? 236 : 266 // I-й способ
+        // CGFloat(height) // II-й способ
+        
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -141,7 +144,8 @@ extension ProfileViewController: ProfileHeaderViewProtocol {
     
     func buttonAction(inputTextIsVisible: Bool, completion: @escaping () -> Void) {
         self.tableView.beginUpdates()
-        self.isExpanded = inputTextIsVisible ? false : true
+        self.isExpanded = !inputTextIsVisible // I-й способ
+        // self.height = inputTextIsVisible ? 266 : 236 // II-й способ
         self.tableView.endUpdates()
         UIView.animate(withDuration: 0.2, delay: 0.0) {
             self.view.layoutIfNeeded()
