@@ -9,7 +9,8 @@ import UIKit
 
 class PostViewController: UIViewController {
    
-    var titlePost: String = "Anonymous" // Сjздаем переменную для смены заголовка
+    var titlePost: String = "Anonymous" // Создаем переменную для смены заголовка
+
     private lazy var button: UIBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "info.circle"), style: .plain, target: self, action: #selector(clickButton)) // Создаем кнопку
 
     override func viewDidLoad() {
