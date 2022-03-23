@@ -66,7 +66,7 @@ class PostTableViewCell: UITableViewCell {
     private lazy var likeStackView: UIStackView = { // СТЭК ЛАЙКИ И ПРОСМОТРЫ
         let stackView = UIStackView()
         stackView.axis = .horizontal
-        stackView.distribution = .fill
+        stackView.distribution = .equalSpacing
         stackView.setContentCompressionResistancePriority(UILayoutPriority(1000), for: .vertical)
         stackView.translatesAutoresizingMaskIntoConstraints = false
         

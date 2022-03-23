@@ -23,14 +23,14 @@ final class ProfileViewController: UIViewController {
         tableView.register(ProfileTableHeaderView.self, forHeaderFooterViewReuseIdentifier: "TableHeder")
         tableView.rowHeight = UITableView.automaticDimension
         tableView.estimatedRowHeight = 44
-       
+        
         return tableView
     }()
-   
+    
     private var isExpanded: Bool = true // I-й способ измения высоты Header
     private var height = 236 // II-й способ измения высоты Header
-      
-      // MARK: - LIFECYCLE METHODS
+    
+    // MARK: - LIFECYCLE METHODS
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -58,7 +58,7 @@ final class ProfileViewController: UIViewController {
     }
 }
 
-    // MARK: - EXTENSIONS
+// MARK: - EXTENSIONS
 extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -69,7 +69,7 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if (section == 0) {
+        if section == 0 {
             return isExpanded ? 236 : 266 // I-й способ
             // CGFloat(height) // II-й способ
         } else {
@@ -123,35 +123,54 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let presentPostViewController = FullPostView()
-        var article = newsArticles[indexPath.row]
-        let viewModel = FullPostView.ViewModel(
-            author: article.author,
-            description: article.description,
-            image: article.image,
-            likes: article.likes,
-            views: article.views)
-        
-        presentPostViewController.setup(with: viewModel)
-        self.view.addSubview(presentPostViewController)
-       
-        presentPostViewController.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            presentPostViewController.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            presentPostViewController.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            presentPostViewController.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            presentPostViewController.topAnchor.constraint(equalTo: view.topAnchor)
+        if indexPath.section == 1 {
+            let presentPostViewController = FullPostView()
+            let article = newsArticles[indexPath.row]
+            let viewModel = FullPostView.ViewModel(
+                author: article.author,
+                description: article.description,
+                image: article.image,
+                likes: article.likes,
+                views: article.views)
+            
+            presentPostViewController.setup(with: viewModel)
+            self.view.addSubview(presentPostViewController)
+            
+            presentPostViewController.translatesAutoresizingMaskIntoConstraints = false
+            
+            NSLayoutConstraint.activate([
+                presentPostViewController.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                presentPostViewController.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                presentPostViewController.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+                presentPostViewController.topAnchor.constraint(equalTo: view.topAnchor)
             ])
-        
-        article.views += 1
-        
-        tableView.reloadData()
+            
+            // Увеличение количесва просмотров
+            let index = IndexPath(row: indexPath.row, section: 1)
+            newsArticles[indexPath.row].views += 1
+            self.tableView.reloadRows(at: [index], with: UITableView.RowAnimation.fade)
+        }
+    }
+    
+    // Удаление по свайпу
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+        if indexPath.section == 0 {
+            return UITableViewCell.EditingStyle.none
+        } else {
+            return UITableViewCell.EditingStyle.delete
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        self.tableView.beginUpdates()
+        newsArticles.remove(at: indexPath.row)
+        self.tableView.deleteRows(at: [indexPath], with: .automatic)
+        self.tableView.endUpdates()
     }
 }
 
 extension ProfileViewController: ProfileTableHeaderViewProtocol {
-
+    
     func buttonAction(inputTextIsVisible: Bool, completion: @escaping () -> Void) {  self.tableView.beginUpdates()
         self.isExpanded = !inputTextIsVisible // I-й способ
         // self.height = inputTextIsVisible ? 266 : 236 // II-й способ
@@ -164,7 +183,7 @@ extension ProfileViewController: ProfileTableHeaderViewProtocol {
     }
     
     func delegateAction(cell: ProfileTableHeaderView) {
-     
+        
         let animatedAvatarViewController = AnimatedAvatarViewController()
         self.view.addSubview(animatedAvatarViewController.view)
         self.addChild(animatedAvatarViewController)
@@ -175,8 +194,8 @@ extension ProfileViewController: ProfileTableHeaderViewProtocol {
             animatedAvatarViewController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             animatedAvatarViewController.view.topAnchor.constraint(equalTo: view.topAnchor),
             animatedAvatarViewController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-            ])
-
+        ])
+        
         animatedAvatarViewController.didMove(toParent: self)
     }
 }
@@ -190,6 +209,9 @@ extension ProfileViewController: PhotosTableViewCellProtocol { // переход
 
 extension ProfileViewController: PostTableViewCellProtocol {
     func delegateLabelAction(cell: PostTableViewCell) {
-        
-    } 
+        let indicator = self.tableView.indexPath(for: cell)?.row
+        let index = IndexPath(row: indicator ?? 0, section: 1)
+        newsArticles[indicator ?? 0].likes += 1
+        self.tableView.reloadRows(at: [index], with: UITableView.RowAnimation.fade)
+    }
 }
