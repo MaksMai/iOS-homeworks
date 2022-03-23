@@ -39,7 +39,7 @@ class PostTableViewCell: UITableViewCell {
         return label
     }()
     
-    private lazy var postImageView: UIImageView = { // фото поста
+    private lazy var postImageView: UIImageView = { // ФОТО
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.translatesAutoresizingMaskIntoConstraints = false

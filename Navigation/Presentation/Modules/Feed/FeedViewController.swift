@@ -59,6 +59,7 @@ class FeedViewController: UIViewController {
         self.navigationItem.title = "Лента"
        }
     
+
     func setButtonStackView() {  // Создаем констрейты к кнопке
         self.view.addSubview(self.buttonStackView)  // Добавляем стак
         self.buttonStackView.addArrangedSubview(firstButton)

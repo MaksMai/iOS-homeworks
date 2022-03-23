@@ -3,14 +3,13 @@
 //  Navigation
 //
 //  Created by Maksim Maiorov on 23.03.2022.
-//
 
 import UIKit
 
 class ProfileTableHederView: UITableViewHeaderFooterView, UITextFieldDelegate, UIGestureRecognizerDelegate {
     
     // MARK: - PROPERTIES
-    
+
     var statusText: String? // переменная для хранения текста статуса
     
     lazy var avatarImageView: UIImageView = {  // АВАТАРКА
@@ -101,7 +100,7 @@ class ProfileTableHederView: UITableViewHeaderFooterView, UITextFieldDelegate, U
     weak var delegate: ProfileHeaderViewProtocol? // ДЕЛЕГАТ НАЖАТИЯ КНОПКИ
     
     // MARK: LIFECYCLE METHODS
-    
+
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
         createSubviews()
@@ -113,6 +112,7 @@ class ProfileTableHederView: UITableViewHeaderFooterView, UITextFieldDelegate, U
     
     // MARK: - SETUP SUBVIEW
     
+
     func createSubviews() {
         self.addSubview(firstStackView)
         self.addSubview(statusTextField)

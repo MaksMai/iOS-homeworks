@@ -7,6 +7,7 @@
 
 import UIKit
 
+
 // MARK: - PROTOCOLS
 
 protocol ProfileHeaderViewProtocol: AnyObject { // расширение вью по нажатии кнопки - делегат
@@ -15,19 +16,23 @@ protocol ProfileHeaderViewProtocol: AnyObject { // расширение вью �
 
 final class ProfileViewController: UIViewController {
     
-    private var dataSource: [News.Article] = [] // получаем новости
+    // MARK: - PROPERTIES
+    private var dataSource: [News.Article] = [] // МАССИВ НОВОСТЕЙ
+
     
     private lazy var jsonDecoder: JSONDecoder = {
         return JSONDecoder()
     }()
     
-    private lazy var tableView: UITableView = { // создаем таблвью
+
+    private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.backgroundColor = .systemGray6
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "DefaultCell")
+
         tableView.register(PhotosTableViewCell.self, forCellReuseIdentifier: "PhotoCell")
         tableView.register(PostTableViewCell.self, forCellReuseIdentifier: "PostCell")
         tableView.register(ProfileTableHederView.self, forHeaderFooterViewReuseIdentifier: "TableHeder")
@@ -37,6 +42,7 @@ final class ProfileViewController: UIViewController {
         return tableView
     }()
     
+
     private var isExpanded: Bool = true
     
     // MARK: LIFECYCLE METHODS
@@ -63,8 +69,8 @@ final class ProfileViewController: UIViewController {
     }
     
     // MARK: - SETUP SUBVIEW
-    
-    private func setupTableView() { // констрейны к таблвью
+
+    private func setupTableView() {
         self.view.addSubview(self.tableView)
         
         let topConstraint = self.tableView.topAnchor.constraint(equalTo: self.view.topAnchor)
@@ -77,6 +83,7 @@ final class ProfileViewController: UIViewController {
         ])
     }
     
+
     // MARK: Data coder
     private func fetchArticles(completion: @escaping ([News.Article]) -> Void) { // получаем новости
         if let path = Bundle.main.path(forResource: "news", ofType: "json") {
@@ -111,6 +118,7 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+
         if section == 0 {
             
             return isExpanded ? 236 : 266
@@ -188,3 +196,4 @@ extension ProfileViewController: PhotosTableViewCellProtocol { // переход
         self.navigationController?.pushViewController(photosViewController, animated: true)
     }
 }
+
