@@ -2,14 +2,14 @@
 //  ProfileTableHederView.swift
 //  Navigation
 //
-//  Created by Maksim Maiorov on 21.03.2022.
-//
+//  Created by Maksim Maiorov on 23.03.2022.
 
 import UIKit
 
 class ProfileTableHederView: UITableViewHeaderFooterView, UITextFieldDelegate, UIGestureRecognizerDelegate {
     
     // MARK: - PROPERTIES
+
     var statusText: String? // переменная для хранения текста статуса
     
     lazy var avatarImageView: UIImageView = {  // АВАТАРКА
@@ -34,9 +34,9 @@ class ProfileTableHederView: UITableViewHeaderFooterView, UITextFieldDelegate, U
     }()
     
     private lazy var firstStackView: UIStackView = {  // СТЭК ТЕКСТОВЫХ МЕТОК
-        let stackView = UIStackView() // создаем стек
-        stackView.translatesAutoresizingMaskIntoConstraints = false // отключаем констрейны
-        stackView.axis = .horizontal // горизонтальный стек
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .horizontal
         stackView.spacing = 16
         
         return stackView
@@ -68,12 +68,9 @@ class ProfileTableHederView: UITableViewHeaderFooterView, UITextFieldDelegate, U
         textField.font = UIFont.systemFont(ofSize: 15.0)
         textField.layer.borderWidth = 1.0
         textField.layer.borderColor = UIColor.black.cgColor
-        textField.layer.cornerRadius = 12.0  // делаем скругление
+        textField.layer.cornerRadius = 12.0
         textField.placeholder = "Введите статус"
-        let leftView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 20.0, height: 2.0))
-        textField.leftView = leftView
-        textField.leftViewMode = .always
-        textField.clipsToBounds = true
+        textField.layer.sublayerTransform = CATransform3DMakeTranslation(20, 0, 0)
         
         return textField
     }()
@@ -103,6 +100,7 @@ class ProfileTableHederView: UITableViewHeaderFooterView, UITextFieldDelegate, U
     weak var delegate: ProfileHeaderViewProtocol? // ДЕЛЕГАТ НАЖАТИЯ КНОПКИ
     
     // MARK: LIFECYCLE METHODS
+
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
         createSubviews()
@@ -111,7 +109,10 @@ class ProfileTableHederView: UITableViewHeaderFooterView, UITextFieldDelegate, U
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
     // MARK: - SETUP SUBVIEW
+    
+
     func createSubviews() {
         self.addSubview(firstStackView)
         self.addSubview(statusTextField)
@@ -182,4 +183,3 @@ class ProfileTableHederView: UITableViewHeaderFooterView, UITextFieldDelegate, U
         print("Новый статус = \(status)")
     }
 }
-

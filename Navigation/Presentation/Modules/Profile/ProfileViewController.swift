@@ -8,7 +8,8 @@
 import UIKit
 
 
-    // MARK: - PROTOCOLS
+// MARK: - PROTOCOLS
+
 protocol ProfileHeaderViewProtocol: AnyObject { // расширение вью по нажатии кнопки - делегат
     func buttonAction(inputTextIsVisible: Bool, completion: @escaping () -> Void)
 }
@@ -17,11 +18,13 @@ final class ProfileViewController: UIViewController {
     
     // MARK: - PROPERTIES
     private var dataSource: [News.Article] = [] // МАССИВ НОВОСТЕЙ
+
     
     private lazy var jsonDecoder: JSONDecoder = {
         return JSONDecoder()
     }()
     
+
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.backgroundColor = .systemGray6
@@ -29,6 +32,8 @@ final class ProfileViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "DefaultCell")
+
+        tableView.register(PhotosTableViewCell.self, forCellReuseIdentifier: "PhotoCell")
         tableView.register(PostTableViewCell.self, forCellReuseIdentifier: "PostCell")
         tableView.register(ProfileTableHederView.self, forHeaderFooterViewReuseIdentifier: "TableHeder")
         tableView.rowHeight = UITableView.automaticDimension
@@ -37,10 +42,11 @@ final class ProfileViewController: UIViewController {
         return tableView
     }()
     
-    private var isExpanded: Bool = true // I-й способ измения высоты Header
-    private var height = 236 // II-й способ измения высоты Header
+
+    private var isExpanded: Bool = true
     
     // MARK: LIFECYCLE METHODS
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupTableView()
@@ -63,6 +69,7 @@ final class ProfileViewController: UIViewController {
     }
     
     // MARK: - SETUP SUBVIEW
+
     private func setupTableView() {
         self.view.addSubview(self.tableView)
         
@@ -76,12 +83,8 @@ final class ProfileViewController: UIViewController {
         ])
     }
     
-    func tapGesturt() { // метод скрытия клавиатуры при нажатии на экран
-        let tapGesture = UITapGestureRecognizer(target: self.view, action: #selector(view.endEditing))
-        self.view.addGestureRecognizer(tapGesture)
-    }
-    
-    // MARK: - Data coder
+
+    // MARK: Data coder
     private func fetchArticles(completion: @escaping ([News.Article]) -> Void) { // получаем новости
         if let path = Bundle.main.path(forResource: "news", ofType: "json") {
             do {
@@ -96,9 +99,15 @@ final class ProfileViewController: UIViewController {
             fatalError("Invalid filename/path.")
         }
     }
+    
+    func tapGesturt() { // метод скрытия клавиатуры при нажатии на экран
+        let tapGesture = UITapGestureRecognizer(target: self.view, action: #selector(view.endEditing))
+        self.view.addGestureRecognizer(tapGesture)
+    }
 }
 
-// MARK: EXTENSIONS
+    // MARK: - EXTENSIONS
+
 extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -109,44 +118,68 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        isExpanded ? 236 : 266 // I-й способ
-        // CGFloat(height) // II-й способ
-        
+
+        if section == 0 {
+            
+            return isExpanded ? 236 : 266
+        } else {
+            
+            return 0
+        }
     }
     
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int { // кол-во секций
         
-        return self.dataSource.count
+        return 2
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { // ячеек в секц
+        if section == 0 {
+            
+            return 1 // количество скролл вью
+        } else {
+            
+            return self.dataSource.count // количество постов новостей
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "PostCell", for: indexPath) as? PostTableViewCell else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath)
+        if indexPath.section == 0 { // коллекшинвью фотографий
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "PhotoCell", for: indexPath) as? PhotosTableViewCell else {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath)
+                
+                return cell
+            }
+            cell.delegate = self
+            cell.layer.shouldRasterize = true
+            cell.layer.rasterizationScale = UIScreen.main.scale
+            
+            return cell
+        } else { // посты новостей
+            guard let cell = tableView.dequeueReusableCell(withIdentifier: "PostCell", for: indexPath) as? PostTableViewCell else {
+                let cell = tableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath)
+                
+                return cell
+            }
+            let article = self.dataSource[indexPath.row]
+            let viewModel = PostTableViewCell.ViewModel(
+                author: article.author,
+                description: article.description,
+                image: article.image,
+                likes: article.likes,
+                views: article.views)
+            cell.setup(with: viewModel)
             
             return cell
         }
-        
-        let article = self.dataSource[indexPath.row]
-        let viewModel = PostTableViewCell.ViewModel(
-            author: article.author,
-            description: article.description,
-            image: article.image,
-            likes: article.likes,
-            views: article.views)
-        cell.setup(with: viewModel)
-        
-        return cell
     }
 }
 
-// MARK: EXTENSIONS
 extension ProfileViewController: ProfileHeaderViewProtocol {
     
     func buttonAction(inputTextIsVisible: Bool, completion: @escaping () -> Void) {
         self.tableView.beginUpdates()
-        self.isExpanded = !inputTextIsVisible // I-й способ
-        // self.height = inputTextIsVisible ? 266 : 236 // II-й способ
+        self.isExpanded = !inputTextIsVisible
         self.tableView.endUpdates()
         UIView.animate(withDuration: 0.2, delay: 0.0) {
             self.view.layoutIfNeeded()
@@ -155,3 +188,12 @@ extension ProfileViewController: ProfileHeaderViewProtocol {
         }
     }
 }
+
+extension ProfileViewController: PhotosTableViewCellProtocol { // переход в PhotosViewController
+    
+    func delegateButtonAction(cell: PhotosTableViewCell) {
+        let photosViewController = PhotosViewController()
+        self.navigationController?.pushViewController(photosViewController, animated: true)
+    }
+}
+

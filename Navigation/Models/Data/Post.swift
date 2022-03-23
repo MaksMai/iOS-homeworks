@@ -7,7 +7,6 @@
 
 import UIKit
 
-
 struct Post { // Создаем структуру Post
     var title: String
 }

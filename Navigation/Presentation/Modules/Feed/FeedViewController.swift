@@ -59,8 +59,9 @@ class FeedViewController: UIViewController {
         self.navigationItem.title = "Лента"
        }
     
-    func setButtonStackView() {
-        self.view.addSubview(self.buttonStackView)
+
+    func setButtonStackView() {  // Создаем констрейты к кнопке
+        self.view.addSubview(self.buttonStackView)  // Добавляем стак
         self.buttonStackView.addArrangedSubview(firstButton)
         self.buttonStackView.addArrangedSubview(secondButton)
         
@@ -77,9 +78,9 @@ class FeedViewController: UIViewController {
                                     ].compactMap( {$0} )) // Активация констрейнов
     }
     
-    @objc private func buttonAction() {
-        let viewController = PostViewController()
-        viewController.titlePost = post.title
-        self.navigationController?.pushViewController(viewController, animated: true)
+    @objc private func buttonAction() { // Делаем переход на PostViewController
+        let viewController = PostViewController()  // Создаем PostViewController
+        viewController.titlePost = post.title  // Передаем объект post в PostViewController
+        self.navigationController?.pushViewController(viewController, animated: true)    // Вызываем PostViewController
     }
 }

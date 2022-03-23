@@ -7,19 +7,19 @@
 
 import Foundation
 
-struct News: Decodable { // Создаем структуру Новостной ленты
+struct News: Decodable { // Создаем структуру Post
 
     struct Article: Decodable  {
-        let author: String
-        let description: String
-        let image: String
-        let likes: String
-        let views: String
+        var author: String
+        var description: String
+        var image: String
+        var likes: String
+        var views: String 
 
         enum CodingKeys: String, CodingKey {
             case author, description, image, likes, views
         }
     }
 
-    let articles: [Article] // массив статей  Новостной ленты
+    let articles: [Article] // массив статей
 }
