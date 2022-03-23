@@ -10,11 +10,11 @@ import Foundation
 struct News: Decodable { // Создаем структуру Post
 
     struct Article: Decodable  {
-        var author: String // никнейм автора публикации
-        var description: String // текст публикации
-        var image: String // имя картинки из каталога Assets.xcassets
-        var likes: String // количество лайков
-        var views: String // количество просмотров
+        var author: String
+        var description: String
+        var image: String
+        var likes: String
+        var views: String 
 
         enum CodingKeys: String, CodingKey {
             case author, description, image, likes, views

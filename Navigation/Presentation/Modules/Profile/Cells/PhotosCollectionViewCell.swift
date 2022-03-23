@@ -9,11 +9,11 @@ import UIKit
 
 class PhotosCollectionViewCell: UICollectionViewCell {
     
-    struct ViewModel: ViewModelProtocol {
-        var image: String // имя картинки из каталога Assets.xcassets
+    struct ViewModel: ViewModelProtocol { // МОДЕЛЬ
+        var image: String
     }
     
-    let photoView: UIImageView = {  // делаем фото
+    let photoView: UIImageView = {  // ФОТО
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.layer.cornerRadius = 6
@@ -54,9 +54,9 @@ class PhotosCollectionViewCell: UICollectionViewCell {
     }
 }
 
-extension PhotosCollectionViewCell: Setupable { // устанавливаем модель
+extension PhotosCollectionViewCell: Setupable { // МОДЕЛЬ
     
-    func setup(with viewModel: ViewModelProtocol) { // наполнение ячейки
+    func setup(with viewModel: ViewModelProtocol) {
         guard let viewModel = viewModel as? ViewModel else { return }
         self.photoView.image = UIImage(named: viewModel.image)
     }

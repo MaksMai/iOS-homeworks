@@ -7,9 +7,7 @@
 
 import Foundation
 
-// Хранилище фото машин
-
-let carImage: [Cars] = [
+let carImage: [Cars] = [ // Хранилище фото машин
     Cars(image: "5"),
     Cars(image: "6"),
     Cars(image: "7"),

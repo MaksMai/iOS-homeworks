@@ -21,7 +21,7 @@ class PhotosViewController: UIViewController {
         
         return layout
     }()
-
+    
     private lazy var photoCollectionView: UICollectionView = {  // Создаем  фото
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -75,8 +75,9 @@ class PhotosViewController: UIViewController {
 extension PhotosViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-           return 1
-       }
+        
+        return 1
+    }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
@@ -97,7 +98,7 @@ extension PhotosViewController: UICollectionViewDelegate, UICollectionViewDataSo
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize { // количество и размеры картинок
         let spacing = (collectionView.collectionViewLayout as? UICollectionViewFlowLayout)?.minimumLineSpacing
-
+        
         return self.itemSize(for: collectionView.frame.width, with: spacing ?? 0)
     }
     

@@ -129,7 +129,7 @@ class PhotosTableViewCell: UITableViewCell {
     }
     
     private func itemSize(for width: CGFloat, with spacing: CGFloat) -> CGSize { // размеры ячейки
-        let needWidth = width - 2 * spacing
+        let needWidth = width - 4 * spacing
         let itemWidth = floor(needWidth / Constant.itemCount)
         
         return CGSize(width: itemWidth, height: itemWidth)
@@ -146,11 +146,9 @@ extension PhotosTableViewCell: UICollectionViewDelegate, UICollectionViewDataSou
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PhotosCollection", for: indexPath) as! PhotosCollectionViewCell
         
-        DispatchQueue.main.async { // загружаем картинку вo вью картинок
             let car = carImage[indexPath.row]
             let viewModel = PhotosCollectionViewCell.ViewModel(image: car.image)
             cell.setup(with: viewModel)
-        }
         
         return cell
     }
