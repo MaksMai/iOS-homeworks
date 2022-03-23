@@ -7,6 +7,7 @@
 
 import UIKit
 
+
     // MARK: - PROTOCOLS
 protocol ProfileHeaderViewProtocol: AnyObject { // расширение вью по нажатии кнопки - делегат
     func buttonAction(inputTextIsVisible: Bool, completion: @escaping () -> Void)
