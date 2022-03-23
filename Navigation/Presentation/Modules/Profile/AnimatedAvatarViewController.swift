@@ -9,34 +9,37 @@ import UIKit
 
 class AnimatedAvatarViewController: UIViewController {
     
-    private lazy var avatarImage: UIImageView = {  // расширяющийся аватар
-        let imageView = UIImageView(image: UIImage(named: "myfoto.jpg")) // подгружаем картинку
-        imageView.translatesAutoresizingMaskIntoConstraints = false // отключаем AutoresizingMask
-        imageView.layer.borderWidth = 3.0 // делаем рамку-обводку
-        imageView.layer.borderColor = UIColor.white.cgColor // устанавливаем цвет рамке
-        imageView.layer.cornerRadius = 70.0 // делаем скругление - превращием квадрат в круг
-        imageView.clipsToBounds = true // устанавливаем вид в границах рамки
+    // MARK: - PROPERTIES
+    
+    private lazy var avatarImage: UIImageView = { // АВАТАР
+        let imageView = UIImageView(image: UIImage(named: "myfoto.jpg"))
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.layer.borderWidth = 3.0
+        imageView.layer.borderColor = UIColor.white.cgColor
+        imageView.layer.cornerRadius = 70.0
+        imageView.clipsToBounds = true
         
         return imageView
     }()
     
-    private var widthAvatarImage: NSLayoutConstraint? // размеры аватара
+    private var widthAvatarImage: NSLayoutConstraint?
     private var heightAvatarImage: NSLayoutConstraint?
-    private var positionXAvatarImage: NSLayoutConstraint? // позиция аватвра
+    private var positionXAvatarImage: NSLayoutConstraint?
     private var positionYAvatarImage: NSLayoutConstraint?
     
-    private lazy var transitionButton: UIButton = {  // Создаем кнопку перехода
+    private lazy var transitionButton: UIButton = { // КНОПКА ВОЗВРАТА
         let button = UIButton()
         let image = UIImage(named: "cancel")
         button.setBackgroundImage(image, for: .normal)
         button.addTarget(self, action: #selector(clickButton), for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
-
         button.alpha = 0.0
         
         return button
     }()
-  
+    
+    // MARK: LIFECYCLE METHODS
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .black.withAlphaComponent(0.0)
@@ -45,7 +48,9 @@ class AnimatedAvatarViewController: UIViewController {
         moveIn()
     }
     
-    private func setupSubView() {  // Создаем констрейты
+    // MARK: - SETUP SUBVIEW
+    
+    private func setupSubView() {
         self.view.addSubview(avatarImage)
         self.view.addSubview(transitionButton)
         
@@ -60,15 +65,20 @@ class AnimatedAvatarViewController: UIViewController {
         let buttonWidthConstraint = self.transitionButton.widthAnchor.constraint(equalToConstant: 40)
         
         NSLayoutConstraint.activate([
-            self.widthAvatarImage, self.heightAvatarImage, self.positionXAvatarImage, self.positionYAvatarImage,
-            buttonTopConstrain, buttonTrailingConstraint, buttonHeightConstraint, buttonWidthConstraint
+            self.widthAvatarImage, self.heightAvatarImage,
+            self.positionXAvatarImage, self.positionYAvatarImage,
+            buttonTopConstrain, buttonTrailingConstraint,
+            buttonHeightConstraint, buttonWidthConstraint
         ].compactMap( {$0} ))
     }
     
     private func moveIn() {
         NSLayoutConstraint.deactivate([
-           self.positionXAvatarImage, self.positionYAvatarImage, self.widthAvatarImage, self.heightAvatarImage
+            self.positionXAvatarImage, self.positionYAvatarImage,
+            self.widthAvatarImage, self.heightAvatarImage
         ].compactMap( {$0} ))
+        
+        self.avatarImage.layer.cornerRadius = self.avatarImage.frame.height / 2
         
         self.widthAvatarImage = self.avatarImage.widthAnchor.constraint(equalTo: self.view.widthAnchor)
         self.heightAvatarImage = self.avatarImage.heightAnchor.constraint(equalTo: self.view.widthAnchor)
@@ -77,31 +87,34 @@ class AnimatedAvatarViewController: UIViewController {
         
         UIView.animate(withDuration: 1, animations: { // замедляем открытие/закрытие текстового поля
             NSLayoutConstraint.activate([
-               self.positionXAvatarImage, self.positionYAvatarImage, self.widthAvatarImage, self.heightAvatarImage
+                self.positionXAvatarImage, self.positionYAvatarImage,
+                self.widthAvatarImage, self.heightAvatarImage
             ].compactMap( {$0} ))
             self.avatarImage.layer.cornerRadius = 0.0
             self.view.backgroundColor = .black.withAlphaComponent(0.8)
             self.view.layoutIfNeeded()
         }) { _ in
             UIView.animate(withDuration: 0.25) {
-            self.transitionButton.alpha = 1
+                self.transitionButton.alpha = 1
             }
         }
     }
     
     func moveOut() {
         NSLayoutConstraint.deactivate([
-            self.positionXAvatarImage, self.positionYAvatarImage, self.widthAvatarImage, self.heightAvatarImage
+            self.positionXAvatarImage, self.positionYAvatarImage,
+            self.widthAvatarImage, self.heightAvatarImage
         ].compactMap( {$0} ))
         
         self.widthAvatarImage = self.avatarImage.widthAnchor.constraint(equalToConstant: 138)
         self.heightAvatarImage = self.avatarImage.heightAnchor.constraint(equalToConstant: 138)
-        self.positionXAvatarImage = self.avatarImage.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 16)
-        self.positionYAvatarImage = self.avatarImage.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 16)
+        self.positionXAvatarImage = self.avatarImage.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 16)
+        self.positionYAvatarImage = self.avatarImage.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 16)
         
         UIView.animate(withDuration: 1, animations: {
             NSLayoutConstraint.activate([
-                self.positionXAvatarImage, self.positionYAvatarImage, self.widthAvatarImage, self.heightAvatarImage
+                self.positionXAvatarImage, self.positionYAvatarImage,
+                self.widthAvatarImage, self.heightAvatarImage
             ].compactMap( {$0} ))
             self.avatarImage.layer.cornerRadius = 70.0
             self.view.backgroundColor = .black.withAlphaComponent(0.8)
@@ -112,7 +125,7 @@ class AnimatedAvatarViewController: UIViewController {
         }
     }
     
-      @objc private func clickButton() {  // возвращение к родительскому ViewController
-          moveOut()
-      }
+    @objc private func clickButton() {  // возвращение к родительскому ViewController
+        moveOut()
+    }
 }

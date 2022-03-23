@@ -7,9 +7,13 @@
 
 import UIKit
 
+// MARK: - PROTOCOLS
+
 protocol PhotosTableViewCellProtocol: AnyObject { // протокол делегата управления кнопкой
     func delegateButtonAction(cell: PhotosTableViewCell)
 }
+
+// MARK: - PROPERTIES
 
 class PhotosTableViewCell: UITableViewCell {
     
@@ -63,7 +67,7 @@ class PhotosTableViewCell: UITableViewCell {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.minimumInteritemSpacing = 8
-    
+        
         return layout
     }()
     
@@ -78,6 +82,8 @@ class PhotosTableViewCell: UITableViewCell {
         return collectionView
     }()
     
+    // MARK: LIFECYCLE METHODS
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupView() // устанавливаем интерфейс
@@ -87,7 +93,9 @@ class PhotosTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setupView() { // устанавливаем интерфейс
+    // MARK: - SETUP SUBVIEW
+    
+    private func setupView() { 
         self.backgroundColor = .systemGray6
         self.contentView.addSubview(self.backView)
         self.backView.addSubview(self.stackView)
@@ -96,6 +104,8 @@ class PhotosTableViewCell: UITableViewCell {
         self.backView.addSubview(photoCollectionView)
         setupConstraints()
     }
+    
+    // MARK: - SETUP SUBVIEW
     
     private func setupConstraints() {
         let topConstraint = self.backView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 16)
@@ -135,6 +145,8 @@ class PhotosTableViewCell: UITableViewCell {
         return CGSize(width: itemWidth, height: itemWidth)
     }
 }
+
+// MARK: - EXTENSIONS
 
 extension PhotosTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource {
     

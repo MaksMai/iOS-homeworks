@@ -9,6 +9,8 @@ import UIKit
 
 class PhotosViewController: UIViewController {
     
+    // MARK: - PROPERTIES
+    
     private enum Constant { // количество ячеек в коллекшин вью
         static let itemCount: CGFloat = 3
     }
@@ -33,7 +35,7 @@ class PhotosViewController: UIViewController {
         return collectionView
     }()
     
-    // MARK: - Lifecycle Methods
+    // MARK: LIFECYCLE METHODS
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,7 +72,7 @@ class PhotosViewController: UIViewController {
     }
 }
 
-// MARK: - Extension  UICollectionView Data Source
+    // MARK: - Extension  UICollectionView Data Source
 
 extension PhotosViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     

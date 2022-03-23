@@ -9,11 +9,13 @@ import UIKit
 
 class PhotosCollectionViewCell: UICollectionViewCell {
     
-    struct ViewModel: ViewModelProtocol {
-        var image: String // имя картинки из каталога Assets.xcassets
+    // MARK: - PROPERTIES
+    
+    struct ViewModel: ViewModelProtocol { // МОДЕЛЬ
+        var image: String
     }
     
-    let photoView: UIImageView = {  // делаем фото
+    let photoView: UIImageView = {  // ФОТО
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.layer.cornerRadius = 6
@@ -22,6 +24,8 @@ class PhotosCollectionViewCell: UICollectionViewCell {
         imageView.contentMode = .scaleAspectFill
         return imageView
     }()
+    
+    // MARK: LIFECYCLE METHODS
     
     override init(frame: CGRect) {
         super .init(frame: frame)
@@ -37,6 +41,8 @@ class PhotosCollectionViewCell: UICollectionViewCell {
         setupConstraints()
     }
     
+    // MARK: - SETUP SUBVIEW
+    
     override func prepareForReuse() { // обнуление информации в ячейках
         super.prepareForReuse()
         self.photoView.image = nil
@@ -47,16 +53,18 @@ class PhotosCollectionViewCell: UICollectionViewCell {
         let leadingConstraint = self.photoView.leadingAnchor.constraint(equalTo: self.leadingAnchor)
         let trailingConstraint = self.photoView.trailingAnchor.constraint(equalTo: self.trailingAnchor)
         let bottomConstraint = self.photoView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
-       
+        
         NSLayoutConstraint.activate([
             topConstraint, leadingConstraint, bottomConstraint, trailingConstraint
-            ])
+        ])
     }
 }
 
-extension PhotosCollectionViewCell: Setupable { // устанавливаем модель
+// MARK: - EXTENSIONS
+
+extension PhotosCollectionViewCell: Setupable { // МОДЕЛЬ
     
-    func setup(with viewModel: ViewModelProtocol) { // наполнение ячейки
+    func setup(with viewModel: ViewModelProtocol) {
         guard let viewModel = viewModel as? ViewModel else { return }
         self.photoView.image = UIImage(named: viewModel.image)
     }
