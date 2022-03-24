@@ -9,6 +9,8 @@ import UIKit
 
 class PhotosCollectionViewCell: UICollectionViewCell {
     
+    // MARK: - PROPERTIES
+    
     struct ViewModel: ViewModelProtocol { // МОДЕЛЬ
         var image: String
     }
@@ -22,6 +24,8 @@ class PhotosCollectionViewCell: UICollectionViewCell {
         imageView.contentMode = .scaleAspectFill
         return imageView
     }()
+    
+    // MARK: LIFECYCLE METHODS
     
     override init(frame: CGRect) {
         super .init(frame: frame)
@@ -37,6 +41,8 @@ class PhotosCollectionViewCell: UICollectionViewCell {
         setupConstraints()
     }
     
+    // MARK: - SETUP SUBVIEW
+    
     override func prepareForReuse() { // обнуление информации в ячейках
         super.prepareForReuse()
         self.photoView.image = nil
@@ -47,12 +53,14 @@ class PhotosCollectionViewCell: UICollectionViewCell {
         let leadingConstraint = self.photoView.leadingAnchor.constraint(equalTo: self.leadingAnchor)
         let trailingConstraint = self.photoView.trailingAnchor.constraint(equalTo: self.trailingAnchor)
         let bottomConstraint = self.photoView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
-       
+        
         NSLayoutConstraint.activate([
             topConstraint, leadingConstraint, bottomConstraint, trailingConstraint
-            ])
+        ])
     }
 }
+
+// MARK: - EXTENSIONS
 
 extension PhotosCollectionViewCell: Setupable { // МОДЕЛЬ
     

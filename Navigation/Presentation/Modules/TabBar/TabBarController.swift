@@ -10,8 +10,7 @@ import UIKit
 // I-й способ !!! с использованием TabBarController
 
 final class TabBarController: UITabBarController {
-    
-    // MARK: - PROPERTIES
+  
     private enum TabBarItem: Int {  // Инкапсулируем имена и иконки
         case feed
         case profile
@@ -35,13 +34,11 @@ final class TabBarController: UITabBarController {
         }
     }
     
-    // MARK: LIFECYCLE METHODS
     override func viewDidLoad() {
         super.viewDidLoad()
         self.setupTabBar()  // Загружаем TabBarController
     }
    
-    // MARK: - SETUP SUBVIEW
     private func setupTabBar() { // Метод добавления NavigationController в TabBarController
         
         let dataSource: [TabBarItem] = [.feed, .profile]  // Добавляем навигационные контроллеры в массив панели вкладок
@@ -52,7 +49,8 @@ final class TabBarController: UITabBarController {
                 let feedViewController = FeedViewController()   // Инициализируем панель вкладок
                 return UINavigationController(rootViewController: feedViewController) // возвращаем пользовательский интерфейса
             case .profile:
-                let changeViewController = ProfileViewController()
+                let changeViewController = ProfileViewController() // LogInViewController()
+
                 return UINavigationController(rootViewController: changeViewController)
             }
         }

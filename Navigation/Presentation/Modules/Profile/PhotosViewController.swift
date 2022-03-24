@@ -9,6 +9,8 @@ import UIKit
 
 class PhotosViewController: UIViewController {
     
+    // MARK: - PROPERTIES
+    
     private enum Constant { // количество ячеек в коллекшин вью
         static let itemCount: CGFloat = 3
     }
@@ -21,7 +23,7 @@ class PhotosViewController: UIViewController {
         
         return layout
     }()
-    
+
     private lazy var photoCollectionView: UICollectionView = {  // Создаем  фото
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -33,7 +35,7 @@ class PhotosViewController: UIViewController {
         return collectionView
     }()
     
-    // MARK: - Lifecycle Methods
+    // MARK: LIFECYCLE METHODS
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -70,14 +72,14 @@ class PhotosViewController: UIViewController {
     }
 }
 
-// MARK: - Extension UICollectionView Data Source
+    // MARK: - Extension  UICollectionView Data Source
 
 extension PhotosViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        
-        return 1
-    }
+
+           return 1
+       }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
@@ -87,18 +89,16 @@ extension PhotosViewController: UICollectionViewDelegate, UICollectionViewDataSo
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PhotosCollection", for: indexPath) as! PhotosCollectionViewCell
         
-        DispatchQueue.main.async { // загружаем картинку вo вью картинок
             let car = carImage[indexPath.row]
             let viewModel = PhotosCollectionViewCell.ViewModel(image: car.image)
             cell.setup(with: viewModel)
-        }
         
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize { // количество и размеры картинок
         let spacing = (collectionView.collectionViewLayout as? UICollectionViewFlowLayout)?.minimumLineSpacing
-        
+
         return self.itemSize(for: collectionView.frame.width, with: spacing ?? 0)
     }
     

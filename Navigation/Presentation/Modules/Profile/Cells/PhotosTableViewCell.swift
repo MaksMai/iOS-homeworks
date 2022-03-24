@@ -7,9 +7,13 @@
 
 import UIKit
 
+// MARK: - PROTOCOLS
+
 protocol PhotosTableViewCellProtocol: AnyObject { // протокол делегата управления кнопкой
     func delegateButtonAction(cell: PhotosTableViewCell)
 }
+
+// MARK: - PROPERTIES
 
 class PhotosTableViewCell: UITableViewCell {
     
@@ -49,21 +53,21 @@ class PhotosTableViewCell: UITableViewCell {
     }()
     
     private lazy var transitionButton: UIButton = {  // Создаем кнопку перехода
-           let button = UIButton()
-           let image = UIImage(named: "arrow")
-           button.setBackgroundImage(image, for: .normal)
-           button.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
-           button.translatesAutoresizingMaskIntoConstraints = false // Отключаем AutoresizingMask
-           button.setContentCompressionResistancePriority(UILayoutPriority(250), for: .horizontal)
-           
-           return button
-       }()
+        let button = UIButton()
+        let image = UIImage(named: "arrow")
+        button.setBackgroundImage(image, for: .normal)
+        button.addTarget(self, action: #selector(buttonAction), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false // Отключаем AutoresizingMask
+        button.setContentCompressionResistancePriority(UILayoutPriority(250), for: .horizontal)
+        
+        return button
+    }()
     
     private lazy var layout: UICollectionViewFlowLayout = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.minimumInteritemSpacing = 8
-    
+
         return layout
     }()
     
@@ -78,6 +82,8 @@ class PhotosTableViewCell: UITableViewCell {
         return collectionView
     }()
     
+    // MARK: LIFECYCLE METHODS
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupView() // устанавливаем интерфейс
@@ -87,7 +93,9 @@ class PhotosTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setupView() { // устанавливаем интерфейс
+    // MARK: - SETUP SUBVIEW
+    
+    private func setupView() { 
         self.backgroundColor = .systemGray6
         self.contentView.addSubview(self.backView)
         self.backView.addSubview(self.stackView)
@@ -97,11 +105,13 @@ class PhotosTableViewCell: UITableViewCell {
         setupConstraints()
     }
     
+    // MARK: - SETUP SUBVIEW
+    
     private func setupConstraints() {
-        let topConstraint = self.backView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 16)
+        let topConstraint = self.backView.topAnchor.constraint(equalTo: self.contentView.topAnchor)
         let leadingConstraint = self.backView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor)
         let trailingConstraint = self.backView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor)
-        let bottomConstraint = self.backView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -16)
+        let bottomConstraint = self.backView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor)
         
         let stackViewTopConstraint = self.stackView.topAnchor.constraint(equalTo: self.backView.topAnchor, constant: 12)
         let stackViewLeadingConstraint = self.stackView.leadingAnchor.constraint(equalTo: self.backView.leadingAnchor, constant: 12)
@@ -135,6 +145,8 @@ class PhotosTableViewCell: UITableViewCell {
         return CGSize(width: itemWidth, height: itemWidth)
     }
 }
+
+// MARK: - EXTENSIONS
 
 extension PhotosTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource {
     

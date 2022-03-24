@@ -3,13 +3,22 @@
 //  Navigation
 //
 //  Created by Maksim Maiorov on 23.03.2022.
+//
 
 import UIKit
 
-class ProfileTableHederView: UITableViewHeaderFooterView, UITextFieldDelegate, UIGestureRecognizerDelegate {
+    // MARK: - PROTOCOLS
+
+protocol ProfileTableHeaderViewProtocol: AnyObject {
+    func buttonAction(inputTextIsVisible: Bool, completion: @escaping () -> Void) // TEXTFIELD ISHIDDEN
+    
+    func delegateAction(cell: ProfileTableHeaderView) // ПРИКОСНОВЕНИЕ К АВАТАР
+}
+
+class ProfileTableHeaderView: UITableViewHeaderFooterView {
     
     // MARK: - PROPERTIES
-
+    
     var statusText: String? // переменная для хранения текста статуса
     
     lazy var avatarImageView: UIImageView = {  // АВАТАРКА
@@ -34,9 +43,9 @@ class ProfileTableHederView: UITableViewHeaderFooterView, UITextFieldDelegate, U
     }()
     
     private lazy var firstStackView: UIStackView = {  // СТЭК ТЕКСТОВЫХ МЕТОК
-        let stackView = UIStackView()
-        stackView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.axis = .horizontal
+        let stackView = UIStackView() // создаем стек
+        stackView.translatesAutoresizingMaskIntoConstraints = false // отключаем констрейны
+        stackView.axis = .horizontal // горизонтальный стек
         stackView.spacing = 16
         
         return stackView
@@ -68,9 +77,13 @@ class ProfileTableHederView: UITableViewHeaderFooterView, UITextFieldDelegate, U
         textField.font = UIFont.systemFont(ofSize: 15.0)
         textField.layer.borderWidth = 1.0
         textField.layer.borderColor = UIColor.black.cgColor
-        textField.layer.cornerRadius = 12.0
+        textField.layer.cornerRadius = 12.0  // делаем скругление
         textField.placeholder = "Введите статус"
-        textField.layer.sublayerTransform = CATransform3DMakeTranslation(20, 0, 0)
+        let leftView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 20.0, height: 2.0))
+        textField.leftView = leftView
+        textField.leftViewMode = .always
+        textField.clipsToBounds = true
+        textField.delegate = self
         
         return textField
     }()
@@ -97,10 +110,12 @@ class ProfileTableHederView: UITableViewHeaderFooterView, UITextFieldDelegate, U
     
     private var buttonTopConstrain: NSLayoutConstraint?
     
-    weak var delegate: ProfileHeaderViewProtocol? // ДЕЛЕГАТ НАЖАТИЯ КНОПКИ
+    weak var delegate: ProfileTableHeaderViewProtocol? // ДЕЛЕГАТ НАЖАТИЯ
     
-    // MARK: LIFECYCLE METHODS
-
+    private var tapGestureRecognizer = UITapGestureRecognizer() // НАЖАТИЕ НА АВАТАР
+    
+    // MARK: - LIFECYCLE METHODS
+    
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
         createSubviews()
@@ -112,7 +127,6 @@ class ProfileTableHederView: UITableViewHeaderFooterView, UITextFieldDelegate, U
     
     // MARK: - SETUP SUBVIEW
     
-
     func createSubviews() {
         self.addSubview(firstStackView)
         self.addSubview(statusTextField)
@@ -121,12 +135,12 @@ class ProfileTableHederView: UITableViewHeaderFooterView, UITextFieldDelegate, U
         self.firstStackView.addArrangedSubview(labelStackView)
         self.labelStackView.addArrangedSubview(fullNameLabel)
         self.labelStackView.addArrangedSubview(statusLabel)
-        self.statusTextField.delegate = self
         setupConstraints()
+        setupTapGesture()
     }
     
     func setupConstraints() {
-        let firstStackViewTopConstraint = self.firstStackView.topAnchor.constraint(equalTo: self.topAnchor, constant: 16)
+        let firstStackViewTopConstraint = self.firstStackView.topAnchor.constraint(equalTo: self.topAnchor)
         let firstStackViewLeadingConstraint = self.firstStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16)
         let firstStackViewTrailingConstraint = self.firstStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16)
         let avatarImageViewRatioConstraint = self.avatarImageView.heightAnchor.constraint(equalTo: self.avatarImageView.widthAnchor, multiplier: 1.0)
@@ -145,12 +159,7 @@ class ProfileTableHederView: UITableViewHeaderFooterView, UITextFieldDelegate, U
         ].compactMap( {$0} ))
     }
     
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        self.endEditing(true)
-        return false
-    }
-    
-    @objc func buttonAction() {
+    @objc func buttonAction() { // ДЕЙСТВИЕ КНОПКИ
         let topConstrain = self.statusTextField.topAnchor.constraint(equalTo: self.firstStackView.bottomAnchor, constant: -10)
         let leadingConstrain = self.statusTextField.leadingAnchor.constraint(equalTo: self.labelStackView.leadingAnchor)
         let trailingConstrain = self.statusTextField.trailingAnchor.constraint(equalTo: self.firstStackView.trailingAnchor)
@@ -162,10 +171,13 @@ class ProfileTableHederView: UITableViewHeaderFooterView, UITextFieldDelegate, U
             statusTextField.text = nil
             setStatusButton.setTitle("Set status", for: .normal)
             self.buttonTopConstrain?.isActive = false
-            NSLayoutConstraint.activate([topConstrain, leadingConstrain, trailingConstrain, textHeight, buttonTopConstrain].compactMap( {$0} ))
+            NSLayoutConstraint.activate(
+                [topConstrain, leadingConstrain, trailingConstrain,
+                 textHeight, buttonTopConstrain]
+                    .compactMap( {$0} ))
             statusTextField.becomeFirstResponder()
         } else {
-            statusText = statusTextField.text! // Меняем текст
+            statusText = statusTextField.text!
             statusLabel.text = "\(statusText ?? "")"
             setStatusButton.setTitle("Show status", for: .normal)
             self.statusTextField.removeFromSuperview()
@@ -181,5 +193,28 @@ class ProfileTableHederView: UITableViewHeaderFooterView, UITextFieldDelegate, U
     @objc func statusTextChanged(_ textField: UITextField) {
         let status: String = textField.text ?? ""
         print("Новый статус = \(status)")
+    }
+}
+
+    // MARK: - EXTENSIONS
+extension ProfileTableHeaderView: UITextFieldDelegate {
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool { // СПРЯТАТЬ КЛАВИАТУРУ ПО RETURN
+        self.endEditing(true)
+        return false
+    }
+}
+
+extension ProfileTableHeaderView: UIGestureRecognizerDelegate { // ПРИКОСНОВЕНИЕ К АВАТАР
+    
+    private func setupTapGesture() {
+        self.tapGestureRecognizer.addTarget(self, action: #selector(self.handleTapGesture(_:)))
+        self.avatarImageView.addGestureRecognizer(self.tapGestureRecognizer)
+        self.avatarImageView.isUserInteractionEnabled = true
+    }
+    
+    @objc func handleTapGesture(_ gestureRecognizer: UITapGestureRecognizer) {
+        guard self.tapGestureRecognizer === gestureRecognizer else { return }
+        delegate?.delegateAction(cell: self)
     }
 }
