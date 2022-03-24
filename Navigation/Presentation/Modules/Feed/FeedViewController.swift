@@ -81,5 +81,4 @@ class FeedViewController: UIViewController {
         let postViewController = PostViewController()  // Создаем PostViewController
         postViewController.titlePost = post.title  // Передаем объект post в PostViewController
         self.navigationController?.pushViewController(postViewController, animated: true)    // Вызываем PostViewController
-    }
 }

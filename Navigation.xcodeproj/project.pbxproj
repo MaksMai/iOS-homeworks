@@ -170,6 +170,33 @@
 			path = Navigation;
 			sourceTree = "<group>";
 		};
+		6DBF764A27EB8DA8003FFFF2 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				6DE9982D27C5125300DD4031 /* LogInViewController.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		6DE961D627C79EC4001A7E99 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				6D490F4D27C8CE3A00D3EDE1 /* PostTableViewCell.swift */,
+				6D7B48A027CCEF2B00749EEB /* PhotosTableViewCell.swift */,
+				6DAF5B7627CE1707008FD199 /* PhotosCollectionViewCell.swift */,
+				6DBF764B27EB8FB6003FFFF2 /* ProfileTableHederView.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		6DE961D927C7A5E6001A7E99 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				6DE961DA27C7A606001A7E99 /* Setupable.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
