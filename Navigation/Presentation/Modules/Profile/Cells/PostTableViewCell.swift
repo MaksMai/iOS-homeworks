@@ -7,8 +7,10 @@
 
 import UIKit
 
-    // MARK: - PROTOCOLS
-protocol PostTableViewCellProtocol: AnyObject { // ЛАЙК
+// MARK: - PROTOCOLS
+
+protocol PostTableViewCellProtocol: AnyObject {
+//    func updateViews(at: IndexPath, with: News, cell: PostTableViewCell)
     func delegateLabelAction(cell: PostTableViewCell)
 }
 
@@ -16,7 +18,9 @@ class PostTableViewCell: UITableViewCell {
     
     // MARK: - PROPERTIES
     
-    weak var delegate: PostTableViewCellProtocol? // ЛАЙК
+    weak var delegate: PostTableViewCellProtocol? // DELEGAT
+    
+    private var tapGestureRecognizer = UITapGestureRecognizer() // НАЖАТИЕ
     
     struct ViewModel: ViewModelProtocol { // МОДЕЛЬ ДАННЫХ ПОСТА
         var author: String
@@ -103,7 +107,6 @@ class PostTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.setupView()
-        self.setupLabelTap()
     }
     
     required init?(coder: NSCoder) {
@@ -121,7 +124,7 @@ class PostTableViewCell: UITableViewCell {
     
     // MARK: - SETUP SUBVIEWS
     
-    private func setupView() { // устанавливаем интерфейс
+    private func setupView() {
         self.contentView.addSubview(self.authorLabel)
         self.contentView.addSubview(self.postImageView)
         self.contentView.addSubview(self.descriptionLabel)
@@ -129,9 +132,10 @@ class PostTableViewCell: UITableViewCell {
         self.likeStackView.addArrangedSubview(self.likeTitle)
         self.likeStackView.addArrangedSubview(self.viewTitle)
         setupConstraints()
+        setupGesture()
     }
     
-    private func setupConstraints() { // констрейны
+    private func setupConstraints() {
         let topConstraintAuthorLabel = self.authorLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 16)
         let leadingConstraintAuthorLabel = self.authorLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 16)
         let trailingConstraintAuthorLabel = self.authorLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -16)
@@ -159,7 +163,7 @@ class PostTableViewCell: UITableViewCell {
     }
 }
 
-    // MARK: - EXTENSIONS
+// MARK: - EXTENSIONS
 
 extension PostTableViewCell: Setupable { // СОЗДАЕМ МОДЕЛЬ ДАННЫХ
     
@@ -174,16 +178,38 @@ extension PostTableViewCell: Setupable { // СОЗДАЕМ МОДЕЛЬ ДАНН
     }
 }
 
-extension PostTableViewCell { // НАЖАТИЕ НА ЛАЙК
+extension PostTableViewCell { // TAP
     
-    @objc func labelTapped(_ sender: UITapGestureRecognizer) {
+//    private func setupTapGesture() {
+//        self.tapGestureRecognizer.addTarget(self, action: #selector(self.handleTapGesture(_:)))
+//        self.postImageView.addGestureRecognizer(self.tapGestureRecognizer)
+//        self.postImageView.isUserInteractionEnabled = true
+//    }
+//
+//    @objc func handleTapGesture(_ gestureRecognizer: UITapGestureRecognizer) {
+//        guard self.tapGestureRecognizer === gestureRecognizer else { return }
+//
+//        guard var news = self.news,
+//              let indexPath = self.indexPath
+//        else { return }
+//
+//        news.views += 1
+//
+//        self.viewTitle.text = "Views: \(news.views)"
+//        let newModel = News(author: news.author, description: news.description, image: news.image, likes: news.views, views: news.views)
+//
+//        delegate?.updateViews(at: indexPath, with: newModel, cell: self)
+//
+//    }
+    
+    private func setupGesture() {
+        self.tapGestureRecognizer.addTarget(self, action: #selector(self.handleGesture(_:)))
+        self.likeTitle.addGestureRecognizer(self.tapGestureRecognizer)
+        self.likeTitle.isUserInteractionEnabled = true
+    }
+    
+    @objc func handleGesture(_ gestureRecognizer: UITapGestureRecognizer) {
+        guard self.tapGestureRecognizer === gestureRecognizer else { return }
         delegate?.delegateLabelAction(cell: self)
-            print("labelTapped")
-        }
-    
-    func setupLabelTap() {
-        let labelTap = UITapGestureRecognizer(target: self, action: #selector(self.labelTapped(_:)))
-                self.likeTitle.isUserInteractionEnabled = true
-                self.likeTitle.addGestureRecognizer(labelTap)
     }
 }

@@ -12,14 +12,14 @@ import UIKit
 protocol ProfileTableHeaderViewProtocol: AnyObject {
     func buttonAction(inputTextIsVisible: Bool, completion: @escaping () -> Void) // TEXTFIELD ISHIDDEN
     
-    func delegateAction(cell: ProfileTableHeaderView) // ПРИКОСНОВЕНИЕ К АВАТАР
+    func delegateActionAnimatedAvatar(cell: ProfileTableHeaderView) // ANIMATED AVATAR
 }
 
 class ProfileTableHeaderView: UITableViewHeaderFooterView {
     
     // MARK: - PROPERTIES
     
-    var statusText: String? // переменная для хранения текста статуса
+    var statusText: String? // СТАТУС TEXTLABEL
     
     lazy var avatarImageView: UIImageView = {  // АВАТАРКА
         let imageView = UIImageView(image: UIImage(named: "myfoto.jpg"))
@@ -43,9 +43,9 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
     }()
     
     private lazy var firstStackView: UIStackView = {  // СТЭК ТЕКСТОВЫХ МЕТОК
-        let stackView = UIStackView() // создаем стек
-        stackView.translatesAutoresizingMaskIntoConstraints = false // отключаем констрейны
-        stackView.axis = .horizontal // горизонтальный стек
+        let stackView = UIStackView()
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.axis = .horizontal
         stackView.spacing = 16
         
         return stackView
@@ -77,7 +77,7 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
         textField.font = UIFont.systemFont(ofSize: 15.0)
         textField.layer.borderWidth = 1.0
         textField.layer.borderColor = UIColor.black.cgColor
-        textField.layer.cornerRadius = 12.0  // делаем скругление
+        textField.layer.cornerRadius = 12.0
         textField.placeholder = "Введите статус"
         let leftView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 20.0, height: 2.0))
         textField.leftView = leftView
@@ -210,7 +210,7 @@ extension ProfileTableHeaderView: UITextFieldDelegate {
     }
 }
 
-extension ProfileTableHeaderView: UIGestureRecognizerDelegate { // ПРИКОСНОВЕНИЕ К АВАТАР
+extension ProfileTableHeaderView: UIGestureRecognizerDelegate { // ANIMATED AVATAR
     
     private func setupTapGesture() {
         self.tapGestureRecognizer.addTarget(self, action: #selector(self.handleTapGesture(_:)))
@@ -220,6 +220,6 @@ extension ProfileTableHeaderView: UIGestureRecognizerDelegate { // ПРИКОС�
     
     @objc func handleTapGesture(_ gestureRecognizer: UITapGestureRecognizer) {
         guard self.tapGestureRecognizer === gestureRecognizer else { return }
-        delegate?.delegateAction(cell: self)
+        delegate?.delegateActionAnimatedAvatar(cell: self)
     }
 }

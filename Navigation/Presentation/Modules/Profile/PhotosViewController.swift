@@ -11,7 +11,7 @@ class PhotosViewController: UIViewController {
     
     // MARK: - PROPERTIES
     
-    private enum Constant { // количество ячеек в коллекшин вью
+    private enum Constant {
         static let itemCount: CGFloat = 3
     }
     
@@ -24,7 +24,7 @@ class PhotosViewController: UIViewController {
         return layout
     }()
     
-    private lazy var photoCollectionView: UICollectionView = {  // Создаем  фото
+    private lazy var photoCollectionView: UICollectionView = {  // ФОТО
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.dataSource = self
@@ -50,7 +50,8 @@ class PhotosViewController: UIViewController {
     }
     
     // MARK: - SETUP SUBVIEWS
-    private func setupCollectionView() { // констрейны
+    
+    private func setupCollectionView() {
         self.view.addSubview(self.photoCollectionView)
         
         let topConstraint = self.photoCollectionView.topAnchor.constraint(equalTo: self.view.topAnchor)
@@ -63,8 +64,8 @@ class PhotosViewController: UIViewController {
         ])
     }
     
-    private func itemSize(for width: CGFloat, with spacing: CGFloat) -> CGSize { // размеры ячейки
-        let needWidth = width - 4 * spacing
+    private func itemSize(for width: CGFloat, with spacing: CGFloat) -> CGSize {
+        let needWidth = width - 5 * spacing
         let itemWidth = floor(needWidth / Constant.itemCount)
         
         return CGSize(width: itemWidth, height: itemWidth)
@@ -81,17 +82,15 @@ extension PhotosViewController: UICollectionViewDelegate, UICollectionViewDataSo
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        return carImage.count // количество картинок в коллектион вью
+        return carImage.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PhotosCollection", for: indexPath) as! PhotosCollectionViewCell
         
-        DispatchQueue.main.async { // загружаем картинку вo вью картинок
             let car = carImage[indexPath.row]
             let viewModel = PhotosCollectionViewCell.ViewModel(image: car.image)
             cell.setup(with: viewModel)
-        }
         
         return cell
     }

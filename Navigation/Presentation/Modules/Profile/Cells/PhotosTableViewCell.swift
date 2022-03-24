@@ -7,7 +7,7 @@
 
 import UIKit
 
-// MARK: - PROTOCOLS
+    // MARK: - PROTOCOLS
 
 protocol PhotosTableViewCellProtocol: AnyObject { // КНОПКА
     func delegateButtonAction(cell: PhotosTableViewCell)
@@ -42,7 +42,7 @@ class PhotosTableViewCell: UITableViewCell {
         return stackView
     }()
     
-    private lazy var titleLabel: UILabel = {  // NAME CELL
+    private lazy var titleLabel: UILabel = {  // ЗАГОЛОВОК
         let label = UILabel()
         label.text  = "Photos"
         label.textColor = .black
@@ -95,7 +95,7 @@ class PhotosTableViewCell: UITableViewCell {
     
     // MARK: - SETUP SUBVIEWS
     
-    private func setupView() { // устанавливаем интерфейс
+    private func setupView() {
         self.backgroundColor = .systemGray6
         self.contentView.addSubview(self.backView)
         self.backView.addSubview(self.stackView)
@@ -106,10 +106,10 @@ class PhotosTableViewCell: UITableViewCell {
     }
     
     private func setupConstraints() {
-        let topConstraint = self.backView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 16)
+        let topConstraint = self.backView.topAnchor.constraint(equalTo: self.contentView.topAnchor)
         let leadingConstraint = self.backView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor)
         let trailingConstraint = self.backView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor)
-        let bottomConstraint = self.backView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -16)
+        let bottomConstraint = self.backView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor)
         let stackViewTopConstraint = self.stackView.topAnchor.constraint(equalTo: self.backView.topAnchor, constant: 12)
         let stackViewLeadingConstraint = self.stackView.leadingAnchor.constraint(equalTo: self.backView.leadingAnchor, constant: 12)
         let stackViewTrailingConstraint = self.stackView.trailingAnchor.constraint(equalTo: self.backView.trailingAnchor, constant: -12)
@@ -129,7 +129,7 @@ class PhotosTableViewCell: UITableViewCell {
         ])
     }
     
-    @objc private func buttonAction() {  // Действие кнопки
+    @objc private func buttonAction() {  // КНОПКА
         delegate?.delegateButtonAction(cell: self) // передаем управление нажатием в ячейку тайбл вью
     }
     
@@ -141,23 +141,21 @@ class PhotosTableViewCell: UITableViewCell {
     }
 }
 
-// MARK: - EXTENSIONS
+    // MARK: - EXTENSIONS
 
 extension PhotosTableViewCell: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        return 4 //carImage.count // количество картинок в коллектион вью
+        return carImage.count // количество картинок в коллектион вью
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PhotosCollection", for: indexPath) as! PhotosCollectionViewCell
         
-        DispatchQueue.main.async { // загружаем картинку вo вью картинок
             let car = carImage[indexPath.row]
             let viewModel = PhotosCollectionViewCell.ViewModel(image: car.image)
             cell.setup(with: viewModel)
-        }
         
         return cell
     }

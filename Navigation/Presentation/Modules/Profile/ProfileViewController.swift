@@ -70,9 +70,10 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if section == 0 {
-            return isExpanded ? 236 : 266 // I-й способ
-            // CGFloat(height) // II-й способ
+            
+            return isExpanded ? 236 : 266
         } else {
+            
             return 0
         }
     }
@@ -172,8 +173,7 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
 extension ProfileViewController: ProfileTableHeaderViewProtocol {
     
     func buttonAction(inputTextIsVisible: Bool, completion: @escaping () -> Void) {  self.tableView.beginUpdates()
-        self.isExpanded = !inputTextIsVisible // I-й способ
-        // self.height = inputTextIsVisible ? 266 : 236 // II-й способ
+        self.isExpanded = !inputTextIsVisible
         self.tableView.endUpdates()
         UIView.animate(withDuration: 0.2, delay: 0.0) {
             self.view.layoutIfNeeded()
@@ -182,7 +182,7 @@ extension ProfileViewController: ProfileTableHeaderViewProtocol {
         }
     }
     
-    func delegateAction(cell: ProfileTableHeaderView) {
+    func delegateActionAnimatedAvatar(cell: ProfileTableHeaderView) {
         
         let animatedAvatarViewController = AnimatedAvatarViewController()
         self.view.addSubview(animatedAvatarViewController.view)
@@ -212,6 +212,6 @@ extension ProfileViewController: PostTableViewCellProtocol {
         let indicator = self.tableView.indexPath(for: cell)?.row
         let index = IndexPath(row: indicator ?? 0, section: 1)
         newsArticles[indicator ?? 0].likes += 1
-        self.tableView.reloadRows(at: [index], with: UITableView.RowAnimation.fade)
+        self.tableView.reloadRows(at: [index], with: .fade)
     }
 }
