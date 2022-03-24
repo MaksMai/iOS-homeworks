@@ -47,12 +47,10 @@ final class TabBarController: UITabBarController {
             switch $0 {
             case .feed:
                 let feedViewController = FeedViewController()   // Инициализируем панель вкладок
-                feedViewController.title = TabBarItem.feed.title  // Добавляем заголовок
-                return self.wrappedInNavigationController(with: FeedViewController(), title: $0.title) // возвращаем пользовательский интерфейса
+                return UINavigationController(rootViewController: feedViewController) // возвращаем пользовательский интерфейса
             case .profile:
                 let profileViewController = ProfileViewController()
-                profileViewController.title = TabBarItem.profile.title
-                return self.wrappedInNavigationController(with: profileViewController, title: $0.title)
+                return UINavigationController(rootViewController: profileViewController)
             }
         }
       
@@ -61,10 +59,5 @@ final class TabBarController: UITabBarController {
             $1.tabBarItem.image = UIImage(systemName: dataSource[$0].iconName)
             $1.tabBarItem.imageInsets = UIEdgeInsets(top: 5, left: .zero, bottom: -5, right: .zero)
         }
-    }
- 
-    private func wrappedInNavigationController(with: UIViewController, title: Any?) -> UINavigationController {   // Метод обертка UIViewController в NavigationController
-        return UINavigationController(rootViewController: with)
-        
     }
 }
