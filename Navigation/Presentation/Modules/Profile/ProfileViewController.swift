@@ -59,6 +59,7 @@ final class ProfileViewController: UIViewController {
 }
 
 // MARK: - EXTENSIONS
+
 extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -71,7 +72,7 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if section == 0 {
             
-            return isExpanded ? 236 : 266
+            return isExpanded ? 220 : 250
         } else {
             
             return 0
@@ -79,19 +80,22 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
+        
         return 2
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if section == 0 {
+            
             return 1
         } else {
+            
             return newsArticles.count
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.section == 0 {
+        if indexPath.section == 0 { // ЯЧЕЙКА ФОТОГРАФИЙ
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "PhotoCell", for: indexPath) as? PhotosTableViewCell else {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath)
                 
@@ -102,7 +106,7 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
             cell.layer.rasterizationScale = UIScreen.main.scale
             
             return cell
-        } else {
+        } else { // ЯЧЕЙКИ ПОСТЫ
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "PostCell", for: indexPath) as? PostTableViewCell else {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath)
                 
@@ -123,7 +127,7 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
         }
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) { // БОЛЬШОЙ ПОСТ
         if indexPath.section == 1 {
             let presentPostViewController = FullPostView()
             let article = newsArticles[indexPath.row]
@@ -146,23 +150,23 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
                 presentPostViewController.topAnchor.constraint(equalTo: view.topAnchor)
             ])
             
-            // Увеличение количесва просмотров
             let index = IndexPath(row: indexPath.row, section: 1)
             newsArticles[indexPath.row].views += 1
             self.tableView.reloadRows(at: [index], with: UITableView.RowAnimation.fade)
         }
     }
     
-    // Удаление по свайпу
-    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
+    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle { // УДАЛЕНИЕ ТОЛЬКО ИЗ СЕКЦИЙ ПОСТОВ
         if indexPath.section == 0 {
-            return UITableViewCell.EditingStyle.none
+            
+            return .none
         } else {
-            return UITableViewCell.EditingStyle.delete
+            
+            return .delete
         }
     }
     
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) { // УДАЛЕНИЕ ЯЧЕЙКИ
         self.tableView.beginUpdates()
         newsArticles.remove(at: indexPath.row)
         self.tableView.deleteRows(at: [indexPath], with: .automatic)
@@ -172,7 +176,7 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
 
 extension ProfileViewController: ProfileTableHeaderViewProtocol {
     
-    func buttonAction(inputTextIsVisible: Bool, completion: @escaping () -> Void) {  self.tableView.beginUpdates()
+    func buttonAction(inputTextIsVisible: Bool, completion: @escaping () -> Void) { // HEADER self.tableView.beginUpdates()
         self.isExpanded = !inputTextIsVisible
         self.tableView.endUpdates()
         UIView.animate(withDuration: 0.2, delay: 0.0) {
@@ -182,7 +186,7 @@ extension ProfileViewController: ProfileTableHeaderViewProtocol {
         }
     }
     
-    func delegateActionAnimatedAvatar(cell: ProfileTableHeaderView) {
+    func delegateActionAnimatedAvatar(cell: ProfileTableHeaderView) { // АНИМАЦИЯ АВАТАР
         
         let animatedAvatarViewController = AnimatedAvatarViewController()
         self.view.addSubview(animatedAvatarViewController.view)
@@ -200,14 +204,14 @@ extension ProfileViewController: ProfileTableHeaderViewProtocol {
     }
 }
 
-extension ProfileViewController: PhotosTableViewCellProtocol { // переход в PhotosViewController
+extension ProfileViewController: PhotosTableViewCellProtocol { // ФОТОГРАФИИ
     func delegateButtonAction(cell: PhotosTableViewCell) {
         let photosViewController = PhotosViewController()
         self.navigationController?.pushViewController(photosViewController, animated: true)
     }
 }
 
-extension ProfileViewController: PostTableViewCellProtocol {
+extension ProfileViewController: PostTableViewCellProtocol { // УВЕЛИЧЕНИЕ ЛАЙКОВ
     func delegateLabelAction(cell: PostTableViewCell) {
         let indicator = self.tableView.indexPath(for: cell)?.row
         let index = IndexPath(row: indicator ?? 0, section: 1)
