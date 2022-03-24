@@ -16,7 +16,7 @@ class AnimatedAvatarViewController: UIViewController {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.layer.borderWidth = 3.0
         imageView.layer.borderColor = UIColor.white.cgColor
-        imageView.layer.cornerRadius = 70.0
+        imageView.layer.cornerRadius = 70
         imageView.clipsToBounds = true
         
         return imageView
@@ -44,7 +44,10 @@ class AnimatedAvatarViewController: UIViewController {
         super.viewDidLoad()
         self.view.backgroundColor = .black.withAlphaComponent(0.0)
         setupSubView()
-        self.view.layoutIfNeeded()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         moveIn()
     }
     
@@ -78,25 +81,26 @@ class AnimatedAvatarViewController: UIViewController {
             self.widthAvatarImage, self.heightAvatarImage
         ].compactMap( {$0} ))
         
-        self.avatarImage.layer.cornerRadius = self.avatarImage.frame.height / 2
-        
         self.widthAvatarImage = self.avatarImage.widthAnchor.constraint(equalTo: self.view.widthAnchor)
         self.heightAvatarImage = self.avatarImage.heightAnchor.constraint(equalTo: self.view.widthAnchor)
         self.positionXAvatarImage = self.avatarImage.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
         self.positionYAvatarImage = self.avatarImage.centerYAnchor.constraint(equalTo: self.view.centerYAnchor)
         
+        NSLayoutConstraint.activate([
+            self.positionXAvatarImage, self.positionYAvatarImage,
+            self.widthAvatarImage, self.heightAvatarImage
+        ].compactMap( {$0} ))
+        self.view.backgroundColor = .black.withAlphaComponent(0.8)
+        
         UIView.animate(withDuration: 1, animations: { // замедляем открытие/закрытие текстового поля
-            NSLayoutConstraint.activate([
-                self.positionXAvatarImage, self.positionYAvatarImage,
-                self.widthAvatarImage, self.heightAvatarImage
-            ].compactMap( {$0} ))
-            self.avatarImage.layer.cornerRadius = self.view.frame.width / 2
-            self.view.backgroundColor = .black.withAlphaComponent(0.8)
+            // self.avatarImage.layer.cornerRadius = self.view.frame.width / 2 // всю красоту испортили
             self.view.layoutIfNeeded()
         }) { _ in
+            self.transitionButton.alpha = 1
+            self.avatarImage.layer.cornerRadius = 0.0
+            
             UIView.animate(withDuration: 0.25) {
-                self.transitionButton.alpha = 1
-                self.avatarImage.layer.cornerRadius = 0.0
+            self.view.layoutIfNeeded()
             }
         }
     }
@@ -112,16 +116,16 @@ class AnimatedAvatarViewController: UIViewController {
         self.positionXAvatarImage = self.avatarImage.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 16)
         self.positionYAvatarImage = self.avatarImage.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 16)
         
-        self.avatarImage.layer.cornerRadius = self.view.frame.width / 2
+        NSLayoutConstraint.activate([
+            self.positionXAvatarImage, self.positionYAvatarImage,
+            self.widthAvatarImage, self.heightAvatarImage
+        ].compactMap( {$0} ))
+        
+        self.view.backgroundColor = .black.withAlphaComponent(0.8)
+        self.transitionButton.alpha = 0.0
+        self.avatarImage.layer.cornerRadius = 70.0
         
         UIView.animate(withDuration: 1, animations: {
-            NSLayoutConstraint.activate([
-                self.positionXAvatarImage, self.positionYAvatarImage,
-                self.widthAvatarImage, self.heightAvatarImage
-            ].compactMap( {$0} ))
-            self.avatarImage.layer.cornerRadius = 70.0
-            self.view.backgroundColor = .black.withAlphaComponent(0.8)
-            self.transitionButton.alpha = 0.0
             self.view.layoutIfNeeded()
         }) { _ in
             self.view.removeFromSuperview()

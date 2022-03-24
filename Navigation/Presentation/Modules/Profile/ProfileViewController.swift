@@ -111,7 +111,7 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
         
         if section == 0 {
             
-            return isExpanded ? 236 : 266
+            return isExpanded ? 220 : 250
         } else {
             
             return 0
@@ -124,14 +124,14 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { // ячеек в секц
         if section == 0 {
-            return 1 // количество скролл вью
+            return 1
         } else {
-            return self.dataSource.count // количество постов новостей
+            return self.dataSource.count
         }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.section == 0 { // коллекшинвью фотографий
+        if indexPath.section == 0 {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: "PhotoCell", for: indexPath) as? PhotosTableViewCell else {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "DefaultCell", for: indexPath)
                 
