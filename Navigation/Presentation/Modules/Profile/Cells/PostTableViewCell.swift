@@ -47,11 +47,11 @@ class PostTableViewCell: UITableViewCell {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.backgroundColor = .black
         //        imageView.contentMode = .scaleAspectFit
-        
+      
         return imageView
     }()
     
-    private lazy var descriptionLabel: UILabel = { // НОВОСТЬ
+    private lazy var descriptionLabel: UILabel = { // НОВОСТЬi
         let label = UILabel()
         label.backgroundColor = .clear
         label.preferredMaxLayoutWidth = self.frame.size.width
@@ -176,7 +176,6 @@ extension PostTableViewCell: Setupable { // загружаем модель
     
     func setup(with viewModel: ViewModelProtocol) { // наполнение ячейки
         guard let viewModel = viewModel as? ViewModel else { return }
-        
         self.authorLabel.text = viewModel.author
         self.postImageView.image = UIImage(named: viewModel.image)
         self.descriptionLabel.text = viewModel.description

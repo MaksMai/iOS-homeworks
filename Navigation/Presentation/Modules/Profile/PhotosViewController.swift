@@ -77,6 +77,7 @@ class PhotosViewController: UIViewController {
 extension PhotosViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
+
            return 1
        }
     

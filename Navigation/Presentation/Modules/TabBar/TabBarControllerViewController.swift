@@ -40,7 +40,7 @@ final class TabBarController: UITabBarController {
     }
    
     private func setupTabBar() { // Метод добавления NavigationController в TabBarController
-        
+      
         let dataSource: [TabBarItem] = [.feed, .profile]  // Добавляем навигационные контроллеры в массив панели вкладок
        
         self.viewControllers = dataSource.map { // Инициализируем выбор из панелей вкладок
@@ -49,9 +49,8 @@ final class TabBarController: UITabBarController {
                 let feedViewController = FeedViewController()   // Инициализируем панель вкладок
                 return UINavigationController(rootViewController: feedViewController) // возвращаем пользовательский интерфейса
             case .profile:
-                let changeViewController = ProfileViewController() // LogInViewController()
-
-                return UINavigationController(rootViewController: changeViewController)
+                let profileViewController = ProfileViewController()
+                return UINavigationController(rootViewController: profileViewController)
             }
         }
       

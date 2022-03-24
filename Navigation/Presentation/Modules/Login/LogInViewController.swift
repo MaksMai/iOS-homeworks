@@ -159,6 +159,7 @@ class LogInViewController: UIViewController {
 }
 
 // MARK: EXTENSIONS
+
 extension LogInViewController { // KEYBOARD
     
     func tapGesturt() {

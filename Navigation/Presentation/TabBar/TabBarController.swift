@@ -50,7 +50,6 @@ final class TabBarController: UITabBarController {
                 return UINavigationController(rootViewController: feedViewController) // возвращаем пользовательский интерфейса
             case .profile:
                 let changeViewController = ProfileViewController() // LogInViewController()
-
                 return UINavigationController(rootViewController: changeViewController)
             }
         }

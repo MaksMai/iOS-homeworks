@@ -67,7 +67,7 @@ class PhotosTableViewCell: UITableViewCell {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
         layout.minimumInteritemSpacing = 8
-        
+
         return layout
     }()
     
