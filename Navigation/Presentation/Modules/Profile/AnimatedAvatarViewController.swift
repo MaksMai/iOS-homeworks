@@ -75,6 +75,8 @@ class AnimatedAvatarViewController: UIViewController {
            self.positionXAvatarImage, self.positionYAvatarImage, self.widthAvatarImage, self.heightAvatarImage
         ].compactMap( {$0} ))
         
+        self.avatarImage.layer.cornerRadius = self.avatarImage.frame.height / 2
+        
         self.widthAvatarImage = self.avatarImage.widthAnchor.constraint(equalTo: self.view.widthAnchor)
         self.heightAvatarImage = self.avatarImage.heightAnchor.constraint(equalTo: self.view.widthAnchor)
         self.positionXAvatarImage = self.avatarImage.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
