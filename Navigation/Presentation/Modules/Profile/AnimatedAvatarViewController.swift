@@ -90,12 +90,13 @@ class AnimatedAvatarViewController: UIViewController {
                 self.positionXAvatarImage, self.positionYAvatarImage,
                 self.widthAvatarImage, self.heightAvatarImage
             ].compactMap( {$0} ))
-            self.avatarImage.layer.cornerRadius = 0.0
+            self.avatarImage.layer.cornerRadius = self.view.frame.width / 2
             self.view.backgroundColor = .black.withAlphaComponent(0.8)
             self.view.layoutIfNeeded()
         }) { _ in
             UIView.animate(withDuration: 0.25) {
                 self.transitionButton.alpha = 1
+                self.avatarImage.layer.cornerRadius = 0.0
             }
         }
     }
@@ -110,6 +111,8 @@ class AnimatedAvatarViewController: UIViewController {
         self.heightAvatarImage = self.avatarImage.heightAnchor.constraint(equalToConstant: 138)
         self.positionXAvatarImage = self.avatarImage.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 16)
         self.positionYAvatarImage = self.avatarImage.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 16)
+        
+        self.avatarImage.layer.cornerRadius = self.view.frame.width / 2
         
         UIView.animate(withDuration: 1, animations: {
             NSLayoutConstraint.activate([

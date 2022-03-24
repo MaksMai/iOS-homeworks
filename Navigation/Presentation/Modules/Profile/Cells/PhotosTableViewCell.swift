@@ -108,10 +108,10 @@ class PhotosTableViewCell: UITableViewCell {
     // MARK: - SETUP SUBVIEW
     
     private func setupConstraints() {
-        let topConstraint = self.backView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 16)
+        let topConstraint = self.backView.topAnchor.constraint(equalTo: self.contentView.topAnchor)
         let leadingConstraint = self.backView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor)
         let trailingConstraint = self.backView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor)
-        let bottomConstraint = self.backView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -16)
+        let bottomConstraint = self.backView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor)
         
         let stackViewTopConstraint = self.stackView.topAnchor.constraint(equalTo: self.backView.topAnchor, constant: 12)
         let stackViewLeadingConstraint = self.stackView.leadingAnchor.constraint(equalTo: self.backView.leadingAnchor, constant: 12)
@@ -139,7 +139,7 @@ class PhotosTableViewCell: UITableViewCell {
     }
     
     private func itemSize(for width: CGFloat, with spacing: CGFloat) -> CGSize { // размеры ячейки
-        let needWidth = width - 2 * spacing
+        let needWidth = width - 4 * spacing
         let itemWidth = floor(needWidth / Constant.itemCount)
         
         return CGSize(width: itemWidth, height: itemWidth)
@@ -158,11 +158,9 @@ extension PhotosTableViewCell: UICollectionViewDelegate, UICollectionViewDataSou
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PhotosCollection", for: indexPath) as! PhotosCollectionViewCell
         
-        DispatchQueue.main.async { // загружаем картинку вo вью картинок
             let car = carImage[indexPath.row]
             let viewModel = PhotosCollectionViewCell.ViewModel(image: car.image)
             cell.setup(with: viewModel)
-        }
         
         return cell
     }
