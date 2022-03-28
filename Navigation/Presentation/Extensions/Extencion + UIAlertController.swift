@@ -7,7 +7,7 @@
 
 import UIKit
 
-extension UIViewController {
+extension UIViewController { // ALERT ЛОГИН и ПАРОЛЬ
     
     func openAlert(title: String,
                           message: String,

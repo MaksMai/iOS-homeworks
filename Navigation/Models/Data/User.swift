@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct User { // модель логина и пароля
+struct User { // ЛОГИН и ПАРОЛЬ
     var login: String
     var password: String
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct News: Decodable { // НОВОСТИ
+struct News: ViewModelProtocol { // НОВОСТИ
     var author: String
     var description: String
     var image: String

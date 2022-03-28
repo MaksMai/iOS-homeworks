@@ -11,7 +11,7 @@ final class ProfileViewController: UIViewController {
     
     // MARK: - PROPERTIES
     
-    private lazy var tableView: UITableView = { // создаем таблвью
+    private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.backgroundColor = .systemGray6
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -27,8 +27,9 @@ final class ProfileViewController: UIViewController {
         return tableView
     }()
     
-    private var isExpanded: Bool = true // I-й способ измения высоты Header
-    private var height = 236 // II-й способ измения высоты Header
+    private var isExpanded: Bool = true
+    private var isHeight = 220
+    
     
     // MARK: - LIFECYCLE METHODS
     
@@ -62,7 +63,7 @@ final class ProfileViewController: UIViewController {
 
 extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
     
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? { // HEADER
         let view = tableView.dequeueReusableHeaderFooterView(withIdentifier: "TableHeder") as! ProfileTableHeaderView
         view.delegate = self
         
@@ -72,7 +73,7 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if section == 0 {
             
-            return isExpanded ? 220 : 250
+            return CGFloat(isHeight)
         } else {
             
             return 0
@@ -101,6 +102,7 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
                 
                 return cell
             }
+//            cell.selectionStyle = .none
             cell.delegate = self
             cell.layer.shouldRasterize = true
             cell.layer.rasterizationScale = UIScreen.main.scale
@@ -112,7 +114,7 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
                 
                 return cell
             }
-            
+//            cell.selectionStyle = .none
             cell.delegate = self
             let article = newsArticles[indexPath.row]
             let viewModel = PostTableViewCell.ViewModel(
@@ -124,35 +126,6 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
             cell.setup(with: viewModel)
             
             return cell
-        }
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) { // БОЛЬШОЙ ПОСТ
-        if indexPath.section == 1 {
-            let presentPostViewController = FullPostView()
-            let article = newsArticles[indexPath.row]
-            let viewModel = FullPostView.ViewModel(
-                author: article.author,
-                description: article.description,
-                image: article.image,
-                likes: article.likes,
-                views: article.views)
-            
-            presentPostViewController.setup(with: viewModel)
-            self.view.addSubview(presentPostViewController)
-            
-            presentPostViewController.translatesAutoresizingMaskIntoConstraints = false
-            
-            NSLayoutConstraint.activate([
-                presentPostViewController.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-                presentPostViewController.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-                presentPostViewController.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-                presentPostViewController.topAnchor.constraint(equalTo: view.topAnchor)
-            ])
-            
-            let index = IndexPath(row: indexPath.row, section: 1)
-            newsArticles[indexPath.row].views += 1
-            self.tableView.reloadRows(at: [index], with: UITableView.RowAnimation.fade)
         }
     }
     
@@ -177,7 +150,7 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
 extension ProfileViewController: ProfileTableHeaderViewProtocol {
     
     func buttonAction(inputTextIsVisible: Bool, completion: @escaping () -> Void) { // HEADER self.tableView.beginUpdates()
-        self.isExpanded = !inputTextIsVisible
+        self.isHeight = inputTextIsVisible ? 250 : 220
         self.tableView.endUpdates()
         UIView.animate(withDuration: 0.2, delay: 0.0) {
             self.view.layoutIfNeeded()
@@ -187,7 +160,6 @@ extension ProfileViewController: ProfileTableHeaderViewProtocol {
     }
     
     func delegateActionAnimatedAvatar(cell: ProfileTableHeaderView) { // АНИМАЦИЯ АВАТАР
-        
         let animatedAvatarViewController = AnimatedAvatarViewController()
         self.view.addSubview(animatedAvatarViewController.view)
         self.addChild(animatedAvatarViewController)
@@ -199,23 +171,54 @@ extension ProfileViewController: ProfileTableHeaderViewProtocol {
             animatedAvatarViewController.view.topAnchor.constraint(equalTo: view.topAnchor),
             animatedAvatarViewController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
-        
+    
         animatedAvatarViewController.didMove(toParent: self)
     }
 }
 
 extension ProfileViewController: PhotosTableViewCellProtocol { // ФОТОГРАФИИ
+    
     func delegateButtonAction(cell: PhotosTableViewCell) {
         let photosViewController = PhotosViewController()
         self.navigationController?.pushViewController(photosViewController, animated: true)
     }
 }
 
-extension ProfileViewController: PostTableViewCellProtocol { // УВЕЛИЧЕНИЕ ЛАЙКОВ
-    func delegateLabelAction(cell: PostTableViewCell) {
-        let indicator = self.tableView.indexPath(for: cell)?.row
-        let index = IndexPath(row: indicator ?? 0, section: 1)
-        newsArticles[indicator ?? 0].likes += 1
-        self.tableView.reloadRows(at: [index], with: .fade)
+extension ProfileViewController: PostTableViewCellProtocol { // НАЖАТИЕ НА LIKE И IMAGE
+    
+    func tapPostImageViewGestureRecognizerDelegate(cell: PostTableViewCell) { // УВЕЛИЧЕНИЕ ПРОСМОТРОВ
+        let presentPostViewController = FullPostView()
+        guard let index = self.tableView.indexPath(for: cell)?.row else { return }
+        let indexPath = IndexPath(row: index, section: 1)
+        let article = newsArticles[indexPath.row]
+        
+        let viewModel = FullPostView.ViewModel(
+            author: article.author,
+            description: article.description,
+            image: article.image,
+            likes: article.likes,
+            views: article.views)
+        
+        presentPostViewController.setup(with: viewModel)
+        self.view.addSubview(presentPostViewController)
+        
+        presentPostViewController.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            presentPostViewController.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            presentPostViewController.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            presentPostViewController.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            presentPostViewController.topAnchor.constraint(equalTo: view.topAnchor)
+        ])
+        
+        newsArticles[indexPath.row].views += 1
+        self.tableView.reloadRows(at: [indexPath], with: .fade)
+    }
+    
+    func tapLikeTitleGestureRecognizerDelegate(cell: PostTableViewCell) { // УВЕЛИЧЕНИЕ ЛАЙКОВ
+        guard let index = self.tableView.indexPath(for: cell)?.row else { return }
+        let indexPath = IndexPath(row: index, section: 1)
+        newsArticles[index].likes += 1
+        self.tableView.reloadRows(at: [indexPath], with: .fade)
     }
 }

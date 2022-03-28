@@ -11,7 +11,8 @@ import UIKit
 
 protocol PostTableViewCellProtocol: AnyObject {
 //    func updateViews(at: IndexPath, with: News, cell: PostTableViewCell)
-    func delegateLabelAction(cell: PostTableViewCell)
+    func tapPostImageViewGestureRecognizerDelegate(cell: PostTableViewCell)
+    func tapLikeTitleGestureRecognizerDelegate(cell: PostTableViewCell)
 }
 
 class PostTableViewCell: UITableViewCell {
@@ -20,7 +21,8 @@ class PostTableViewCell: UITableViewCell {
     
     weak var delegate: PostTableViewCellProtocol? // DELEGAT
     
-    private var tapGestureRecognizer = UITapGestureRecognizer() // НАЖАТИЕ
+    private var tapLikeTitleGestureRecognizer = UITapGestureRecognizer() // НАЖАТИЕ LIKETITLE
+    private var tapPostImageViewGestureRecognizer = UITapGestureRecognizer() // НАЖАТИЕ IMAGE
     
     struct ViewModel: ViewModelProtocol { // МОДЕЛЬ ДАННЫХ ПОСТА
         var author: String
@@ -107,6 +109,7 @@ class PostTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.setupView()
+        self.setupGesture()
     }
     
     required init?(coder: NSCoder) {
@@ -132,7 +135,6 @@ class PostTableViewCell: UITableViewCell {
         self.likeStackView.addArrangedSubview(self.likeTitle)
         self.likeStackView.addArrangedSubview(self.viewTitle)
         setupConstraints()
-        setupGesture()
     }
     
     private func setupConstraints() {
@@ -178,38 +180,26 @@ extension PostTableViewCell: Setupable { // СОЗДАЕМ МОДЕЛЬ ДАНН
     }
 }
 
-extension PostTableViewCell { // TAP
-    
-//    private func setupTapGesture() {
-//        self.tapGestureRecognizer.addTarget(self, action: #selector(self.handleTapGesture(_:)))
-//        self.postImageView.addGestureRecognizer(self.tapGestureRecognizer)
-//        self.postImageView.isUserInteractionEnabled = true
-//    }
-//
-//    @objc func handleTapGesture(_ gestureRecognizer: UITapGestureRecognizer) {
-//        guard self.tapGestureRecognizer === gestureRecognizer else { return }
-//
-//        guard var news = self.news,
-//              let indexPath = self.indexPath
-//        else { return }
-//
-//        news.views += 1
-//
-//        self.viewTitle.text = "Views: \(news.views)"
-//        let newModel = News(author: news.author, description: news.description, image: news.image, likes: news.views, views: news.views)
-//
-//        delegate?.updateViews(at: indexPath, with: newModel, cell: self)
-//
-//    }
+extension PostTableViewCell { // НАЖАТИЕ НА LIKE И IMAGE
     
     private func setupGesture() {
-        self.tapGestureRecognizer.addTarget(self, action: #selector(self.handleGesture(_:)))
-        self.likeTitle.addGestureRecognizer(self.tapGestureRecognizer)
+        self.tapLikeTitleGestureRecognizer.addTarget(self, action: #selector(self.likeTitleHandleGesture(_:)))
+        self.likeTitle.addGestureRecognizer(self.tapLikeTitleGestureRecognizer)
         self.likeTitle.isUserInteractionEnabled = true
+  
+        self.tapPostImageViewGestureRecognizer.addTarget(self, action: #selector(self.postImageViewHandleGesture(_:)))
+        self.postImageView.addGestureRecognizer(self.tapPostImageViewGestureRecognizer)
+        self.postImageView.isUserInteractionEnabled = true
     }
     
-    @objc func handleGesture(_ gestureRecognizer: UITapGestureRecognizer) {
-        guard self.tapGestureRecognizer === gestureRecognizer else { return }
-        delegate?.delegateLabelAction(cell: self)
+    
+    @objc func likeTitleHandleGesture(_ gestureRecognizer: UITapGestureRecognizer) {
+        guard self.tapLikeTitleGestureRecognizer === gestureRecognizer else { return }
+        delegate?.tapLikeTitleGestureRecognizerDelegate(cell: self)
+    }
+  
+    @objc func postImageViewHandleGesture(_ gestureRecognizer: UITapGestureRecognizer) {
+        guard self.tapPostImageViewGestureRecognizer === gestureRecognizer else { return }
+        delegate?.tapPostImageViewGestureRecognizerDelegate(cell: self)
     }
 }

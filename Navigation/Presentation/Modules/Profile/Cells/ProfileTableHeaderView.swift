@@ -118,7 +118,7 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
     
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
-        createSubviews()
+        self.createSubviews()
     }
     
     required init?(coder: NSCoder) {
@@ -135,8 +135,8 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
         self.firstStackView.addArrangedSubview(labelStackView)
         self.labelStackView.addArrangedSubview(fullNameLabel)
         self.labelStackView.addArrangedSubview(statusLabel)
-        setupConstraints()
-        setupTapGesture()
+        self.setupConstraints()
+        self.setupTapGesture()
     }
     
     func setupConstraints() {

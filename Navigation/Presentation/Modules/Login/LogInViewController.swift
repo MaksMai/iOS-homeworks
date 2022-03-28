@@ -123,7 +123,7 @@ class LogInViewController: UIViewController {
         self.view.addSubview(errorLabel)
     }
     
-    func setupConstraints() { // Создаем констрейты к стаку
+    func setupConstraints() {
         let scrollViewTopConstraint = self.scrollView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor)
         let scrollViewRightConstraint = self.scrollView.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -16)
         let scrollViewBottomConstraint = self.scrollView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
@@ -225,9 +225,8 @@ extension LogInViewController: UITextFieldDelegate {
     }
 }
 
-extension LogInViewController {
+extension LogInViewController { // LOGIN AND PASSWORD VERIFICATION
     
-    // LOGIN AND PASSWORD VERIFICATION
     private func isEmpty(textField: UITextField) -> Bool { // ПОТРЯХИВАНИЕ ПУСТОГО TEXTFIELD
         guard textField.text != "" else {
             textField.shake()

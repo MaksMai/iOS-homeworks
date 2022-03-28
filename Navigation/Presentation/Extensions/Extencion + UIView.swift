@@ -8,7 +8,7 @@
 import UIKit
 
 
-extension UIView { // потряхивание
+extension UIView { // SHAKE TEXTFIELD
     func shake() {
         let animation = CABasicAnimation(keyPath: "position")
         animation.repeatCount = 3

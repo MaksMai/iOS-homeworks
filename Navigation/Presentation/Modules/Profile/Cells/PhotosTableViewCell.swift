@@ -130,10 +130,10 @@ class PhotosTableViewCell: UITableViewCell {
     }
     
     @objc private func buttonAction() {  // КНОПКА
-        delegate?.delegateButtonAction(cell: self) // передаем управление нажатием в ячейку тайбл вью
+        delegate?.delegateButtonAction(cell: self) 
     }
     
-    private func itemSize(for width: CGFloat, with spacing: CGFloat) -> CGSize { // размеры ячейки
+    private func itemSize(for width: CGFloat, with spacing: CGFloat) -> CGSize {
         let needWidth = width - 4 * spacing
         let itemWidth = floor(needWidth / Constant.itemCount)
         
@@ -147,7 +147,7 @@ extension PhotosTableViewCell: UICollectionViewDelegate, UICollectionViewDataSou
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        return carImage.count // количество картинок в коллектион вью
+        return carImage.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -163,7 +163,7 @@ extension PhotosTableViewCell: UICollectionViewDelegate, UICollectionViewDataSou
 
 extension PhotosTableViewCell : UICollectionViewDelegateFlowLayout {
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize { // количество и размеры картинок
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize { 
         let spacing = (collectionView.collectionViewLayout as? UICollectionViewFlowLayout)?.minimumInteritemSpacing
         
         return self.itemSize(for: collectionView.frame.width, with: spacing ?? 0)

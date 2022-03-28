@@ -95,7 +95,7 @@ extension PhotosViewController: UICollectionViewDelegate, UICollectionViewDataSo
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize { // количество и размеры картинок
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let spacing = (collectionView.collectionViewLayout as? UICollectionViewFlowLayout)?.minimumLineSpacing
         
         return self.itemSize(for: collectionView.frame.width, with: spacing ?? 0)
@@ -123,6 +123,7 @@ extension PhotosViewController: UICollectionViewDelegate, UICollectionViewDataSo
             animatedPhotoViewController.view.topAnchor.constraint(equalTo: view.topAnchor),
             animatedPhotoViewController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+        
         self.navigationController?.navigationBar.isHidden = true
         animatedPhotoViewController.didMove(toParent: self)
     }

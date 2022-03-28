@@ -13,24 +13,28 @@ final class TabBarController: UITabBarController {
   
     // MARK: - PROPERTIES
     
-    private enum TabBarItem: Int {  // Инкапсулируем имена и иконки
+    private enum TabBarItem: Int {
         case feed
         case profile
       
-        var title: String {  // Имена вкладок
+        var title: String {  // ИМЕНА
             switch self {
             case .feed:
+                
                 return "Лента"
             case .profile:
+                
                 return "Профиль"
             }
         }
       
-        var iconName: String {  // Иконки вкладок
+        var iconName: String {  // ИКОНКИ
             switch self {
             case .feed:
+                
                 return "house"
             case .profile:
+                
                 return "person.crop.circle"
             }
         }
@@ -40,27 +44,29 @@ final class TabBarController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.setupTabBar()  // Загружаем TabBarController
+        self.setupTabBar()
     }
    
     // MARK: - SETUP SUBVIEW
     
-    private func setupTabBar() { // Метод добавления NavigationController в TabBarController
+    private func setupTabBar() {
         
-        let dataSource: [TabBarItem] = [.feed, .profile]  // Добавляем навигационные контроллеры в массив панели вкладок
+        let dataSource: [TabBarItem] = [.feed, .profile]
        
-        self.viewControllers = dataSource.map { // Инициализируем выбор из панелей вкладок
+        self.viewControllers = dataSource.map {
             switch $0 {
             case .feed:
-                let feedViewController = FeedViewController()   // Инициализируем панель вкладок
-                return UINavigationController(rootViewController: feedViewController) // возвращаем пользовательский интерфейса
+                let feedViewController = FeedViewController()
+                
+                return UINavigationController(rootViewController: feedViewController)
             case .profile:
                 let profileViewController = ProfileViewController()
+                
                 return UINavigationController(rootViewController: profileViewController)
             }
         }
       
-        self.viewControllers?.enumerated().forEach {  // Настроим внешний вид
+        self.viewControllers?.enumerated().forEach { 
             $1.tabBarItem.title = dataSource[$0].title
             $1.tabBarItem.image = UIImage(systemName: dataSource[$0].iconName)
             $1.tabBarItem.imageInsets = UIEdgeInsets(top: 5, left: .zero, bottom: -5, right: .zero)

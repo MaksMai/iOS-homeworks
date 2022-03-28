@@ -15,7 +15,7 @@ class AnimatedPhotoViewController: UIViewController {
         var image: String
     }
    
-    private lazy var largeImage: UIImageView = {
+    private lazy var largeImage: UIImageView = { // АВАТАР БОЛЬШОЙ
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.contentMode = .scaleAspectFill
@@ -24,12 +24,12 @@ class AnimatedPhotoViewController: UIViewController {
         return imageView
     }()
     
-    private var widthLargeImage: NSLayoutConstraint? // размеры аватара
+    private var widthLargeImage: NSLayoutConstraint?
     private var heightLargeImage: NSLayoutConstraint?
-    private var positionXLargeImage: NSLayoutConstraint? // позиция аватвра
+    private var positionXLargeImage: NSLayoutConstraint?
     private var positionYLargeImage: NSLayoutConstraint?
     
-    private lazy var transitionButton: UIButton = {  // Создаем кнопку перехода
+    private lazy var transitionButton: UIButton = { // КНОПКА ВОЗВРАТА
         let button = UIButton()
         let image = UIImage(named: "cancel")
         button.setBackgroundImage(image, for: .normal)
@@ -82,7 +82,7 @@ class AnimatedPhotoViewController: UIViewController {
         self.positionXLargeImage = self.largeImage.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
         self.positionYLargeImage = self.largeImage.centerYAnchor.constraint(equalTo: self.view.centerYAnchor)
         
-        UIView.animate(withDuration: 1, animations: { // замедляем открытие/закрытие текстового поля
+        UIView.animate(withDuration: 1, animations: {
             NSLayoutConstraint.activate([
                self.positionXLargeImage, self.positionYLargeImage, self.widthLargeImage, self.heightLargeImage
             ].compactMap( {$0} ))
@@ -120,16 +120,16 @@ class AnimatedPhotoViewController: UIViewController {
         }
     }
     
-      @objc private func clickButton() {  // возвращение к родительскому ViewController
+      @objc private func clickButton() {
           moveOut()
       }
 }
 
-// MARK: - EXTENSIONS
+    // MARK: - EXTENSIONS
 
-extension AnimatedPhotoViewController: Setupable { // устанавливаем модель
+extension AnimatedPhotoViewController: Setupable { // МОДЕЛЬ
 
-    func setup(with viewModel: ViewModelProtocol) { // наполнение ячейки
+    func setup(with viewModel: ViewModelProtocol) {
         guard let viewModel = viewModel as? ViewModel else { return }
         self.largeImage.image = UIImage(named: viewModel.image)
     }
