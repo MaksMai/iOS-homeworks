@@ -124,6 +124,7 @@ extension PhotosViewController: UICollectionViewDelegate, UICollectionViewDataSo
             animatedPhotoViewController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
         
+        self.tabBarController?.tabBar.isHidden = true
         self.navigationController?.navigationBar.isHidden = true
         animatedPhotoViewController.didMove(toParent: self)
     }

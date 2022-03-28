@@ -40,7 +40,7 @@ class FullPostView: UIView {
     private lazy var authorLabel: UILabel = { // ЗАГОЛОВОК
         let label = UILabel()
         label.backgroundColor = .clear
-        label.numberOfLines = 2
+        label.numberOfLines = 0
         label.font = UIFont.boldSystemFont(ofSize: 20)
         label.preferredMaxLayoutWidth = self.frame.size.width
         label.textColor = .black

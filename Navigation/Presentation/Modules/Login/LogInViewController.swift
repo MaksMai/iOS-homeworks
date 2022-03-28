@@ -166,10 +166,9 @@ class LogInViewController: UIViewController {
     }
     
     @objc private func buttonAction() {  // BUTTON ACTION
-        if isEmpty(textField: loginTextField),
-           validationEmail(textField: loginTextField),
-           isEmpty(textField: passwordTextField),
-           validationPassword(textField: passwordTextField) {
+        
+        if isEmpty(textField: loginTextField), validationEmail(textField: loginTextField),
+           isEmpty(textField: passwordTextField), validationPassword(textField: passwordTextField) {
             let controller = TabBarController()
             self.navigationController?.pushViewController(controller, animated: true)
         }
@@ -213,6 +212,7 @@ extension LogInViewController: UITextFieldDelegate {
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool { // ПЕРЕКЛЮЧЕНИЕ МЕЖДУ TEXTFIELD
+        
         if textField == loginTextField {
             textField.resignFirstResponder()
             passwordTextField.becomeFirstResponder()
@@ -238,6 +238,7 @@ extension LogInViewController { // LOGIN AND PASSWORD VERIFICATION
     }
     
     private func validationEmail(textField: UITextField) -> Bool { // ПРОВЕРКА ЛОГИНА
+        
         guard textField.text!.isValidEmail, textField.text == user.login else {
             openAlert(title: "ОШИБКА",
                       message: "Некорректный ввод адреса электронной почты",
@@ -254,6 +255,7 @@ extension LogInViewController { // LOGIN AND PASSWORD VERIFICATION
     }
     
     private func validationPassword(textField: UITextField) -> Bool { // ПРОВЕРКА ПАРОЛЯ
+        
         guard textField.text == user.password else {
             openAlert(title: "ОШИБКА",
                       message: "Некорректный ввод пароля",
@@ -282,9 +284,7 @@ extension LogInViewController { // LOGIN AND PASSWORD VERIFICATION
             let keyboardHeight = keyboardRectangle.height
             let initButtonBottomY = self.initButton.frame.origin.y + initButton.frame.height
             let keyboardOriginY = self.view.frame.height - keyboardHeight
-            let contentOffset = keyboardOriginY < initButtonBottomY
-            ? initButtonBottomY - keyboardOriginY + 32
-            : 0
+            let contentOffset = keyboardOriginY < initButtonBottomY ? initButtonBottomY - keyboardOriginY + 50 : 0
             
             self.scrollView.contentOffset = CGPoint(x: 0, y: contentOffset)
         }

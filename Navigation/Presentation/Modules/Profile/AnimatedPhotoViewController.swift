@@ -82,12 +82,13 @@ class AnimatedPhotoViewController: UIViewController {
         self.positionXLargeImage = self.largeImage.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
         self.positionYLargeImage = self.largeImage.centerYAnchor.constraint(equalTo: self.view.centerYAnchor)
         
+        NSLayoutConstraint.activate([
+           self.positionXLargeImage, self.positionYLargeImage, self.widthLargeImage, self.heightLargeImage
+        ].compactMap( {$0} ))
+        self.largeImage.layer.cornerRadius = 0.0
+        self.view.backgroundColor = .black.withAlphaComponent(0.8)
+        
         UIView.animate(withDuration: 1, animations: {
-            NSLayoutConstraint.activate([
-               self.positionXLargeImage, self.positionYLargeImage, self.widthLargeImage, self.heightLargeImage
-            ].compactMap( {$0} ))
-            self.largeImage.layer.cornerRadius = 0.0
-            self.view.backgroundColor = .black.withAlphaComponent(0.8)
             self.view.layoutIfNeeded()
         }) { _ in
             UIView.animate(withDuration: 0.25) {
@@ -106,16 +107,18 @@ class AnimatedPhotoViewController: UIViewController {
         self.positionXLargeImage = self.largeImage.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
         self.positionYLargeImage = self.largeImage.centerYAnchor.constraint(equalTo: self.view.centerYAnchor)
         
+        NSLayoutConstraint.activate([
+            self.positionXLargeImage, self.positionYLargeImage, self.widthLargeImage, self.heightLargeImage
+        ].compactMap( {$0} ))
+        self.largeImage.layer.cornerRadius = 70.0
+        self.view.backgroundColor = .black.withAlphaComponent(0.8)
+        self.transitionButton.alpha = 0.0
+        
         UIView.animate(withDuration: 1, animations: {
-            NSLayoutConstraint.activate([
-                self.positionXLargeImage, self.positionYLargeImage, self.widthLargeImage, self.heightLargeImage
-            ].compactMap( {$0} ))
-            self.largeImage.layer.cornerRadius = 70.0
-            self.view.backgroundColor = .black.withAlphaComponent(0.8)
-            self.transitionButton.alpha = 0.0
             self.view.layoutIfNeeded()
         }) { _ in
             self.view.removeFromSuperview()
+            self.tabBarController?.tabBar.isHidden = false
             self.navigationController?.navigationBar.isHidden = false
         }
     }
