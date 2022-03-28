@@ -72,7 +72,7 @@ class AnimatedPhotoViewController: UIViewController {
         ].compactMap( {$0} ))
     }
     
-    private func moveIn() {
+   func moveIn() {
         NSLayoutConstraint.deactivate([
            self.positionXLargeImage, self.positionYLargeImage, self.widthLargeImage, self.heightLargeImage
         ].compactMap( {$0} ))

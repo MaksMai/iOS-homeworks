@@ -105,7 +105,7 @@ class AnimatedAvatarViewController: UIViewController {
         }
     }
     
-    func moveOut() {
+    private func moveOut() {
         self.avatarImage.layer.cornerRadius = self.view.frame.width / 2
         NSLayoutConstraint.deactivate([
             self.positionXAvatarImage, self.positionYAvatarImage,

@@ -13,7 +13,7 @@
 
 ## Задача со ★:
 
-1. Реализовать проверку валидности email адреса. К примеру статья [СТАТЬЯ](https://tproger.ru/translations/validating-email-right/)
+1. Реализовать проверку валидности email адреса. К примеру [СТАТЬЯ](https://tproger.ru/translations/validating-email-right/)
 
 ## Экран с профилем:
 
