@@ -130,10 +130,9 @@ class LogInViewController: UIViewController {
         let scrollViewLeftConstraint = self.scrollView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 16)
         
         let logoViewCenterX = self.logoView.centerXAnchor.constraint(equalTo: self.scrollView.centerXAnchor)
-        let logoViewTopConstraint = self.logoView.topAnchor.constraint(equalTo: self.scrollView.centerYAnchor, constant: -193) // topAnchor, constant: 120)
+        let logoViewTopConstraint = self.logoView.topAnchor.constraint(equalTo: self.scrollView.topAnchor, constant: 120)
         let logoViewHeightAnchor = self.logoView.heightAnchor.constraint(equalToConstant: 100)
         let logoViewWidthAnchor = self.logoView.widthAnchor.constraint(equalToConstant: 100)
-        //constraint(equalTo: self.logoView.heightAnchor, multiplier: 1.0)
         
         let loginTextFieldTopConstraint = self.loginTextField.bottomAnchor.constraint(equalTo: self.logoView.bottomAnchor, constant: 120)
         let loginTextFieldWidthAnchor = self.loginTextField.widthAnchor.constraint(equalTo: self.scrollView.widthAnchor)
