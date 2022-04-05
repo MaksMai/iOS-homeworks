@@ -55,7 +55,7 @@ class FullPostView: UIView {
         imageView.contentMode = .scaleAspectFill
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.backgroundColor = .black
-//        imageView.contentMode = .scaleAspectFit
+        //        imageView.contentMode = .scaleAspectFit
         imageView.setContentCompressionResistancePriority(UILayoutPriority(250), for: .vertical)
         
         return imageView
@@ -149,52 +149,41 @@ class FullPostView: UIView {
     }
     
     private func setupConstraints() {
-        let topConstraint = self.mainView.topAnchor.constraint(equalTo: self.topAnchor)
-        let leadingConstraint = self.mainView.leadingAnchor.constraint(equalTo: self.leadingAnchor)
-        let trailingConstraint = self.mainView.trailingAnchor.constraint(equalTo: self.trailingAnchor)
-        let bottomConstraint = self.mainView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
         
-        let topConstraintBackView = self.backView.centerXAnchor.constraint(equalTo: self.mainView.centerXAnchor)
-        let leadingConstraintBackView = self.backView.leadingAnchor.constraint(equalTo: self.mainView.leadingAnchor)
-        let trailingConstraintBackView = self.backView.trailingAnchor.constraint(equalTo: self.mainView.trailingAnchor)
-        let bottomConstraintBackView = self.backView.centerYAnchor.constraint(equalTo: self.mainView.centerYAnchor)
-        
-        let topConstraintAuthorLabel = self.authorLabel.topAnchor.constraint(equalTo: self.backView.topAnchor, constant: 16)
-        let leadingConstraintAuthorLabel = self.authorLabel.leadingAnchor.constraint(equalTo: self.backView.leadingAnchor, constant: 16)
-        let trailingConstraintAuthorLabel = self.authorLabel.trailingAnchor.constraint(equalTo: self.backView.trailingAnchor, constant: -16)
-        
-        let topConstraintPostImageView = self.postImageView.topAnchor.constraint(equalTo: self.authorLabel.bottomAnchor, constant: 12)
-        let leadingConstraintPostImageView = self.postImageView.leadingAnchor.constraint(equalTo: self.backView.leadingAnchor)
-        let trailingConstraintPostImageView = self.postImageView.trailingAnchor.constraint(equalTo: self.backView.trailingAnchor)
-        let widthPostImageView = self.postImageView.heightAnchor.constraint(equalTo: self.backView.widthAnchor, multiplier: 1.0)
-       
-        let topConstraintDescriptionLabel = self.descriptionLabel.topAnchor.constraint(equalTo: self.postImageView.bottomAnchor, constant: 16)
-        let leadingConstraintDescriptionLabell = self.descriptionLabel.leadingAnchor.constraint(equalTo: self.backView.leadingAnchor, constant: 16)
-        let trailingConstraintDescriptionLabel = self.descriptionLabel.trailingAnchor.constraint(equalTo: self.backView.trailingAnchor, constant: -16)
-        
-        let topConstraintLikeStackView = self.likeStackView.topAnchor.constraint(equalTo: self.descriptionLabel.bottomAnchor, constant: 16)
-        let leadingConstraintLikeStackView = self.likeStackView.leadingAnchor.constraint(equalTo: self.backView.leadingAnchor, constant: 16)
-        let trailingConstraintLikeStackView = self.likeStackView.trailingAnchor.constraint(equalTo: self.backView.trailingAnchor, constant: -16)
-        let bottomConstraintLikeStackView = self.likeStackView.bottomAnchor.constraint(equalTo: self.backView.bottomAnchor, constant: -16)
-        
-        let buttonTopConstrain = self.transitionButton.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 16)
-        let buttonTrailingConstraint = self.transitionButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16)
-        let buttonHeightConstraint = self.transitionButton.heightAnchor.constraint(equalToConstant: 40)
-        let buttonWidthConstraint = self.transitionButton.widthAnchor.constraint(equalToConstant: 40)
         
         NSLayoutConstraint.activate([
-            topConstraint, leadingConstraint, bottomConstraint, trailingConstraint,
-            topConstraintAuthorLabel, topConstraintPostImageView,widthPostImageView,
-            leadingConstraintAuthorLabel, trailingConstraintAuthorLabel,
-            topConstraintDescriptionLabel, leadingConstraintDescriptionLabell,
-            trailingConstraintDescriptionLabel, topConstraintLikeStackView,
-            leadingConstraintLikeStackView, trailingConstraintLikeStackView,
-            bottomConstraintLikeStackView, leadingConstraintPostImageView,
-            trailingConstraintPostImageView,
-            topConstraintBackView, bottomConstraintBackView,
-            leadingConstraintBackView, trailingConstraintBackView,
-            buttonTopConstrain, buttonTrailingConstraint,
-            buttonHeightConstraint, buttonWidthConstraint
+            self.mainView.topAnchor.constraint(equalTo: self.topAnchor),
+            self.mainView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            self.mainView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            self.mainView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+            
+            self.backView.centerXAnchor.constraint(equalTo: self.mainView.centerXAnchor),
+            self.backView.leadingAnchor.constraint(equalTo: self.mainView.leadingAnchor),
+            self.backView.trailingAnchor.constraint(equalTo: self.mainView.trailingAnchor),
+            self.backView.centerYAnchor.constraint(equalTo: self.mainView.centerYAnchor),
+            
+            self.authorLabel.topAnchor.constraint(equalTo: self.backView.topAnchor, constant: 16),
+            self.authorLabel.leadingAnchor.constraint(equalTo: self.backView.leadingAnchor, constant: 16),
+            self.authorLabel.trailingAnchor.constraint(equalTo: self.backView.trailingAnchor, constant: -16),
+            
+            self.postImageView.topAnchor.constraint(equalTo: self.authorLabel.bottomAnchor, constant: 12),
+            self.postImageView.leadingAnchor.constraint(equalTo: self.backView.leadingAnchor),
+            self.postImageView.trailingAnchor.constraint(equalTo: self.backView.trailingAnchor),
+            self.postImageView.heightAnchor.constraint(equalTo: self.backView.widthAnchor, multiplier: 1.0),
+            
+            self.descriptionLabel.topAnchor.constraint(equalTo: self.postImageView.bottomAnchor, constant: 16),
+            self.descriptionLabel.leadingAnchor.constraint(equalTo: self.backView.leadingAnchor, constant: 16),
+            self.descriptionLabel.trailingAnchor.constraint(equalTo: self.backView.trailingAnchor, constant: -16),
+            
+            self.likeStackView.topAnchor.constraint(equalTo: self.descriptionLabel.bottomAnchor, constant: 16),
+            self.likeStackView.leadingAnchor.constraint(equalTo: self.backView.leadingAnchor, constant: 16),
+            self.likeStackView.trailingAnchor.constraint(equalTo: self.backView.trailingAnchor, constant: -16),
+            self.likeStackView.bottomAnchor.constraint(equalTo: self.backView.bottomAnchor, constant: -16),
+            
+            self.transitionButton.topAnchor.constraint(equalTo: self.safeAreaLayoutGuide.topAnchor, constant: 16),
+            self.transitionButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
+            self.transitionButton.heightAnchor.constraint(equalToConstant: 40),
+            self.transitionButton.widthAnchor.constraint(equalToConstant: 40)
         ])
     }
     
@@ -203,7 +192,7 @@ class FullPostView: UIView {
     }
 }
 
-    // MARK: - EXTENSIONS
+// MARK: - EXTENSIONS
 
 extension FullPostView: Setupable { // MODEL
     

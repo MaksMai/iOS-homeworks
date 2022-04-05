@@ -61,14 +61,14 @@ class AnimatedPhotoViewController: UIViewController {
         self.heightLargeImage = self.largeImage.heightAnchor.constraint(equalToConstant: 138)
         self.positionXLargeImage = self.largeImage.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
         self.positionYLargeImage = self.largeImage.centerYAnchor.constraint(equalTo: self.view.centerYAnchor)
-        let buttonTopConstrain = self.transitionButton.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 16)
-        let buttonTrailingConstraint = self.transitionButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -16)
-        let buttonHeightConstraint = self.transitionButton.heightAnchor.constraint(equalToConstant: 40)
-        let buttonWidthConstraint = self.transitionButton.widthAnchor.constraint(equalToConstant: 40)
         
         NSLayoutConstraint.activate([
-            self.widthLargeImage, self.heightLargeImage, self.positionXLargeImage, self.positionYLargeImage,
-            buttonTopConstrain, buttonTrailingConstraint, buttonHeightConstraint, buttonWidthConstraint
+            self.transitionButton.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 16),
+            self.transitionButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -16),
+            self.transitionButton.heightAnchor.constraint(equalToConstant: 40),
+            self.transitionButton.widthAnchor.constraint(equalToConstant: 40),
+            
+            self.widthLargeImage, self.heightLargeImage, self.positionXLargeImage, self.positionYLargeImage
         ].compactMap( {$0} ))
     }
     

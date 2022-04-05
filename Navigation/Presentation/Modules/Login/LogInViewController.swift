@@ -11,7 +11,7 @@ class LogInViewController: UIViewController {
     
     // MARK: - PROPERTIES
     
-    let user = User(login: "test@test.ru", password: "1Q2w3e4r") // ЛОГИН и ПАРОЛЬ
+    let user = User(login: "t@t.ru", password: "1q") // ЛОГИН и ПАРОЛЬ
     
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -33,12 +33,14 @@ class LogInViewController: UIViewController {
         textField.backgroundColor = .systemGray6
         textField.textColor = .black
         textField.font = UIFont.systemFont(ofSize: 16.0)
-        textField.layer.sublayerTransform = CATransform3DMakeTranslation(20, 0, 0)
         textField.placeholder = "E-mail"
         textField.layer.borderWidth = 0.5
         textField.layer.borderColor = UIColor.lightGray.cgColor
         textField.layer.cornerRadius = 10
         textField.layer.maskedCorners = [.layerMaxXMinYCorner, .layerMinXMinYCorner]
+        let leftView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 20.0, height: 2.0))
+        textField.leftView = leftView
+        textField.leftViewMode = .always
         
         return textField
     }()
@@ -51,12 +53,14 @@ class LogInViewController: UIViewController {
         textField.backgroundColor = .systemGray6
         textField.textColor = .black
         textField.font = UIFont.systemFont(ofSize: 16.0)
-        textField.layer.sublayerTransform = CATransform3DMakeTranslation(20, 0, 0)
         textField.placeholder = "Password"
         textField.layer.borderWidth = 0.5
         textField.layer.borderColor = UIColor.lightGray.cgColor
         textField.layer.cornerRadius = 10
         textField.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+        let leftView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 20.0, height: 2.0))
+        textField.leftView = leftView
+        textField.leftViewMode = .always
         
         return textField
     }()
@@ -124,43 +128,31 @@ class LogInViewController: UIViewController {
     }
     
     func setupConstraints() {
-        let scrollViewTopConstraint = self.scrollView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor)
-        let scrollViewRightConstraint = self.scrollView.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -16)
-        let scrollViewBottomConstraint = self.scrollView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor)
-        let scrollViewLeftConstraint = self.scrollView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 16)
-        
-        let logoViewCenterX = self.logoView.centerXAnchor.constraint(equalTo: self.scrollView.centerXAnchor)
-        let logoViewTopConstraint = self.logoView.topAnchor.constraint(equalTo: self.scrollView.topAnchor, constant: 120)
-        let logoViewHeightAnchor = self.logoView.heightAnchor.constraint(equalToConstant: 100)
-        let logoViewWidthAnchor = self.logoView.widthAnchor.constraint(equalToConstant: 100)
-        
-        let loginTextFieldTopConstraint = self.loginTextField.bottomAnchor.constraint(equalTo: self.logoView.bottomAnchor, constant: 120)
-        let loginTextFieldWidthAnchor = self.loginTextField.widthAnchor.constraint(equalTo: self.scrollView.widthAnchor)
-        let loginTextFieldHeightAnchor = self.loginTextField.heightAnchor.constraint(equalToConstant: 50)
-        
-        let passwordTextFieldTopConstraint = self.passwordTextField.topAnchor.constraint(equalTo: self.loginTextField.bottomAnchor, constant: -1)
-        let passwordTextFieldWidthAnchor = self.passwordTextField.widthAnchor.constraint(equalTo: self.scrollView.widthAnchor)
-        let passwordTextFieldHeightAnchor = self.passwordTextField.heightAnchor.constraint(equalToConstant: 50)
-        
-        let initButtonTopConstraint = self.initButton.topAnchor.constraint(equalTo: self.passwordTextField.bottomAnchor, constant: 16)
-        let initButtonWidthAnchor = self.initButton.widthAnchor.constraint(equalTo: self.scrollView.widthAnchor)
-        let initButtonHeightAnchor = self.initButton.heightAnchor.constraint(equalToConstant: 50)
-        let errorLabelTopConstraint = self.errorLabel.topAnchor.constraint(equalTo: self.initButton.bottomAnchor, constant: 16)
-        let errorLabelRightConstraint = self.errorLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -16)
-        let errorLabelLeftConstraint = self.errorLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 16)
-        
         NSLayoutConstraint.activate([
-            scrollViewTopConstraint, scrollViewRightConstraint,
-            scrollViewBottomConstraint,scrollViewLeftConstraint,
-            logoViewCenterX, logoViewTopConstraint,
-            logoViewWidthAnchor, logoViewHeightAnchor,
-            loginTextFieldTopConstraint, loginTextFieldWidthAnchor,
-            loginTextFieldHeightAnchor,
-            passwordTextFieldTopConstraint, passwordTextFieldWidthAnchor,
-            passwordTextFieldHeightAnchor,
-            initButtonTopConstraint, initButtonWidthAnchor,
-            initButtonHeightAnchor,
-            errorLabelTopConstraint, errorLabelRightConstraint, errorLabelLeftConstraint
+            self.scrollView.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor),
+            self.scrollView.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -16),
+            self.scrollView.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor),
+            self.scrollView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 16),
+            
+            self.logoView.centerXAnchor.constraint(equalTo: self.scrollView.centerXAnchor),
+            self.logoView.topAnchor.constraint(equalTo: self.scrollView.topAnchor, constant: 120),
+            self.logoView.heightAnchor.constraint(equalToConstant: 100),
+            self.logoView.widthAnchor.constraint(equalToConstant: 100),
+            
+            self.loginTextField.bottomAnchor.constraint(equalTo: self.logoView.bottomAnchor, constant: 120),
+            self.loginTextField.widthAnchor.constraint(equalTo: self.scrollView.widthAnchor),
+            self.loginTextField.heightAnchor.constraint(equalToConstant: 50),
+            
+            self.passwordTextField.topAnchor.constraint(equalTo: self.loginTextField.bottomAnchor, constant: -1),
+            self.passwordTextField.widthAnchor.constraint(equalTo: self.scrollView.widthAnchor),
+            self.passwordTextField.heightAnchor.constraint(equalToConstant: 50),
+            
+            self.initButton.topAnchor.constraint(equalTo: self.passwordTextField.bottomAnchor, constant: 16),
+            self.initButton.widthAnchor.constraint(equalTo: self.scrollView.widthAnchor),
+            self.initButton.heightAnchor.constraint(equalToConstant: 50),
+            self.errorLabel.topAnchor.constraint(equalTo: self.initButton.bottomAnchor, constant: 16),
+            self.errorLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -16),
+            self.errorLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 16)
         ])
     }
     

@@ -140,22 +140,21 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
     }
     
     func setupConstraints() {
-        let firstStackViewTopConstraint = self.firstStackView.topAnchor.constraint(equalTo: self.topAnchor)
-        let firstStackViewLeadingConstraint = self.firstStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16)
-        let firstStackViewTrailingConstraint = self.firstStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16)
-        let avatarImageViewRatioConstraint = self.avatarImageView.heightAnchor.constraint(equalTo: self.avatarImageView.widthAnchor, multiplier: 1.0)
+        
         self.buttonTopConstrain = self.setStatusButton.topAnchor.constraint(equalTo: self.firstStackView.bottomAnchor, constant: 16)
         self.buttonTopConstrain?.priority = UILayoutPriority(rawValue: 999)
-        let buttonLeadingConstraint = self.setStatusButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16)
-        let buttonTrailingConstraint = self.setStatusButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16)
-        let buttonHeightConstraint = self.setStatusButton.heightAnchor.constraint(equalToConstant: 50)
-        let buttonBottomConstraint = self.setStatusButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -16)
         
         NSLayoutConstraint.activate([
-            firstStackViewTopConstraint, firstStackViewLeadingConstraint,
-            firstStackViewTrailingConstraint, avatarImageViewRatioConstraint,
-            self.buttonTopConstrain, buttonLeadingConstraint, buttonTrailingConstraint,
-            buttonHeightConstraint, buttonBottomConstraint
+            self.firstStackView.topAnchor.constraint(equalTo: self.topAnchor),
+            self.firstStackView.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
+            self.firstStackView.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
+            self.avatarImageView.heightAnchor.constraint(equalTo: self.avatarImageView.widthAnchor, multiplier: 1.0),
+            self.setStatusButton.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
+            self.setStatusButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
+            self.setStatusButton.heightAnchor.constraint(equalToConstant: 50),
+            self.setStatusButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -16),
+            
+            self.buttonTopConstrain
         ].compactMap( {$0} ))
     }
     
@@ -171,10 +170,10 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
             statusTextField.text = nil
             setStatusButton.setTitle("Set status", for: .normal)
             self.buttonTopConstrain?.isActive = false
-            NSLayoutConstraint.activate(
-                [topConstrain, leadingConstrain, trailingConstrain,
-                 textHeight, buttonTopConstrain]
-                    .compactMap( {$0} ))
+            NSLayoutConstraint.activate([
+                topConstrain, leadingConstrain, trailingConstrain, textHeight,
+                buttonTopConstrain
+            ].compactMap( {$0} ))
             statusTextField.becomeFirstResponder()
         } else {
             guard statusTextField.text != "" else {

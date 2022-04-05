@@ -44,7 +44,7 @@ class PhotosViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.tabBarController?.tabBar.isHidden = false
+        self.tabBarController?.tabBar.isHidden = true
         self.navigationController?.navigationBar.isHidden = false
         self.navigationItem.title = "Photo Gallery"
     }
@@ -54,13 +54,11 @@ class PhotosViewController: UIViewController {
     private func setupCollectionView() {
         self.view.addSubview(self.photoCollectionView)
         
-        let topConstraint = self.photoCollectionView.topAnchor.constraint(equalTo: self.view.topAnchor)
-        let leadingConstraint = self.photoCollectionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor)
-        let trailingConstraint = self.photoCollectionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor)
-        let bottomConstraint = self.photoCollectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
-        
         NSLayoutConstraint.activate([
-            topConstraint, leadingConstraint, trailingConstraint, bottomConstraint
+            self.photoCollectionView.topAnchor.constraint(equalTo: self.view.topAnchor),
+            self.photoCollectionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            self.photoCollectionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            self.photoCollectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
         ])
     }
     

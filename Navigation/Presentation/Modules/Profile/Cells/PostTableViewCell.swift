@@ -10,7 +10,7 @@ import UIKit
 // MARK: - PROTOCOLS
 
 protocol PostTableViewCellProtocol: AnyObject {
-//    func updateViews(at: IndexPath, with: News, cell: PostTableViewCell)
+    //    func updateViews(at: IndexPath, with: News, cell: PostTableViewCell)
     func tapPostImageViewGestureRecognizerDelegate(cell: PostTableViewCell)
     func tapLikeTitleGestureRecognizerDelegate(cell: PostTableViewCell)
 }
@@ -138,29 +138,21 @@ class PostTableViewCell: UITableViewCell {
     }
     
     private func setupConstraints() {
-        let topConstraintAuthorLabel = self.authorLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 16)
-        let leadingConstraintAuthorLabel = self.authorLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 16)
-        let trailingConstraintAuthorLabel = self.authorLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -16)
-        let topConstraintPostImageView = self.postImageView.topAnchor.constraint(equalTo: self.authorLabel.bottomAnchor, constant: 12)
-        let leadingConstraintPostImageView = self.postImageView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor)
-        let trailingConstraintPostImageView = self.postImageView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor)
-        let widthPostImageView = self.postImageView.heightAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 1.0)
-        let topConstraintDescriptionLabel = self.descriptionLabel.topAnchor.constraint(equalTo: self.postImageView.bottomAnchor, constant: 16)
-        let leadingConstraintDescriptionLabell = self.descriptionLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 16)
-        let trailingConstraintDescriptionLabel = self.descriptionLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -16)
-        let topConstraintLikeStackView = self.likeStackView.topAnchor.constraint(equalTo: self.descriptionLabel.bottomAnchor, constant: 16)
-        let leadingConstraintLikeStackView = self.likeStackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 16)
-        let trailingConstraintLikeStackView = self.likeStackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -16)
-        let bottomConstraintLikeStackView = self.likeStackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -16)
-        
         NSLayoutConstraint.activate([
-            topConstraintAuthorLabel, topConstraintPostImageView,widthPostImageView,
-            leadingConstraintAuthorLabel, trailingConstraintAuthorLabel,
-            topConstraintDescriptionLabel, leadingConstraintDescriptionLabell,
-            trailingConstraintDescriptionLabel, topConstraintLikeStackView,
-            leadingConstraintLikeStackView, trailingConstraintLikeStackView,
-            bottomConstraintLikeStackView, leadingConstraintPostImageView,
-            trailingConstraintPostImageView
+            self.authorLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 16),
+            self.authorLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 16),
+            self.authorLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -16),
+            self.postImageView.topAnchor.constraint(equalTo: self.authorLabel.bottomAnchor, constant: 12),
+            self.postImageView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor),
+            self.postImageView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor),
+            self.postImageView.heightAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 1.0),
+            self.descriptionLabel.topAnchor.constraint(equalTo: self.postImageView.bottomAnchor, constant: 16),
+            self.descriptionLabel.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 16),
+            self.descriptionLabel.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -16),
+            self.likeStackView.topAnchor.constraint(equalTo: self.descriptionLabel.bottomAnchor, constant: 16),
+            self.likeStackView.leadingAnchor.constraint(equalTo: self.contentView.leadingAnchor, constant: 16),
+            self.likeStackView.trailingAnchor.constraint(equalTo: self.contentView.trailingAnchor, constant: -16),
+            self.likeStackView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -16)
         ])
     }
 }
@@ -171,7 +163,6 @@ extension PostTableViewCell: Setupable { // СОЗДАЕМ МОДЕЛЬ ДАНН
     
     func setup(with viewModel: ViewModelProtocol) {
         guard let viewModel = viewModel as? ViewModel else { return }
-        
         self.authorLabel.text = viewModel.author
         self.postImageView.image = UIImage(named: viewModel.image)
         self.descriptionLabel.text = viewModel.description

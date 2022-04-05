@@ -62,16 +62,15 @@ class AnimatedAvatarViewController: UIViewController {
         self.positionXAvatarImage = self.avatarImage.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 16)
         self.positionYAvatarImage = self.avatarImage.leadingAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.leadingAnchor, constant: 16)
         
-        let buttonTopConstrain = self.transitionButton.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 16)
-        let buttonTrailingConstraint = self.transitionButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -16)
-        let buttonHeightConstraint = self.transitionButton.heightAnchor.constraint(equalToConstant: 40)
-        let buttonWidthConstraint = self.transitionButton.widthAnchor.constraint(equalToConstant: 40)
-        
         NSLayoutConstraint.activate([
+            self.transitionButton.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 16),
+            self.transitionButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -16),
+            self.transitionButton.heightAnchor.constraint(equalToConstant: 40),
+            self.transitionButton.widthAnchor.constraint(equalToConstant: 40),
+            
             self.widthAvatarImage, self.heightAvatarImage,
-            self.positionXAvatarImage, self.positionYAvatarImage,
-            buttonTopConstrain, buttonTrailingConstraint,
-            buttonHeightConstraint, buttonWidthConstraint
+            self.positionXAvatarImage, self.positionYAvatarImage
+            
         ].compactMap( {$0} ))
     }
     
