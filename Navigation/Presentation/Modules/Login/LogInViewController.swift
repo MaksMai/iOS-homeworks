@@ -11,7 +11,7 @@ class LogInViewController: UIViewController {
     
     // MARK: - PROPERTIES
     
-    let user = User(login: "test@test.ru", password: "1q2w3e4r") // ЛОГИН и ПАРОЛЬ
+    let user = User(login: "t@t.ru", password: "1234") // ЛОГИН и ПАРОЛЬ
     
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -41,6 +41,7 @@ class LogInViewController: UIViewController {
         let leftView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 20.0, height: 2.0))
         textField.leftView = leftView
         textField.leftViewMode = .always
+        textField.delegate = self
         
         return textField
     }()
@@ -61,6 +62,7 @@ class LogInViewController: UIViewController {
         let leftView = UIView(frame: CGRect(x: 0.0, y: 0.0, width: 20.0, height: 2.0))
         textField.leftView = leftView
         textField.leftViewMode = .always
+        textField.delegate = self
         
         return textField
     }()
@@ -150,7 +152,8 @@ class LogInViewController: UIViewController {
             self.initButton.topAnchor.constraint(equalTo: self.passwordTextField.bottomAnchor, constant: 16),
             self.initButton.widthAnchor.constraint(equalTo: self.scrollView.widthAnchor),
             self.initButton.heightAnchor.constraint(equalToConstant: 50),
-            self.errorLabel.topAnchor.constraint(equalTo: self.initButton.bottomAnchor, constant: 16),
+            
+            self.errorLabel.bottomAnchor.constraint(equalTo: self.loginTextField.topAnchor, constant: -16),
             self.errorLabel.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -16),
             self.errorLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 16)
         ])

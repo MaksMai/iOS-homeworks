@@ -166,6 +166,7 @@ class ProfileTableHeaderView: UITableViewHeaderFooterView {
         statusText = self.statusTextField.text!
         statusLabel.text = "\(statusText ?? "")"
         self.statusTextField.text = nil
+        self.endEditing(true)
     }
 }
 
