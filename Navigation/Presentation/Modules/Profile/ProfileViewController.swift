@@ -27,8 +27,6 @@ final class ProfileViewController: UIViewController {
         return tableView
     }()
     
-    private var isExpanded: Bool = true
-    
     // MARK: - LIFECYCLE METHODS
     
     override func viewDidLoad() {
@@ -69,7 +67,7 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if section == 0 {
             
-            return isExpanded ? 220 : 250 // ВЫСОТА HEADER
+            return 250 // ВЫСОТА HEADER
         } else {
             
             return 0
@@ -145,15 +143,11 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
 
 extension ProfileViewController: ProfileTableHeaderViewProtocol {
     
-    func buttonAction(inputTextIsVisible: Bool, completion: @escaping () -> Void) { // АНИМАЦИЯ HEADER
+    func buttonAction() { // АНИМАЦИЯ HEADER
         self.tableView.beginUpdates()
-        self.isExpanded = !inputTextIsVisible
+     
         self.tableView.endUpdates()
-        UIView.animate(withDuration: 0.2, delay: 0.0) {
-            self.view.layoutIfNeeded()
-        } completion: { _ in
-            completion()
-        }
+       
     }
     
     func delegateActionAnimatedAvatar(cell: ProfileTableHeaderView) { // АНИМАЦИЯ АВАТАР

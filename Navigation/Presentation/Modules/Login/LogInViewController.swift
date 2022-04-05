@@ -11,7 +11,7 @@ class LogInViewController: UIViewController {
     
     // MARK: - PROPERTIES
     
-    let user = User(login: "t@t.ru", password: "1q") // ЛОГИН и ПАРОЛЬ
+    let user = User(login: "test@test.ru", password: "1q2w3e4r") // ЛОГИН и ПАРОЛЬ
     
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -135,7 +135,7 @@ class LogInViewController: UIViewController {
             self.scrollView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 16),
             
             self.logoView.centerXAnchor.constraint(equalTo: self.scrollView.centerXAnchor),
-            self.logoView.topAnchor.constraint(equalTo: self.scrollView.topAnchor, constant: 120),
+            self.logoView.topAnchor.constraint(equalTo: self.scrollView.centerYAnchor, constant: -193),
             self.logoView.heightAnchor.constraint(equalToConstant: 100),
             self.logoView.widthAnchor.constraint(equalToConstant: 100),
             
@@ -157,7 +157,6 @@ class LogInViewController: UIViewController {
     }
     
     @objc private func buttonAction() {  // BUTTON ACTION
-        
         if isEmpty(textField: loginTextField), validationEmail(textField: loginTextField),
            isEmpty(textField: passwordTextField), validationPassword(textField: passwordTextField) {
             let controller = TabBarController()
