@@ -102,10 +102,10 @@ class LogInViewController: UIViewController {
         super.viewDidLoad()
         setupView()
         setupConstraints()
-        tapGesturt()
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillShow(_:)),
                                                name: UIResponder.keyboardWillShowNotification,
@@ -203,18 +203,10 @@ extension LogInViewController: UITextFieldDelegate {
         
         return false
     }
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool { // ПЕРЕКЛЮЧЕНИЕ МЕЖДУ TEXTFIELD
-        
-        if textField == loginTextField {
-            textField.resignFirstResponder()
-            passwordTextField.becomeFirstResponder()
-        } else if textField == passwordTextField {
-            textField.resignFirstResponder()
-            loginTextField.becomeFirstResponder()
-        }
-        
-        return true
+
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool { // СПРЯТАТЬ КЛАВИАТУРУ ПО RETURN
+        self.view.endEditing(true)
+        return false
     }
 }
 
@@ -265,11 +257,7 @@ extension LogInViewController { // LOGIN AND PASSWORD VERIFICATION
     }
     
     // KEYBOARD
-    func tapGesturt() {
-        let tapGesture = UITapGestureRecognizer(target: self.view, action: #selector(view.endEditing))
-        self.view.addGestureRecognizer(tapGesture)
-    }
-    
+
     @objc private func keyboardWillShow(_ notification: Notification) { // ПОДЪЕМ
         
         if let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
