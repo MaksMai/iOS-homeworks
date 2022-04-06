@@ -44,7 +44,7 @@ class InfoViewController: UIViewController {
             self.button.heightAnchor.constraint(equalToConstant: 50) // высота
         ]) // Активация констрейнов
     }
-    
+
     @objc private func buttonAction() { // Делаем переход на UIAlertController
         self.showAlert() // Вызываем AlertController
     }

@@ -42,7 +42,7 @@ class PhotosCollectionViewCell: UICollectionViewCell {
         self.addSubview(photoView)
         setupConstraints()
     }
-    
+
     override func prepareForReuse() {
         super.prepareForReuse()
         self.photoView.image = nil

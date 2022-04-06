@@ -11,6 +11,7 @@ final class ProfileViewController: UIViewController {
     
     // MARK: - PROPERTIES
     
+
     private lazy var tableView: UITableView = { 
         let tableView = UITableView()
         tableView.backgroundColor = .systemGray6
@@ -162,13 +163,13 @@ extension ProfileViewController: ProfileTableHeaderViewProtocol {
             animatedAvatarViewController.view.topAnchor.constraint(equalTo: view.topAnchor),
             animatedAvatarViewController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
-    
         animatedAvatarViewController.didMove(toParent: self)
     }
 }
 
+
 extension ProfileViewController: PhotosTableViewCellProtocol { // ПЕРЕХОД К ФОТОГРАФИЯМ
-    
+
     func delegateButtonAction(cell: PhotosTableViewCell) {
         let photosViewController = PhotosViewController()
         self.navigationController?.pushViewController(photosViewController, animated: true)

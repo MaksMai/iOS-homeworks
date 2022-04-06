@@ -11,62 +11,50 @@ import UIKit
 
 final class TabBarController: UITabBarController {
   
-    // MARK: - PROPERTIES
-    
-    private enum TabBarItem: Int {
+    private enum TabBarItem: Int {  // Инкапсулируем имена и иконки
         case feed
         case profile
       
-        var title: String {  // ИМЕНА
+        var title: String {  // Имена вкладок
             switch self {
             case .feed:
-                
                 return "Лента"
             case .profile:
-                
                 return "Профиль"
             }
         }
-
-        var iconName: String {  // ИКОНКИ
+      
+        var iconName: String {  // Иконки вкладок
             switch self {
             case .feed:
-                
                 return "house"
             case .profile:
-                
                 return "person.crop.circle"
             }
         }
     }
     
-    // MARK: - LIFECIRCLE METHODS
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.setupTabBar()
+        self.setupTabBar()  // Загружаем TabBarController
     }
    
-    // MARK: - SETUP SUBVIEW
-    
-    private func setupTabBar() {
-        
-        let dataSource: [TabBarItem] = [.feed, .profile]
+    private func setupTabBar() { // Метод добавления NavigationController в TabBarController
+      
+        let dataSource: [TabBarItem] = [.feed, .profile]  // Добавляем навигационные контроллеры в массив панели вкладок
        
-        self.viewControllers = dataSource.map {
+        self.viewControllers = dataSource.map { // Инициализируем выбор из панелей вкладок
             switch $0 {
             case .feed:
-                let feedViewController = FeedViewController()
-                
-                return UINavigationController(rootViewController: feedViewController)
+                let feedViewController = FeedViewController()   // Инициализируем панель вкладок
+                return UINavigationController(rootViewController: feedViewController) // возвращаем пользовательский интерфейса
             case .profile:
                 let profileViewController = ProfileViewController()
-                
                 return UINavigationController(rootViewController: profileViewController)
             }
         }
       
-        self.viewControllers?.enumerated().forEach { 
+        self.viewControllers?.enumerated().forEach {  // Настроим внешний вид
             $1.tabBarItem.title = dataSource[$0].title
             $1.tabBarItem.image = UIImage(systemName: dataSource[$0].iconName)
             $1.tabBarItem.imageInsets = UIEdgeInsets(top: 5, left: .zero, bottom: -5, right: .zero)

@@ -116,6 +116,8 @@ class PostTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - SETUP SUBVIEW
+
     override func prepareForReuse() { // обнуление информации в ячейках
         super.prepareForReuse()
         self.authorLabel.text = nil
@@ -192,5 +194,6 @@ extension PostTableViewCell { // НАЖАТИЕ НА LIKE И IMAGE
     @objc func postImageViewHandleGesture(_ gestureRecognizer: UITapGestureRecognizer) {
         guard self.tapPostImageViewGestureRecognizer === gestureRecognizer else { return }
         delegate?.tapPostImageViewGestureRecognizerDelegate(cell: self)
+
     }
 }

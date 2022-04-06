@@ -13,5 +13,4 @@ struct News: ViewModelProtocol { // НОВОСТИ
     var image: String
     var likes: Int
     var views: Int
-    
 }

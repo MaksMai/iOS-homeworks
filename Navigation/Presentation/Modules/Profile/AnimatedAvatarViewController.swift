@@ -70,7 +70,6 @@ class AnimatedAvatarViewController: UIViewController {
             
             self.widthAvatarImage, self.heightAvatarImage,
             self.positionXAvatarImage, self.positionYAvatarImage
-            
         ].compactMap( {$0} ))
     }
     
@@ -128,7 +127,6 @@ class AnimatedAvatarViewController: UIViewController {
             self.avatarImage.layer.cornerRadius = 70.0
             self.view.layoutIfNeeded()
         }) { _ in
-            
             self.view.removeFromSuperview()
         }
     }

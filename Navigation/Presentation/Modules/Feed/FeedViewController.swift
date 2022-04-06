@@ -10,7 +10,7 @@ import UIKit
 class FeedViewController: UIViewController {
    
     // MARK: - PROPERTIES
-    
+
     var post = Post(title: "Мой пост")  // Создаем объект типа Post в FeedViewController
     
     private lazy var buttonStackView: UIStackView = {  // Создаем стек для кнопок
@@ -50,7 +50,7 @@ class FeedViewController: UIViewController {
     }()
     
     // MARK: - LIFECYCLE METHODS
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBar()
