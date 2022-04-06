@@ -11,7 +11,7 @@ class PhotosViewController: UIViewController {
     
     // MARK: - PROPERTIES
     
-    private enum Constant { // количество ячеек в коллекшин вью
+    private enum Constant {
         static let itemCount: CGFloat = 3
     }
     
@@ -23,8 +23,8 @@ class PhotosViewController: UIViewController {
         
         return layout
     }()
-
-    private lazy var photoCollectionView: UICollectionView = {  // Создаем  фото
+    
+    private lazy var photoCollectionView: UICollectionView = {  // ФОТО
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.dataSource = self
@@ -44,46 +44,44 @@ class PhotosViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.tabBarController?.tabBar.isHidden = false
+        self.tabBarController?.tabBar.isHidden = true
         self.navigationController?.navigationBar.isHidden = false
         self.navigationItem.title = "Photo Gallery"
     }
     
-    // MARK: Setup CollectionView
+    // MARK: - SETUP SUBVIEWS
     
-    private func setupCollectionView() { // констрейны
+    private func setupCollectionView() {
         self.view.addSubview(self.photoCollectionView)
         
-        let topConstraint = self.photoCollectionView.topAnchor.constraint(equalTo: self.view.topAnchor)
-        let leadingConstraint = self.photoCollectionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor)
-        let trailingConstraint = self.photoCollectionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor)
-        let bottomConstraint = self.photoCollectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
-        
         NSLayoutConstraint.activate([
-            topConstraint, leadingConstraint, trailingConstraint, bottomConstraint
+            self.photoCollectionView.topAnchor.constraint(equalTo: self.view.topAnchor),
+            self.photoCollectionView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+            self.photoCollectionView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+            self.photoCollectionView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
         ])
     }
     
-    private func itemSize(for width: CGFloat, with spacing: CGFloat) -> CGSize { // размеры ячейки
-        let needWidth = width - 4 * spacing
+    private func itemSize(for width: CGFloat, with spacing: CGFloat) -> CGSize {
+        let needWidth = width - 5 * spacing
         let itemWidth = floor(needWidth / Constant.itemCount)
         
         return CGSize(width: itemWidth, height: itemWidth)
     }
 }
 
-    // MARK: - Extension  UICollectionView Data Source
+    // MARK: - EXTENSIONS
 
 extension PhotosViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-
-           return 1
-       }
+      
+        return 1
+    }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        return carImage.count // количество картинок в коллектион вью
+        return carImage.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -96,14 +94,37 @@ extension PhotosViewController: UICollectionViewDelegate, UICollectionViewDataSo
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize { // количество и размеры картинок
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let spacing = (collectionView.collectionViewLayout as? UICollectionViewFlowLayout)?.minimumLineSpacing
-
+        
         return self.itemSize(for: collectionView.frame.width, with: spacing ?? 0)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         
         return UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let animatedPhotoViewController = AnimatedPhotoViewController()
+        
+        let car = carImage[indexPath.row]
+        let viewModel = AnimatedPhotoViewController.ViewModel(image: car.image)
+        animatedPhotoViewController.setup(with: viewModel)
+        
+        self.view.addSubview(animatedPhotoViewController.view)
+        self.addChild(animatedPhotoViewController)
+        animatedPhotoViewController.view.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            animatedPhotoViewController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            animatedPhotoViewController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            animatedPhotoViewController.view.topAnchor.constraint(equalTo: view.topAnchor),
+            animatedPhotoViewController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+        
+        self.tabBarController?.tabBar.isHidden = true
+        self.navigationController?.navigationBar.isHidden = true
+        animatedPhotoViewController.didMove(toParent: self)
     }
 }

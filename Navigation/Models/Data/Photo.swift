@@ -7,6 +7,6 @@
 
 import Foundation
 
-struct Cars {
+struct Cars { // ФОТО МАШИН
     var image: String
 }

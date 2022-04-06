@@ -9,6 +9,6 @@ import Foundation
 
 protocol ViewModelProtocol {}
 
-protocol Setupable {
+protocol Setupable { // MODEL
     func setup(with viewModel: ViewModelProtocol)
 }

@@ -9,6 +9,8 @@ import UIKit
 
 class FeedViewController: UIViewController {
    
+    // MARK: - PROPERTIES
+
     var post = Post(title: "Мой пост")  // Создаем объект типа Post в FeedViewController
     
     private lazy var buttonStackView: UIStackView = {  // Создаем стек для кнопок
@@ -47,11 +49,15 @@ class FeedViewController: UIViewController {
         return button   // Возвращаем кнопку
     }()
     
+    // MARK: - LIFECYCLE METHODS
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBar()
         setButtonStackView() // отображаем стак с кнопками
     }
+    
+    // MARK: - SETUP SUBVIEWS
     
     private func setupNavigationBar() { // Устанавлинаваем название заголовка
         view.backgroundColor = .lightGray  // Задаем базовый цвет
@@ -64,17 +70,13 @@ class FeedViewController: UIViewController {
         self.buttonStackView.addArrangedSubview(firstButton)
         self.buttonStackView.addArrangedSubview(secondButton)
         
-        let buttonStackViewCenterY = self.buttonStackView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor) // центр по Х
-        let buttonStackViewLeadingConstraint = self.buttonStackView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 16) // слева
-        let buttonStackViewTrailingConstraint = self.buttonStackView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -16) // справа
-
-        
-        let firstButtonHeightAnchor = self.firstButton.heightAnchor.constraint(equalToConstant: 50) // высота
-        let secondButtonHeightAnchor = self.secondButton.heightAnchor.constraint(equalToConstant: 50) // высота
-        NSLayoutConstraint.activate([buttonStackViewCenterY, buttonStackViewLeadingConstraint,
-                                     buttonStackViewTrailingConstraint, firstButtonHeightAnchor,
-                                     secondButtonHeightAnchor
-                                    ].compactMap( {$0} )) // Активация констрейнов
+        NSLayoutConstraint.activate([
+            self.buttonStackView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
+            self.buttonStackView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 16),
+            self.buttonStackView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -16),
+            self.firstButton.heightAnchor.constraint(equalToConstant: 50),
+            self.secondButton.heightAnchor.constraint(equalToConstant: 50)
+        ])
     }
     
     @objc private func buttonAction() { // Делаем переход на PostViewController

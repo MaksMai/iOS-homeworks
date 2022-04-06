@@ -11,11 +11,11 @@ class PhotosCollectionViewCell: UICollectionViewCell {
     
     // MARK: - PROPERTIES
     
-    struct ViewModel: ViewModelProtocol { // МОДЕЛЬ
+    struct ViewModel: ViewModelProtocol {
         var image: String
     }
     
-    let photoView: UIImageView = {  // ФОТО
+    let photoView: UIImageView = {  // PHOTO
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.layer.cornerRadius = 6
@@ -36,34 +36,32 @@ class PhotosCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setupPhotoView() { // устанавливаем интерфейс
+    // MARK: - SETUP SUBVIEWS
+    
+    private func setupPhotoView() {
         self.addSubview(photoView)
         setupConstraints()
     }
-    
-    // MARK: - SETUP SUBVIEW
-    
-    override func prepareForReuse() { // обнуление информации в ячейках
+
+    override func prepareForReuse() {
         super.prepareForReuse()
         self.photoView.image = nil
     }
     
     private func setupConstraints() {
-        let topConstraint = self.photoView.topAnchor.constraint(equalTo: self.topAnchor)
-        let leadingConstraint = self.photoView.leadingAnchor.constraint(equalTo: self.leadingAnchor)
-        let trailingConstraint = self.photoView.trailingAnchor.constraint(equalTo: self.trailingAnchor)
-        let bottomConstraint = self.photoView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
-        
         NSLayoutConstraint.activate([
-            topConstraint, leadingConstraint, bottomConstraint, trailingConstraint
+            self.photoView.topAnchor.constraint(equalTo: self.topAnchor),
+            self.photoView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            self.photoView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+            self.photoView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
         ])
     }
 }
 
 // MARK: - EXTENSIONS
 
-extension PhotosCollectionViewCell: Setupable { // МОДЕЛЬ
-    
+extension PhotosCollectionViewCell: Setupable { // MODEL
+
     func setup(with viewModel: ViewModelProtocol) {
         guard let viewModel = viewModel as? ViewModel else { return }
         self.photoView.image = UIImage(named: viewModel.image)

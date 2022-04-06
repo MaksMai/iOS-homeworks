@@ -8,7 +8,9 @@
 import UIKit
 
 class InfoViewController: UIViewController {
-   
+    
+    // MARK: - PROPERTIES
+    
     private lazy var button: UIButton = { // Создаем Alert кнопку
         let button = UIButton()  // Кнопка
         button.backgroundColor = .red  // Цвет кнопки
@@ -22,6 +24,8 @@ class InfoViewController: UIViewController {
         return button
     }()
     
+    // MARK: - LIFECYCLE METHODS
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .opaqueSeparator // Задаем базовый цвет
@@ -29,14 +33,18 @@ class InfoViewController: UIViewController {
         setConstrains() // Добавляем констрейты к кнопке
     }
     
+    // MARK: - SETUP SUBVIEWS
+    
     func setConstrains() {  // Создаем констрейты к кнопке
-        let buttonBottomAnchor = self.button.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -16) // низ
-        let buttonLeadingAnchor = self.button.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20) // левый край
-        let buttonTrailingAnchor = self.button.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20) // левый край
-        let buttonHeightAnchor = self.button.heightAnchor.constraint(equalToConstant: 50) // высота
-        NSLayoutConstraint.activate([buttonBottomAnchor, buttonLeadingAnchor, buttonTrailingAnchor, buttonHeightAnchor].compactMap( {$0} )) // Активация констрейнов
+        
+        NSLayoutConstraint.activate([
+            self.button.bottomAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.bottomAnchor, constant: -16), // низ
+            self.button.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 20), // левый край
+            self.button.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20), // левый край
+            self.button.heightAnchor.constraint(equalToConstant: 50) // высота
+        ]) // Активация констрейнов
     }
-   
+
     @objc private func buttonAction() { // Делаем переход на UIAlertController
         self.showAlert() // Вызываем AlertController
     }

@@ -9,9 +9,13 @@ import UIKit
 
 class PostViewController: UIViewController {
    
+    // MARK: - PROPERTIES
+    
     var titlePost: String = "Anonymous" // Создаем переменную для смены заголовка
-
+    
     private lazy var button: UIBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "info.circle"), style: .plain, target: self, action: #selector(clickButton)) // Создаем кнопку
+
+    // MARK: - LIFECYCLE METHODS
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,6 +24,8 @@ class PostViewController: UIViewController {
         self.navigationItem.rightBarButtonItem = button  // Добавляем кнопку
     }
   
+    // MARK: - SETUP SUBVIEWS
+    
     @objc private func clickButton() {  // Действие кнопки
         let infoViewController = InfoViewController()   // Создаем InfoViewController
         infoViewController.modalPresentationStyle = .automatic  //  должен показаться модально
